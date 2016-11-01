@@ -1,0 +1,54 @@
+10-31
+    看了三篇张鑫旭前辈的文章，总结了一点学习经验：
+    ㈠基于active、checked、selected、in、on、out等状态类名的web前端交互开发，
+    html
+    <div id="box" class="box">
+      这是正文
+      <a id="more" class="more">产看更多</a>
+    <div>
+    css
+    .box{
+      max-height: 80px;
+      transition: max-height .25s;
+      overflow: hidden;
+    }
+    .box.active{
+      max-height:200px;
+    }
+    .active>.more{
+      display:none;
+    }
+    js
+    var box = document.getElementById("box");
+    var more = document.getElementById("more");
+    more.onClick = function(){
+      box.className = box.className + ' active';
+    };
+    ㈡用伪类元素实现清除浮动
+    html
+    <div class="test">
+      测试
+    </div>
+    css
+    .test{
+      height:100px;
+      width:100px;
+      float:right;
+    }
+    .test:after{
+      content:" ";
+      height:0;
+      width:100%;
+      clear:both;
+    }
+    ㈢精简高效的CSS命名准则/方法
+    1.无id
+    2.无层级
+    3.无标签
+    主题：精简高效的CSS命名的关键字有“分离”，“统一前缀”，方法为“面向属性的命名”，准则为“无层级、无标签”。
+    如：.mt49{
+      margin-top:49px;
+    }这样可以实现css复用
+    
+    
+    
