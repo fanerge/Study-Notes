@@ -1,0 +1,69 @@
+1.半透明边框实现
+    rgba();
+    HSLA（色调，饱和度，亮度，α）色相是在色轮上的程度（从0到360）-0（或360）是红色的，120是绿色的，240是蓝色的。饱和度是一个百分比值;0％意味着灰色和100％的阴影是全彩。亮度也是一个百分点;0％是黑色的，100％是白色的.
+    .demo{
+        border:10px solid hsla(0,30%,50%,.5);
+        background:white;
+        background-clip:padding-box;
+    }
+2.多重边框
+    box-shadow 方案
+        | h-shadow | 必需。水平阴影的位置，允许负值 |
+        | v-shadow | 必需。垂直阴影的位置，允许负值 |
+        | blur | 可选。模糊距离 |
+        | spread | 可选。阴影的大小 |
+        | color | 可选。阴影的颜色 |
+        | inset | 可选。从外层的阴影（开始时）改变阴影内侧阴影 |
+        .demo{
+            background:yellow;
+            box-shadow:0 0 0 5px red,0 0 0 10px deeppink;
+        }
+    outline 方案border+outline可实现两层边框
+        .demo{
+            border:10px solid #333;
+            outline:5px solid #666;
+        }
+3.灵活的背景定位
+    对于固定尺寸的容器方案
+        background-position;
+    background-position的扩展语法方案
+        background-position : right 20px bottom 10px;
+        以上代码表示让背景图片跟右边缘保持 20 px 的偏移量，同时跟底边保持 10px 的偏移量。
+    background-origin方案
+        background-origin: content-box;
+        background-position:;
+    calc()方案
+        background-position : calc(100% - 20px) calc(100% - 10px);
+        以上代码的效果也是让背景图片跟右边缘保持 20 px 的偏移量，同时跟底边保持 10px 的偏移量。
+        注：在 calc() 函数内部的 - 和 + 运算符的两侧各加 一个空白符，否则会产生解析错误。此举是为了向前兼容： 未来，在 calc() 内部可能会允许使用关键字， 而这些关键字可能会包含连字符（即减号）
+4. 边框内圆角
+    两个元素实现
+        .parent { background : #655; padding : .8em; }
+        .parent > div { background : tan; border-radius : .8em; padding : 1em; }
+    一个元素实现
+        .demo{border-radius : .8em; 
+            padding: 1em; 
+            box-shadow : 0 0 0 .6em #655; 
+            outline : .6em solid #655;
+        }
+5.条纹背景
+    水平条纹
+        background: linear-gradient(red 30%,blue 30%);
+        background-size:100% 10px;
+    垂直条纹
+        background: linear-gradient(90deg,red 30%,blue 30%);
+        background-size:10px 100%;
+    斜向条纹
+        background : linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0); 
+        background-size : 30px 30px;
+    格纹条纹
+        background: linear-gradient(45deg,red 50%,blue 50%);
+        background-size:10px 10px;
+    更好的斜向条纹
+        background : repeating-linear-gradient(45deg, #fb3, #58a 30px);
+        相当于
+        background: linear-gradient(45deg, #fb3, #58a 30px, #fb3 30px, #58a 60px, #fb3 60px, #58a 90px, #fb3 90px, #58a 120px, #fb3 120px, #58a 150px, ...);
+    灵活的同色系条纹
+        当条纹图案由差异不大的颜色组成时，按照上面提供的方法，我们可能需要这样写 CSS：
+        background : repeating-linear-gradient(30deg, #79b, #79b 15px, #58a 0, #58a 30px);
+
