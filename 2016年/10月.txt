@@ -26,20 +26,19 @@
     };
     ㈡用伪类元素实现清除浮动
     html
-    <div class="test">
-      测试
+    <div class="test fix">
+        <img class="fl" src="http://image.zhangxinxu.com/image/study/s/s256/mm1.jpg" />
     </div>
     css
-    .test{
-      height:100px;
-      width:100px;
-      float:right;
+    .fl{
+        float:left;
     }
-    .test:after{
-      content:" ";
-      height:0;
-      width:100%;
-      clear:both;
+    .fix:after{
+        display:block; 
+        content:"clear"; 
+        height:0; clear:both; 
+        overflow:hidden; 
+        visibility:hidden;
     }
     ㈢精简高效的CSS命名准则/方法
     1.无id
