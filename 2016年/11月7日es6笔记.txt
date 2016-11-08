@@ -1,0 +1,270 @@
+总结于：ES6 你可能不知道的事 - 基础篇--化辰Tb-FED
+1.let与const
+	let
+		★★★★应用范围：loop(for,while循环)的块级作用域中。
+	const 定义为不可重新赋值的值，并不是不可变的值。
+		例如：const ob = {
+				name : "yzf",
+			  };//const 定义的 Object，在定义之后仍可以修改其属性。
+				 ob.name = "fanerge";
+				 console.log(ob.name)；//fanerge
+		★★★★应用范围：包括常量、配置项、以及引用的组件、定义的“大部分”中间变量。
+2.Template Strings（字符串模板）
+	例如：const dd = "fanerge";
+			const msg = //多行文本
+			`
+			I am ${dd},
+			I love you
+			`;
+		★★★★应用范围：很好的解决了之前的字符串拼接麻烦的问题。
+3.Enhanced Object Literals（增强的对象字面量）
+	const bookNum = 4;
+	const otherObject = {
+		  level : 5,
+	};
+	const Object1 = {
+		 _proto_:otherObject,//直接指定原型对象
+		 bookNum,//直接使用全局变量(属性简写)
+		 _bookNum:11,
+		 getBookNum(){//方法简写
+			return this.bookNum;
+		 }
+	};
+	console.log(config.getBookNum());
+		★★★★应用范围：代替原来对象字面量
+		
+4.Arrows and Lexical This（箭头函数）
+	ES5写法：
+		addOptions: function (options) {
+			var self = this;
+			options.forEach(function(name, opts){
+			  self[name] = self.addChild(name, opts);  
+			});
+		};
+	ES6写法：//原因：箭头函数没有独立执行上下文（ this ），所以其内部引用 this 对象会直接访问父级。--》此时仍然指向addChild函数
+		addChild: function(options){
+			options.forEach(
+				(name,opts) => { this[name] = this.addChild(name,opts); }
+			);
+		};
+		//在未使用箭头函数前，我们在过程函数中使用父级 this，需要将其显式缓存到另一个中间变量中，因为过程函数有独立的 this 变量，会覆盖父级；使用箭头函数后，不但简写了一个过程函数（ forEach 的参数），还省略掉了 this 的中间变量的定义。
+		★★★★应用范围：不仅仅用它作为函数定义的简写，还可以在函数中使用其this对象会直接访问父级。所以箭头函数是无法替代全部 function 的使用场景的，例如我们需要有独立 this 的函数。
+		箭头函数不仅没有独立this，它还没有独立的arguments对象，可以用不定参...rest代替
+		常见的几种形式：
+			// 完整写法  const demo = (name, key) => { ... }
+			//省略参数括号 const demo = key => { ... }
+			//省略参数和方法体括号 const demo = key => console.log(key)
+			//无参数或方法体，括号不能省略 const demo = () => {};
+5.Destructuring（解构）
+	例如：const bookSet = ['UED', 'TB fed', 'Not find'];
+		  const boolCollection = () => {
+			return {book1:'UED',book2: 'TB fed'};
+		  };
+		  //解构可以设置默认值
+			const {book1,book3 = 'Not find'} = boolCollection();
+		  //解构数组时可以跳过某些项 book1 = 'UED',book3 = 'Not find'
+			const [book1,,book3] = bookSet;
+		  //解构可以取到指定对象的任何属性，包括它包含的方法  setLength = 3;
+			const {length : setLength} = bookSet;
+		★★★★应用范围：用于一次定义多个变量，常常用于分解方法返回对象为多个变量，分别使用。
+6.Rest + Spread 主要是应用 ... 运算符，完成值的聚合和分解
+	例如：//rest得到的是一个真正的数组而不是一个伪数组
+			const demo = function(...args){ 
+				console.log(args.join)// Function
+			};
+		  //rest可以配合箭头函数使用，达到取得所有参数的目的
+		    const demo = (...args) => {
+				console.log(args);//Array
+			};
+		  //spread 可以用于解构时，聚合所得的值
+			const [opt1,...opts] = ['ones','two','three','four'];
+			console.log(opts); //['two','three','four']
+		  //spread 可以用于数组定义
+			const opts = ['one','two','three','four'];
+			const config = ['other',...opts];
+		★★★★应用范围：箭头函数中充当arguments对象
+7.Classes
+	ES6 中实现的一个语法糖，用于简化基于原型集成实现类定义的场景
+		//实现静态变量
+		class Cube{
+			static get yuzhenfan (){
+				return 'fanerge';
+			}
+		};
+		console.log(Cube.yuzhenfan);
+		//2. 私有属性（私有属性有多种实现方式，只谈及其中一种）闭包
+		const Cube = (() => {
+		  const hh = '22';
+			const HuaChen = 'jelly';
+			return class{
+			  get(){
+				return HuaChen;
+			  }
+			};
+		})();
+		★★★★应用范围：实现静态方法、静态变量、私有属性
+		class A {
+		  fn() {
+			console.log('fn');
+		  }
+		  static staticFn() {//这里定义了一个静态方法，只有类能调用，实例不可调用
+			console.log('staticFn');
+		  }
+		};
+		var a = new A();
+		a.fn(); // fn
+		a.staticFn(); // 报错
+		A.staticFn(); // staticFn
+8.Promises	Promise 
+	不只是一个对象、一个语法，他更是一种异步编程方式的变化
+	// 1. 多个异步任务同时执行用 Promise.all
+		例如：Promise
+				  .all([jsBuildPromise, cssBuildPromise])
+				  .then(() => {
+					...
+			  });
+	//2. 顺序执行使用链式调用chain
+		jsBuildPromise
+		  .then(() => cssBuildPromise)
+		  .then(() => {
+			...
+		  });
+	//3. Promise 的链式调用需要每一个过程返回一个 Promise 对象才能保证顺序执行
+		gitPromise
+		  .then(() => git.add())  // 正确，箭头函数简写
+		  .then(() => {
+			git.commit(); // 错误，函数返回 undefined，会立即执行下一过程
+		  })
+		  .then(() => {
+			return git.log(); // 正确
+		  });
+	//4. Promise 需要调用 catch 方法来捕获错误，而且过程内的错误不会阻塞后续代码执行
+		new Promise(() => {
+		  f;  // not define error !
+		})
+		.catch((err) => {
+		  console.log(err)  // show 'f is not define'
+		});
+		console.log('error test');  // 此行可以被正常执行
+		★★★★应用范围：异步编程方式
+总结于：ES6 你可能不知道的事 - 进阶篇--化辰Tb-FED		
+9.Module
+	Module 是动态的加载，导入的是变量的 只读引用，而不是拷贝 
+	//1. export default 可以做默认导出
+		//a.js
+		export default 5;//默认导出
+		//b.js
+		import b,{a} from './a.js';// 默认导入，不需要加花括号
+	//2. 动态加载机制
+		//a.js
+		export let a = 10;
+		export let b = 10;
+		export function add(){
+			a = 15;
+			b = 20;
+			return a+b;
+		}
+		//b.js
+		import{a,b,add} from './a.js';
+		a+b;//20
+		add();//35
+		a+b;//35
+10.Symbol(独一无二的值)
+	基础数据类型有6个string, number, boolean, null, undefined, symbol
+	//1. "Symbol(desc)" 方法用于创建一个新的 symbol，参数 "desc" 仅用做 symbol 的描述，并不用于唯一标示 symbol
+	Symbol('abc') === Symbol('abc');//false
+	//2. symbol 存在全局作用域，其中
+		Symbol.for(key)方法可以创建（全局作用域无指定键）或获取全局作用域内的 symbol
+		Symbol.keyFor(sym)方法可以获取指定 symbol 的键
+	//3. Symbol 无法被 for...in 遍历到 (不可枚举)，可以利用 Object.getOwnPropertySymbols 获取
+		const obj = {
+		  [Symbol('abc')]: 'abc',
+		  'abc': 'abc'
+		};
+		for(let i in obj){  // abc
+		  console.log(i);
+		}
+		Object.getOwnPropertySymbols(obj);    // [Symbol(abc)]
+		★★★★应用范围：可用作object的key
+11.Iterator + For...Of迭代规范
+	String, Array, Map, Set等是原生可迭代对象，因为他们都在原型（prototype）对象中实现了 Symbol.iterator 键对应的方法
+	for…of 是对象迭代器的遍历，而 for…in 是对象中可枚举键的遍历
+	迭代规范：可迭代规范（iterable protocol），迭代器规范（iterator protocol）
+12.关于集合	Map和Set
+	Map与Object区别
+		Map 适用于存储需要 常需要变化（增减键值对）或遍历 的数据集，而 Object 适用于存储 静态 （例如配置信息）数据集
+		Object 的 key 必须是 String 或 Symbol 或 Number 类型的，而 Map 无此限制，可以是任何值
+		Map 可以很方便的取到键值对数量，而 Object 需要用额外途径
+	Set特点
+		Set 可以存储任何类型的值，遍历顺序与 插入顺序相同
+		Set 内无重复的值
+		★★★★应用范围：可用于数组去重
+	WeakMap + WeakSet 主要特点在于弱引用。键必须是对象
+		相比于 Map 与 Set 的强引用，弱引用可以令对象在 “适当” 情况下正确被 GC 回收，减少内存资源浪费。
+		但由于不是强引用，所以无法进行遍历或取得值数量，只能用于值的存取（WeakMap）或是否存在值得判断（WeakSet）
+13.异步编程
+	ES6 带来了两个新特性来解决异步编程的难题。
+	Promise
+		特点：
+			本质还是回调函数
+			区分成功和失败的回调，省去嵌套在内层的判断逻辑
+			可以很轻松的完成回调函数模式到 Promise 模式的转化
+			代码由回调函数嵌套的横向扩展，变为链式调用的纵向扩展，易于理解和维护
+			例如：假定 git.add, git.commit, git.push 均做了 Promise 封装，返回一个 Promise 对象
+			git.add('pattern/for/some/files/*')
+			  .then(() => git.commit(commitMsg))
+			  .then(git.push)
+			  .catch((err) => {
+				console.log(err);
+			});
+		★★★★应用范围：代替ES5的callback写法
+	Generator
+		特点：
+			可以通过 yield 关键字，终止执行并返回（内到外）
+			可以通过 next(val) 方法调用重新唤醒，继续执行（外回内）
+			运行时（包括挂起态），共享局部变量
+			Generator 执行会返回一个结果对象，结果对象本身既是迭代器，同时也是可迭代对
+			Generator 也是 JavaScript 对 协程（coroutine）的实现，协程可以理解为 “可由开发人员控制调度的多线程”
+			非对称式：被调用者（协程）挂起时，必须将控制权返还调用者（协程）
+			JavaScript 实现的是 非对称式协程（semi-coroutine）；非对称式协程相比于对称式协程，代码逻辑更清晰，易于理解和维护
+			例如：Generator 实现实现异步编程
+			co(function* (){
+			  const commitMsg = '...';      // 共享的局部变量
+			  
+			  yield git.add('pattern/for/some/files/*');
+			  yield git.commit(commitMsg);
+			  yield git.push();
+			}).catch((err) => {
+			  console.log(err);
+			});
+	Async-Await
+		JavaScript 目前支持异步编程最好的方式
+			例如：async-await 实现异步编程
+				(async function(){
+					try{
+						await git.add('pattern/for/some/files/*');
+						await git.commit();
+						await fit.push();
+					}catch(err){
+						console.log(err);
+					}
+				})();
+14.元编程
+	元编程是指的是开发人员对 “语言本身进行编程”。一般是编程语言暴露了一些 API，供开发人员来操作语言本身的某些特性。ES6 两个新特性 Proxy 和 Reflect 是 JavaScript 关于对象元编程能力的扩展。
+	Proxy(代理)
+		Proxy 是 ES6 加入的一个新特性，它可以 “代理” 对象的原生行为，替换为执行自定义行为。
+	Reflect
+		ES6 中引入的 Reflect 是另一个元编程的特性，它使得我们可以直接操纵对象的原生行为。Reflect 可操纵的行为与 Proxy 可代理的行为是一一对应的，这使得可以在 Proxy 的自定义方法中方便的使用 Reflect 调起原生行为。
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
