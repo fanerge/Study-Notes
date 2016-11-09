@@ -1,0 +1,116 @@
+修改radio、checkbox、select默认样式的方法
+	示例网站：http://runjs.cn/detail/k5e4prbu
+	radio and checkbox两种常用的方法
+		1.纯CSS
+			.demo1 input[type='radio'],.demo1 input[type="checkbox"]{
+				display:none; 
+			}
+			.demo1 label:before{
+				content: "";
+				display: inline-block;
+				width: 17px;
+				height: 16px;
+				margin-right: 10px;
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				background-color: #3797fc;
+			}
+			.demo1 input[type='radio'] + label:before{
+				 border-radius: 8px;
+			}
+			.demo1 input[type='checkbox'] + label:before{
+				 border-radius: 3px;
+			}
+			.demo1 input[type='radio']:checked+label:before{
+				content: "\2022";
+				color: #fff;
+				font-size: 30px;
+				text-align: center;
+				line-height: 19px;
+			}
+			.demo1 input[type='checkbox']:checked+label:before{
+				content: "\2713";
+				font-size: 15px;
+				color: #f3f3f3;
+				text-align: center;
+				line-height: 17px;
+			}
+		优点：充分借助了CSS3的优势，无需使用js和图片，仅用纯CSS3就可搞定
+		缺点：兼容性较差，仅支持IE9+
+		2.js+图片
+			js
+			$(function(){
+				$(".demospan").bind("click",function(){
+					$(this).addClass("on").siblings().removeClass("on");
+				})
+
+				$(".piaochecked").bind("click",function(){
+					$(this).hasClass("on_check")?$(this).removeClass("on_check"):$(this).addClass("on_check");
+					// $(this).toggleClass("on_check");
+				})
+			})；
+			css
+			.demospan{
+				display: inline-block;
+				width: 24px;
+				height: 18px;
+				/*float: left;*/
+				padding-top: 3px;
+				cursor: pointer;
+				text-align: center;
+				margin-right: 10px;
+				background-image: url(http://sandbox.runjs.cn/uploads/rs/161/i5pmsg7s/inputradio.gif);
+				background-repeat: no-repeat;
+				background-position: -24px 0;
+			}
+			.demo21{
+				opacity: 0;
+				cursor: pointer;
+				-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+				filter:alpha(opacity=0);
+			}
+			.on{
+				background-position: 0 0;
+			}
+			.piaochecked{
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				cursor: pointer;
+				margin-left: 10px;
+				text-align: center;
+				background-image:  url(http://sandbox.runjs.cn/uploads/rs/161/i5pmsg7s/checkbox_01.gif);
+				background-repeat: no-repeat;
+				background-position: 0 0;
+			}
+			.on_check{
+				background-position: 0 -21px;
+			}
+			.cbdemo2{
+				opacity: 0;
+				cursor: pointer;
+				-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
+				filter:alpha(opacity=0);
+			}
+		优点：兼容性高，支持IE6+
+		缺点：使用js+图片较为麻烦
+		select
+			.select select{
+				/*复写Chrome和Firefox里面的边框*/
+				border:1px solid  green;
+				/*清除默认样式*/
+				appearance:none;
+				-moz-appearance:none;
+				-webkit-appearance:none;
+			/*在选择框的最右侧中间显示小箭头图片*/
+				background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+				/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+			  padding-right: 14px;
+			 }
+			 /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+			select::-ms-expand { display: none; }
+			
+			
+			
+			
