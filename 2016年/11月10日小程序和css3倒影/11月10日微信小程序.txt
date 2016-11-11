@@ -1,0 +1,66 @@
+微信小程序
+	1.开发流程：同步本地文件+开发调试+编译+预览+上传+发布等一整套流程。
+	2.开发工具：小程序的两个线程：Appservice Thread和View Thread会同时进行、并行加载，甚至Appservice Thread会更早执行，当视图线程加载完，通知Appservice，Appservice 会把准备好的数据用setData的方法返回给视图线程。
+	3.标签：WXML在语法上更接近XML语言，遵循SGML规范，区别于HTML语言随意的标签闭合方式，WXML语言必须包括开始标签和结束标签，以image标签为例，以下2种写法都支持：
+		<image src="" />
+		<image src="" ></image>
+		★★★所有组件与属性都是小写，以连字符-连接。
+	4.文件引用：WXML提供两种文件引入方式，import和include。
+		区别在于：import可以引入定义好的template模板，模板是有作用域的；而include就是拷贝一个公用的代码片段到目标文件中，适合做公共页面片的拆分。
+		<import src="../template/a.wxml"/>★★★组件
+		<include src="../include/footer.wxml"/>★★★公共部分
+		文件引入在小程序做模块化拆分的过程中非常重要。
+	5.尺寸工具：WXSS支持的单位有px、rem和rpx，其中rem和rpx可以针对屏幕容器进行适配，px则为固定尺寸。
+		设计时以iphone6--750px做设计稿★★★可写行内样式
+	6.样式引用：import "../../wxss/common.wxss";
+	7.选择器支持：官方公布的文档中包括.class、#id、 element、element,element、::after(注意是双冒号)、::before这6种选择器。
+	8.组件
+		view--一般配合松软盒子布局display:flex;
+		text--除了text文本节点以外的其他节点都无法长按选中
+			<text class="text-tips">
+				<text class="text-light">* </text>友情提示!
+			</text> 
+		icon--微信组件默认的图标，默认是iconfont格式的，从WeUI那边沿袭过来的一种做法。 
+			自定义的icon推荐svg sprite格式或者iconfont。 
+		input--input 的类型，有效值：text, number, idcard, digit, time, date 。
+			小程序把checkbox和radio都单独做成了组件，默认的input只支持输入文本。
+			需要修改placehoder的样式，通过placeholder-class=”class”来定义。
+		picker--picker默认支持普通、日期和时间三种选择器。
+			picker通过bindchange事件来调取range中自定义的数据数据，并展示到页面中，调用的是系统原生的select。
+		navigator--navigator支持相对路径和绝对路径的跳转，默认是打开新页面，当前页面打开需要加redirect； 
+			navigator仅支持5级页面的跳转； 
+		image--小程序的image与HTML5的img最大的区别在于：小程序的image是按照background-image来实现的。
+			默认image的高宽是320*240。必须通过样式定义去覆盖这个默认高宽，auto在这里不生效。
+			图片包括三种缩放模式scaleToFill、aspectFit、aspectFill和9种裁剪模式，三种缩放模式的实现原理对应如下：
+			background-size:(100%,100%),contain,cover,分别对应
+		button--button的点击态通过.button-hover{}的样式覆盖，也可修改hover-class为自定义的样式名。
+	9.css3动画：最新版的开发工具已经支持transition和keyframes动画。
+	10.不同平台的浏览器内核：
+		在iOS平台上，微信的浏览器渲染内核是wkwebview；
+		而在Android平台上，微信则采用了腾讯QQ浏览器2016年4月份发布的X5内核（blink内核）作为渲染引擎。
+		在小程序的开发工具上，小程序的JavaScript是运行在chrome内核（nwjs）中。
+	了解了一些不能从官方文档中得到的知识，尽量在开发中避免踩坑。
+使用CSS3制作倒影学习网页http://www.w3cplus.com/css3/css3-box-reflect.html
+	浏览器支持情况：IE、FIREFOX不支持
+	语法box-reflect：none | <direction> <offset>? <mask-box-image>?	
+		其中：none为默认，direction值为above、right、below、left
+		offset:用来设置生成倒影与对象（原图）之间的间距，其取值可以是固定的像素值，也可以是百分比值，并可为负值
+		倒影的方向必须预留一定的空间，不然生成的倒影也无法看到。
+		mask-box-image我们可以通过两种方式第一种是渐变生成的背景图像，第二种是外部的背景图像。
+			使用渐变给倒影添加遮罩效果box-reflect: below 0 -webkit-linear-gradient(top,rgba(250,250,250,0),rgba(250,250,250,.0) 30%,rgba(250,250,250,0.3));
+			使用背景图片给倒影添加遮罩效果box-reflect: below 0 url(http://cdn.w3cplus.com/sites/default/files/blogs/2014/1405/css-masking.png);
+	Firefox中的替代方案-moz-element(id)参数为需要倒影的id 
+		例如：.box-reflect {/**为装img图片的box*/
+				  margin: 10px auto;
+				  width: 200px;
+				}
+				#moz-reflect:after{/**为倒影的位置*/
+					content: "";  
+					display: block;  
+					background: -moz-element(#moz-reflect) no-repeat;  
+					width: auto;  
+					height: 200px;  
+					-moz-transform: scaleY(-1);  
+				}
+		
+		
