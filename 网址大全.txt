@@ -3,3 +3,4 @@
 3.前端浏览器差异性：http://caniuse.com/
 4.W3C验证：https://validator.w3.org/
 5.无障碍访问谷歌：http://google.yubolun.com/
+6.百度搜索界面优化，修改UI,隐藏广告：https://userstyles.org/styles/122365/theme
