@@ -1,0 +1,93 @@
+数组操作--http://lanchenglv.com/article/2016/1113/wxapp_array_concat_splice.html
+1.原数组
+Page({
+  data: {
+   	 list:[{
+		id:1,
+		name:'应季鲜果',
+		count:1
+   	 },{
+		id:2,
+		name:'精致糕点',
+		count:6
+   	 },{
+		id:3,
+		name:'全球美食烘培原料',
+		count:12
+   	 },{
+		id:4,
+		name:'无辣不欢生猛海鲜',
+		count:5
+   	 }]
+  }
+})
+2.向前插入数据
+//向前增加数据
+  add_before:function (){
+    //要增加的数组
+    var newarray = [{
+        id:6,
+        name:'向前增加数据--'+new Date().getTime() ,
+        count:89
+    }];    
+    //使用concat()来把两个数组合拼起来(不改变原数组)
+    this.data.list = newarray.concat(this.data.list);    
+    //将合拼之后的数据，发送到视图层，即渲染页面
+    //大伙请记录，修改了数据后，一定要再次执行`this.setData()`，页面才会渲染数据的。
+    this.setData({
+        'list':	this.data.list
+     });
+  }
+ 3. 向后插入数据
+  //向后增加数据
+ add_after:function (){
+    //要增加的数组
+    var newarray = [{
+            id:5,
+            name:'向后增加数据--'+new Date().getTime() ,
+            count:89
+    }];
+    this.setData({
+        'list':this.data.list.concat(newarray)
+    });
+ },
+ 4.修改数组
+   //修改数组
+  edit:function (e){
+    //这个参数“e”的具体作用，请参考微信小程序官方提供的说明，地址为https://mp.weixin.qq.com/debug/wxadoc/dev/framework/view/wxml/event.html?t=20161107  
+    var dataset = e.target.dataset;
+    var Index = dataset.index; //在通过在wxml页面里使用 data-index="{{index}}"传递过来的，是为识别正在编辑修改哪个数组。
+        
+    //我们要修改的数组
+    this.data.list[Index].name = '修改了内容'+new Date().getTime();
+        
+    //将合拼之后的数据，发送到视图层，即渲染页面
+    //大伙请记录，修改了数据后，一定要再次执行`this.setData()`，页面才会渲染数据的。
+    this.setData({
+        list:this.data.list
+    });
+  }
+5.删除某条数据
+  //删除
+  remove:function (e){
+	var dataset = e.target.dataset;
+	var Index = dataset.index;
+	
+	//通过`index`识别要删除第几条数据，第二个数据为要删除的项目数量，通常为1
+	this.data.list.splice(Index,1);
+	
+	//渲染数据
+	this.setData({
+		list:this.data.list
+	});
+  }
+6.清空数据
+  //清空
+  clear:function (){
+    //其实就是让数组变成一个空数组即可
+  	this.setData({
+  		list:{}
+  	});
+  }
+  
+  
