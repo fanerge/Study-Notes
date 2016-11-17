@@ -1,0 +1,62 @@
+学习资料：http://fontawesome.dashgame.com/
+1.基本图标
+    将Font Awesome图标使用在几乎任何地方，只需要使用CSS前缀 fa ，再加上图标名称。(i/span内联元素)
+    如：<i class="fa fa-camera-retro"></i> fa-camera-retro
+2.大图标
+    使用 fa-lg (33%递增)、fa-2x、 fa-3x、fa-4x，或者 fa-5x 类 来放大图标。
+    如：<i class="fa fa-camera-retro fa-lg"></i> fa-lg
+        <i class="fa fa-camera-retro fa-2x"></i> fa-2x
+        ★★如果图标的底部和顶部被截断了，您需要增加行高来解决此问题。
+3.固定宽度
+    使用 fa-fw 可以将图标设置为一个固定宽度。主要用于不同宽度图标无法对齐的情况。 尤其在列表或导航时起到重要作用。
+    如：<div class="list-group">
+          <a class="list-group-item" href="#"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
+          <a class="list-group-item" href="#"><i class="fa fa-book fa-fw"></i>&nbsp; Library</a>
+        </div>
+4.用于列表
+    使用 fa-ul 和 fa-li 便可以简单的将无序列表的默认符号替换掉。
+    如：<ul class="fa-ul">
+          <li><i class="fa-li fa fa-check-square"></i>List icons</li>
+          <li><i class="fa-li fa fa-check-square"></i>can be used</li>
+        </ul>
+5.边框与对齐
+    使用 fa-border 以及 pull-right 或 pull-left 可以轻易构造出引用的特殊效果。
+    如：<i class="fa fa-quote-left fa-3x pull-left fa-border"></i>...tomorrow we will run faster, stretch out our arms farther...
+6.动画
+    使用 fa-spin 类来使任意图标旋转，现在您还可以使用 fa-pulse 来使其进行8方位旋转。尤其适合 fa-spinner、fa-refresh 和 fa-cog 。
+    如：<i class="fa fa-spinner fa-spin"></i>
+        <i class="fa fa-spinner fa-pulse"></i>
+    ★★IE8不支持
+7.旋转与翻转
+    使用 fa-rotate-* 和 fa-flip-* 类可以对图标进行任意旋转和翻转。
+    <i class="fa fa-shield fa-rotate-270"></i> fa-rotate-270<br>
+    <i class="fa fa-shield fa-flip-horizontal"></i> fa-flip-horizontal<br>
+    <i class="fa fa-shield fa-flip-vertical"></i> icon-flip-vertical
+8.组合使用
+    如果想要将多个图标组合起来，使用 fa-stack 类作为父容器， fa-stack-1x 作为正常比例的图标， fa-stack-2x 作为大一些的图标。还可以使用 fa-inverse 类来切换图标颜色。您可以在父容器中 通过添加 大图标 类来控制整体大小。
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-camera fa-stack-1x"></i>
+      <i class="fa fa-ban fa-stack-2x text-danger"></i>
+    </span>
+9.星级评定
+    如：<span class="rating">
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+        </span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
