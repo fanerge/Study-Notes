@@ -1,0 +1,5 @@
+最近这个项目特别忙，晚上找点时间看设计模式16种，现学了单例模式：遵循单一职责原则。
+使用css背景渐变最佳实践：
+    background-color:#2e2e2e;
+    background: -webkit-linear-gradient(bottom, #2e2e2e, #000 50%, #2e2e2e);
+    background: linear-gradient(bottom, #2e2e2e, #000 50%, #2e2e2e);

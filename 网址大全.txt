@@ -6,6 +6,8 @@
 6.百度搜索界面优化，修改UI,隐藏广告：https://userstyles.org/styles/122365/theme
 7.Font Awesome：http://fontawesome.dashgame.com/ 中文网：http://www.bootcss.com/p/font-awesome/
 8.页面加载与预载动画：http://www.jianshu.com/p/e3d46c330e83
+9.微信图片点击放大查看：http://vote.wucheshuedu.com/index.php?s=/Home/Article/detail/id/23.html
+10.前端知识体系：http://www.runoob.com/w3cnote/webfrontendstack.html
 
 
 
