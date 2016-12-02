@@ -1,0 +1,34 @@
+webkit内核完美支持
+/**滚动条样式**/
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 15px;
+}
+/* 滚动条的滑轨背景颜色 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+/* 滑块颜色 */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255,0,0,0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+/* 滑轨两头的监听按钮颜色 */
+::-webkit-scrollbar-button {
+    background-color: black;
+}
+/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+::-webkit-scrollbar-corner {
+    background-color: black;
+}
+IE9及以上能改变仅能改变滑块颜色
+body {
+    scrollbar-face-color: rgba(255,0,0,0.8);
+}
+Firefox需要js完成malihu-custom-scrollbar-plugin
