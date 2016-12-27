@@ -1,0 +1,22 @@
+CSS命名规范之BEM
+BEM的意思就是块（block）、元素（element）、修饰符（modifier）
+.block{} /* 块 */
+.block__element{} /* 元素 */
+.block--modifier{} /* 修饰符 */
+BEM 实体名称全部是小写字母或数字。名称中的不同单词用单个连字符（-）分隔。
+BEM 元素名称和块名称之间通过两个下划线（__）分隔。
+布尔修饰符和其所修饰的实体名称之间通过两个连字符（--）来分隔。不使用名值对修饰符。
+<ul class="menu">
+    <li class="menu__item menu__item--selected">Menu Item 1</li>
+    <li class="menu__item">Menu Item 2</li>
+    <li class="menu__item">Menu Item 3</li>
+</ul>
+.menu{
+ list-style: none;
+}
+.menu__item{
+ font-weight: bold;
+}
+.menu__item--selected{
+ color: red;
+}

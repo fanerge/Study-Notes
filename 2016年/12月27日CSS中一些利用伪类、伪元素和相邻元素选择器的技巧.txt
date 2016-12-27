@@ -1,0 +1,76 @@
+https://segmentfault.com/a/1190000007180315
+CSS中一些利用伪类、伪元素和相邻元素选择器的技巧
+1.需求： 
+没有文字，没有聚焦——点赞 
+没有文字，聚焦——灰色发送 
+有文字——红色发送
+如果用JS实现，需要监听输入框的change和focus事件，比较麻烦。但是用CSS中的伪类就可以实现相近效果
+<input type="text" class="input" required>
+<div class="like">点赞</div>
+<div class="send">发送</div>
+.send {
+  display: none;
+}
+ 
+.input:focus ~ .send {
+  display: block;
+}
+ 
+.input:valid ~ .send {
+  display: block;
+  color: red;
+}
+ 
+ 
+.input:focus ~ .like, .input:valid ~ .like {
+  display: none;
+}
+（如果评论框用contenteditable属性的div元素实现，可以用:empty伪类代替:valid。）
+2.contenteditable属性的div的placeholder
+因为一些原因，我们有时候用带有contenteditable属性的div而不是input或者textarea来作为输入框。
+比如，div可以根据内容自动调整高度。但是div元素不支持placeholder属性。怎么在div内容为空的时候显示一个默认文字呢？可以利用:empty伪类。
+<div class="input" contenteditable placeholder="请输入文字"></div>
+.input:empty::before {
+  content: attr(placeholder);
+}
+3.Tab切换
+纯CSS实现Tab切换也是可以的。主要是利用了单选框元素的:checked伪类和相邻选择器。
+因为是单选框，所以保证了同一时间只有一个tab处于激活状态。如果不要求更复杂的效果，这样纯CSS实现的tab切换效果，要比JS简单可靠很多。
+  <input id="tab1" type="radio" name="tabs" checked>
+  <label for="tab1">TAB1</label>
+  <input id="tab2" type="radio" name="tabs">
+  <label for="tab2">TAB2</label>
+ 
+  <div id="content1" class="tab-content">CONTENT1<div>  
+  <div id="content2" class="tab-content">CONTENT2</div>
+  input, .tab-content{
+    display: none;
+  }
+  #tab1:checked ~ #content1,
+  #tab2:checked ~ #content2 {
+    display: block;
+  }
+另外利用表单元素的伪类，可以label元素来代替单选框、复选框等表单元素的本身，因为为表单元素本身定义样式十分困难。
+4.感知子元素的个数
+这个是我看过的最复杂的一个技巧之一，来自这篇文章，不依靠JS实现了根据子元素的个数来应用不同的样式。
+.list li:nth-last-child(n+4) ~ li,
+.list li:nth-last-child(n+4):first-child {
+  color: red
+}
+可以实现这样的效果：如果.list里面li元素个数大于等于4，则显示为红色。
+
+这是怎么实现的呢？
+
+:nth-last-child(n+4)这一个选择器的意思就是倒数第四个以及之前的元素，后面加了~ li，就是表示符合前面条件的元素之后的li元素。
+
+如果元素总数不足4，则不会存在符合:nth-last-child(n+4)的元素（一共没有四个，也就不存在倒数第四个），那么li:nth-last-child(n+4) ~ li就不会选择任何的元素了。
+
+但是如果只用~ li，是不会匹配到第一个li的，所以又加上了li:nth-last-child(n+4):first-child。
+
+这样也就实现了根据元素个数的多少来应用不同的样式。
+
+
+
+
+
+
