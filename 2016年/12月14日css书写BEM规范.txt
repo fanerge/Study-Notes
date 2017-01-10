@@ -20,3 +20,10 @@ BEM 元素名称和块名称之间通过两个下划线（__）分隔。
 .menu__item--selected{
  color: red;
 }
+例如：该组件模块就名为page-btn
+<div class="page-btn">
+   <button type="button" class="page-btn__prev">上一页</button>
+   <!-- ... -->
+   <button type="button" class="page-btn__next">下一页</button>
+</div>
+
