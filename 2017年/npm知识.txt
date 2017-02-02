@@ -1,0 +1,52 @@
+npm init   #以用户引导的方式创建一个全新的package.json文件。   
+npm help json     #命令打开帮助文档，并根据实际的项目需求自行初始化package.json的项目即可。
+npm install    #会安装所有依赖的包
+npm config ls   #查看配置信息
+npm config ls -l  #查看所有配置信息
+npm config set 'config' 'configValue'   #修改配置信息
+npm root -g    #查看全局依赖包存放地址
+npm view 'packageName'     #查看依赖包的package.json信息
+npm view 'packageName' dependencies    #查看包的依赖关系
+npm view 'packageName' repository.url  #查看包的源文件地址
+npm view 'packageName' engines    #查看包所依赖的node版本号
+
+//常用的包相关的操作（均有本地和全局操作）
+npm search 'packageName'    #搜索依赖包
+npm install 'packageName'     #本地安装packageName包
+npm install 'packageName'@'version'    #安装特定版本的包
+npm list     #查看当前项目的本地依赖包
+npm root    #查看本地依赖包存放地址
+npm outdated 'packageName'    #查看本地依赖包是不是最新版
+npm update 'packageName'     #更新本地包
+npm uninstall 'packageName'    #卸载本地包
+
+//发布包
+npm adduser    #注册一个registry帐号
+npm login    #登录registry帐号
+npm publish     #发布项目
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
