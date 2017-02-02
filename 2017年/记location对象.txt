@@ -1,0 +1,10 @@
+例如：http://www.ijavascript.cn/jiaocheng/index.html#topic1?x=7&y=2
+protocol 返回或设置地址协议，取值为http：、https：、file：这里为http：
+host 返回或设置地址主机名和端口号，这里为’www.ijavascript.cn:8080‘
+hostname 返回或设置地址主机名，这里为www.ijavascript.cn
+port 返回或设置地址的端口号，这里为 80
+pathname 返回或设置地址的路径名，这里为jiaocheng/index.html
+hash 返回或设置地址#及之后的内容，这里为#topic1，没有为空string
+search 返回或设置？及之后的内容，这里为?x=7&y=2
+href 返回或设置url 这里为http://www.ijavascript.cn/jiaocheng/index.html#topic1?x=7&y=2
+
