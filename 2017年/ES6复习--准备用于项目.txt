@@ -1,0 +1,104 @@
+一、let和const命令
+	1.let命令
+		不存在变量提升----let不像var那样会发生“变量提升”现象。
+		暂时性死区----只要块级作用域内存在let命令，它所声明的变量就“绑定”（binding）这个区域，不再受外部的影响。
+		不允许重复声明----let不允许在相同作用域内，重复声明同一个变量。
+		块级作用域----可以替代以前的立即执行函数表达式（IIFE）如{let a=1;dd = function(){rerurn a++}}但不推荐在块级作用域中声明函数。
+		ES6规定可以在块级作用域中声明函数----函数声明语句的行为类似于let，在块级作用域之外不可引用。
+		实践：for( let i=0; i<10; i++ ){}//for循环还有一个特别之处，就是循环语句部分是一个父作用域，而循环体内部是一个单独的子作用域。
+	2.const命令
+		定义----const 的定义是不可重新赋值的值，const 定义的 Object，在定义之后仍可以修改其属性。
+		对象冻结，应该使用Object.freeze方法。
+		ES6共有6中声明变量的方法：var、function、let、const、import、class
+	3.顶层对象的属性
+		ES6开始全局变量将逐步与顶层对象的属性逐步脱钩。
+	4.global对象提案
+二、变量的解构赋值（可嵌套解构赋值）解构赋值的规则是，只要等号右边的值不是对象，就先将其转为对象。
+	定义：ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。
+	1.数组的解构赋值----这种写法属于“模式匹配”，只要等号两边的模式相同
+		默认值----let [foo = true] = [];
+	2.对象的解构赋值
+		let { first: f, last: l } = { first: 'hello', last: 'world' };
+		对象的解构赋值，可以很方便地将现有对象的方法，赋值到某个变量。let { log, sin, cos } = Math;
+	3.字符串的解构赋值
+		const [a, b, c, d, e] = 'hello';//字符串被转换成了一个类似数组的对象。
+	4.数值和布尔值的解构赋值
+		如果等号右边是数值和布尔值，则会先转为对象。
+	5.函数参数的解构赋值
+		function add([x, y]){
+		  return x + y;
+		}
+		add([1, 2]); // 3
+	6.用途
+		交换变量的值----let x = 1;let y = 2;let dd = [x, y] = [y, x];
+		从函数返回多个值----
+			返回数组：
+				function example() {
+				  return [1, 2, 3];
+				}
+				let [a, b, c] = example();
+			返回对象：
+				function example(){
+					return {
+						foo:1,
+						bar:2
+					};
+				}
+				let {foo, bar} = example();
+		函数参数的定义----
+			有序的用数组；
+				function f([x, y, z]) { ... }
+				f([1, 2, 3]);
+			无序的用对象：
+				function f({x, y, z}) { ... }
+				f({z: 3, y: 2, x: 1});
+		提取JSON数据
+			let jsonData = {
+				id:42,
+				status:'ok',
+				data:[888,444]
+			};
+			let {id, status, data:number} = jsonData;
+			console.log(id, status, number);
+		函数参数的默认值
+			jQuery.ajax = function (url, {
+			  async = true,
+			  beforeSend = function () {},
+			  cache = true,
+			  complete = function () {},
+			  crossDomain = false,
+			  global = true,
+			  // ... more config
+			}) {
+			  // ... do stuff
+			};
+		遍历Map结构
+			任何部署了Iterator接口的对象，都可以用for...of循环遍历。（Set、Map）
+			var map = new Map();
+			map.set('first', 'hello');
+			map.set('second', 'world');
+			for (let [key, value] of map) {
+			  console.log(key + " is " + value);
+			}
+		输入模块的指定方法
+			const { SourceMapConsumer, SourceNode } = require("source-map");
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
