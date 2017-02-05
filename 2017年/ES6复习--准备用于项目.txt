@@ -82,23 +82,276 @@
 			}
 		输入模块的指定方法
 			const { SourceMapConsumer, SourceNode } = require("source-map");
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+三、字符串的扩展
+	1.字符的Unicode表示法
+		定义；----JavaScript允许采用\uxxxx形式表示一个字符，其中“xxxx”表示字符的码点。
+		ES6规定超过\u0000——\uFFFF的字符用{}包含码点，\u{20BB7}。以前是的表示方法\uD842\uDFB7。
+	2.codePointAt()----作用：解决charCodeAt不能处理四字节字符的问题。
+		codePointAt方法会正确返回32位(四字节的字符)的UTF-16字符的码点。对于那些两个字节储存的常规字符，它的返回结果与charCodeAt方法相同。
+		codePointAt(0)表示四字节的码点，但codePointAt(1)会表示错误显示前面四字节的后两个字节。
+			解决方法：
+				var s = "??a";
+				for(let ch of s){
+					console.log( ch.codePointAt(0).toString(16) );
+				}
+		可以判断字符是否为两字节字符----
+			function is32Bit(c){
+				return c.codePointAt(0) > 0xFFFF;
+			}
+	3.String.fromCodePoint()----作用：解决fromCharCode不能处理四字节字符的问题。
+		ES5提供String.fromCharCode方法----作用：用于从码点返回对应字符但不可识别（Unicode编号大于0xFFFF）。
+		可以有多个参数----String.fromCodePoint(0x78, 0x1f680, 0x79)则它们会被合并成一个字符串返回。
+		fromCodePoint方法定义在String对象上，而codePointAt方法定义在字符串的实例对象上。
+	4.字符串的遍历器接口，也就是可以用for...of循环遍历，可以正确识别四字节字符。
+		for(let codePoint of 'foo'){
+			console.log(codePoint.codePointAt(0));
+		}
+	5.at()//暂未实现。
+		ES5中charAt方法，返回字符串给定位置的字符。但码点必须小于0xffff；
+		提出字符串实例的at方法，可以识别Unicode编号大于0xFFFF的字符，返回正确的字符。
+		如：'??'.at(0) // "??"
+	6.normalize()
+		许多欧洲语言有语调符号和重音符号。如：O（\u004F）和ˇ（\u030C）合成ǒ（\u004F\u030C）
+		ES6提供字符串实例的normalize()方法，用来将字符的不同表示方法统一为同样的形式，这称为Unicode正规化。
+	7.includes()、startsWith()、endsWith()
+		在之前indexOf方法，可以用来确定一个字符串是否包含在另一个字符串中。
+			includes():返回布尔值，表示是否找到了参数字符串。
+			startsWith():返回布尔值，表示参数字符串是否在源字符串的头部。
+			endsWith():返回布尔值，表示参数字符串是否在源字符串的尾部。
+		这三个方法都支持第二个参数，表示开始搜索的位置。
+			endsWith的行为与其他两个方法有所不同。它针对前n个字符，而其他两个方法针对从第n个位置直到字符串结束。
+	8.repeat()
+		repeat方法返回一个新字符串，表示将原字符串重复n次。
+		如：'na'.repeat(2.9) // "nana"
+	9.padStart()、padEnd()
+		ES2017 引入了字符串补全长度的功能。一共接受两个参数，第一个参数用来指定字符串的最小长度，第二个参数是用来补全的字符串。
+		如：'x'.padStart(5, 'ab') // 'ababx'
+		如果原字符串的长度，等于或大于指定的最小长度，则返回原字符串。----'xxx'.padStart(2, 'ab') // 'xxx'
+		如果省略第二个参数，默认使用空格补全长度。----'x'.padStart(4) // '   x'
+		用途为数值补全指定位数。----如：'123456'.padStart(10, '0') // "0000123456"
+		另一个用途是提示字符串格式。----如：'09-12'.padStart(10, 'YYYY-MM-DD') // "YYYY-09-12"
+	10.模板字符串（template string）
+		作用：它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量。----如：var name = "Bob";`Hello ${name}`;
+		其实在${}中可以写任何js代码。
+	11.标签模板
+		它可以紧跟在一个函数名后面，该函数将被调用来处理这个模板字符串。如：alert`123` === alert(123)
+		“标签模板”的一个重要应用，就是过滤HTML字符串，防止用户输入恶意内容。
+		如：var dd = SaferHTML`<p>${sender}</p>`;
+			function SaferHTML(templateData) {
+			  var s = templateData[0];
+			  for (var i = 1; i < arguments.length; i++) {
+				var arg = String(arguments[i]);
+				s += arg.replace(/&/g, "&amp;")
+						.replace(/</g, "&lt;")
+						.replace(/>/g, "&gt;");
+				s += templateData[i];
+			  }
+			  return s;
+			}
+	12.String.raw()
+		定义：String.raw方法，往往用来充当模板字符串的处理函数，返回一个斜杠都被转义（即斜杠前面再加一个斜杠）的字符串，对应于替换变量后的模板字符串。
+		String.raw方法可以作为处理模板字符串的基本方法，它会将所有变量替换，而且对斜杠进行转义，方便下一步作为字符串来使用。
+	13.模版字符串的限制
+		前面提到标签模板里面，可以内嵌其他语言。但是，模板字符串默认会将字符串转义，因此导致了无法嵌入其他语言。
+四、正则的扩展
+	1.RegExp构造函数
+		第一种情况是，参数是字符串，这时第二个参数表示正则表达式的修饰符（flag）。如：
+			var regex = new RegExp('xyz', 'i');或者var regex = /xyz/i;
+			new RegExp(/abc/ig, 'i').flags === i
+	2.字符串的正则方法
+		match()、replace()、search()、split()
+		ES6将这4个方法，在语言内部全部调用RegExp的实例方法，从而做到所有与正则相关的方法，全都定义在RegExp对象上。
+			String.prototype.match 调用 RegExp.prototype[Symbol.match]
+			String.prototype.replace 调用 RegExp.prototype[Symbol.replace]
+			String.prototype.search 调用 RegExp.prototype[Symbol.search]
+			String.prototype.split 调用 RegExp.prototype[Symbol.split]
+	3.u修饰符含义为“Unicode模式”用来正确处理大于\uFFFF的Unicode字符。
+		（.）点字符----var s = '??';/^.$/u.test(s) // true
+		Unicod字符表示法
+			ES6新增了使用大括号表示Unicode字符，这种表示法在正则表达式中必须加上u修饰符，才能识别。如；
+			var dd = /\u{61}/u.test('a');//true
+		量词
+			/??{2}/u.test('????') // true
+		预定义模式
+			/^\S$/u.test('??') // true
+		i修饰符
+			/[a-z]/iu.test('\u212A') // true
+	4.Y修饰符----叫做“粘连”（sticky）修饰符。
+		定义：y修饰符从上一次匹配成功的下一个位置开始
+			var s = 'aaa_aa_a';
+			var r1 = /a+/g;
+			var r2 = /a+/y;
+			r1.exec(s) // ["aaa"]
+			r2.exec(s) // ["aaa"]
+			r1.exec(s) // ["aa"]
+			r2.exec(s) // null
+	5.sticky属性
+		与y修饰符相匹配，ES6的正则对象多了sticky属性，表示是否设置了y修饰符。
+			var r = /hello\d/y;//r.sticky=== true
+	6.flags属性
+		/abc/ig.source返回正则的正文，/abc/ig.flags返回修饰符
+	7.RegExp.escape()	
+		字符串必须转义，才能作为正则模式。
+	8.s修饰符：dotAll模式----提案，引入/s修饰符，使得.可以匹配任意单个字符。
+		点（.）是一个特殊字符，代表任意的单个字符，但是行终止符（line terminator character）除外。
+			const re = /foo.bar/s;
+			console.log( re.test('foo\nbar') );
+			re.dotAll // true
+			re.flags // 's'
+	9.后行断言
+		先行断言----/\d+(?=%)/.exec('100% of US presidents have been male')  // ["100"]
+		后行断言----/(?<=\$)\d+/.exec('Benjamin Franklin is on the $100 bill')  // ["100"]
+	10.Unicode属性类
+		提案，引入了一种新的类的写法\p{...}和\P{...}，允许正则表达式匹配符合Unicode某种属性的所有字符。
+五、数值的扩展
+	1.二进制和八进制表示法
+		ES6提供了二进制和八进制数值的新的写法，分别用前缀0b（或0B）和0o（或0O）表示。
+	2.Number.isFinite()、Number.isNaN()
+		ES6在Number对象上，新提供了Number.isFinite()和Number.isNaN()两个方法。
+			与传统方法先调用Number()将非数值的值转为数值，再进行判断，而这两个新方法只对数值有效，非数值一律返回false。
+	3.Number.parseInt()、Number.parseFloat()
+		ES6将全局方法parseInt()和parseFloat()，移植到Number对象上面，行为完全保持不变。	
+	4.Number.isInteger()	
+		特例：Number.isInteger(23.0);//true
+	5.Number.EPSILON(用于为浮点数计算，设置一个误差范围。)
+		ES6在Number对象上面，新增一个极小的常量Number.EPSILON。
+	6.安全整数和Number.isSafeInteger()
+		Number.isSafeInteger()则是用来判断一个整数是否落在这个范围之内。	
+		ES6引入了Number.MAX_SAFE_INTEGER和Number.MIN_SAFE_INTEGER这两个常量，用来表示这个范围的上下限。
+	7.Math对象的扩展
+		Math.trunc()----用于去除一个数的小数部分，返回整数部分。
+		Math.sign()----用来判断一个数到底是正数、负数、还是零。
+		Math.cbrt()----用于计算一个数的立方根。
+		Math.clz32()----返回一个数的32位无符号整数形式有多少个前导0。
+		Math.imul()----返回两个数以32位带符号整数形式相乘的结果，返回的也是一个32位的带符号整数。
+		用途：因为JavaScript有精度限制，超过2的53次方的值无法精确表示。低位数值往往都是不精确的，Math.imul方法可以返回正确的低位数值。
+		Math.fround()----返回一个数的单精度浮点数形式。
+		Math.hypot()----返回所有参数的平方和的平方根。
+		对数方法
+			Math.expm1()----ex - 1，即Math.exp(x) - 1。
+			Math.log1p()----返回1 + x的自然对数，即Math.log(1 + x)。
+			Math.log10()----返回以10为底的x的对数。
+			Math.log2()----返回以2为底的x的对数。
+		三角函数方法
+			Math.sinh(x) 返回x的双曲正弦（hyperbolic sine）
+			Math.cosh(x) 返回x的双曲余弦（hyperbolic cosine）
+			Math.tanh(x) 返回x的双曲正切（hyperbolic tangent）
+			Math.asinh(x) 返回x的反双曲正弦（inverse hyperbolic sine）
+			Math.acosh(x) 返回x的反双曲余弦（inverse hyperbolic cosine）
+			Math.atanh(x) 返回x的反双曲正切（inverse hyperbolic tangent）
+	8.指数运算符（**）
+		2 ** 3 // 8等价于2的3次方
+六、数组的扩展
+	1.Array.from()		
+		定义；将两类对象转为真正的数组：类似数组的对象（array-like object）和可遍历（iterable）的对象（包括ES6新增的数据结构Set和Map）。
+		只要是部署了Iterator接口的数据结构，Array.from都能将其转为数组。
+		扩展运算符（...）也可以将某些数据结构转为数组。扩展运算符背后调用的是遍历器接口（Symbol.iterator）
+		Array.from还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组。
+			Array.from(arrayLike).map(x => x * x);
+		应用：将字符串转为数组，然后返回字符串的长度。可以正确识别四字节字符。
+			function countSymbols(str){
+				return Array.from(str).length;
+			}
+		如果map函数里面用到了this关键字，还可以传入Array.from的第三个参数，用来绑定this。
+	2.Array.of()	
+		定义：用于将一组值，转换为数组。	
+			Array.of(3, 11, 8) // [3,11,8]
+	3.数组实例的copyWithin()	
+		定义：数组实例的copyWithin方法，在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。
+			Array.prototype.copyWithin(target, start = 0, end = this.length);target（必填）从该位置开始替换数据。start（可选）：从该位置开始读取数据.
+			如：[1, 2, 3, 4, 5].copyWithin(0, 3)// [4, 5, 3, 4, 5]
+	4.数组实例的find()和findIndex()
+		定义：数组实例的find方法，用于找出第一个符合条件的数组成员。它的参数是一个回调函数。
+			如：[1, 5, 10, 15].find(function(value, index, arr) { return value > 9;})  //10
+		定义：返回第一个符合条件的数组成员的位置，如果所有成员都不符合条件，则返回-1。
+		这两个方法都可以接受第二个参数，用来绑定回调函数的this对象。
+	5.数组实例的fill()
+		定义：fill方法使用给定值，填充一个数组。
+		如；['a', 'b', 'c'].fill(7, 1, 2) // ['a', 7, 'c']
+	6.数组实例的entries()，keys()和values()
+		ES6提供三个新的方法——entries()，keys()和values()——用于遍历数组。
+		keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历。
+			for( let index of ['a', 'b'].keys() ){ //对键名的遍历
+				console.log(index);
+			}
+		手动调用遍历器对象的next方法，进行遍历。
+	7.数组实例的includes()	
+		定义：表示某个数组是否包含给定的值，与字符串的includes方法类似。
+		如：[1, 2, 3].includes(3, -1); // true
+			Map结构的has方法，是用来查找键名的；Set结构的has方法，是用来查找值的。
+	8.数组的空位（避免使用空位）
+		定义；数组的某一个位置没有任何值。ES6则是明确将空位转为undefined。
+		Array(3) // [, , ,]
+七、函数的扩展
+	1.函数参数的默认值	
+		function log(x, y = 'World') {
+		  console.log(x, y);
+		}
+		与解构赋值默认值结合使用
+			function log({x, y = 5}){
+				console.log(x,y);
+			}
+			log({x:1,y:3});
+		参数默认值的位置----应该是函数的尾参数。
+		函数的 length 属性----指定了默认值以后，函数的length属性，将返回没有指定默认值的参数个数。也就是说，指定了默认值后，length属性将失真。	
+		作用域----一旦设置了参数的默认值，函数进行声明初始化时，参数会形成一个单独的作用域（context）。等到初始化结束，这个作用域就会消失。
+		应用----利用参数默认值，可以指定某一个参数不得省略，如果省略就抛出一个错误。
+			function throwIfMissing(){
+				throw new Error('Missing parameter');
+			}
+			function foo(mustBeProvided = throwIfMissing()){
+				return mustBeProvided;
+			}
+			foo()//Error: Missing parameter
+			另外，可以将参数默认值设为undefined，表明这个参数是可以省略的。
+			function foo(optional = undefined) { ··· }
+	2.rest参数----ES6 引入 rest 参数（形式为“...变量名”），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+		rest 参数之后不能再有其他参数（即只能是最后一个参数），否则会报错。
+	3.扩展运算符
+		含义----扩展运算符（spread）是三个点（...）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。
+		替代数组的apply方法
+			如：Math.max(...[14, 3, 77]);
+		扩展运算符的应用 	
+			合并数组 // ES5的合并数组arr1.concat(arr2, arr3);//ES6 [...arr1, ...arr2, ...arr3]
+			与解构赋值结合----扩展运算符可以与解构赋值结合起来，用于生成数组。
+				// ES5 a = list[0], rest = list.slice(1)  // ES6[a, ...rest] = list	
+			函数的返回值
+				JavaScript的函数只能返回一个值，如果需要返回多个值，只能返回数组或对象。扩展运算符提供了解决这个问题的一种变通方法。
+			字符串----扩展运算符还可以将字符串转为真正的数组。(能够正确识别32位的Unicode字符)
+			实现了Iterator接口的对象----任何Iterator接口的对象，都可以用扩展运算符转为真正的数组。
+			Map和Set结构，Generator函数（next()）
+				如：let arr = [...map.keys()]; // [1, 2, 3] 
+	4.严格模式----函数内部可以设定为严格模式。
+	5.name 属性----函数的name属性，返回该函数的函数名。
+	6.箭头函数
+		如果箭头函数不需要参数或需要多个参数，就使用一个圆括号代表参数部分。
+		如果箭头函数的代码块部分多于一条语句，就要使用大括号将它们括起来，并且使用return语句返回。
+		由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号。
+			如：var getTempItem = id => ({ id: id, name: "Temp" });
+			作用-简化回调函数。[1,2,3].map(x => x * x);
+		使用注意点
+			函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+			不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+			不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
+			不可以使用yield命令，因此箭头函数不能用作Generator函数。
+		this指向的固定化，并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数根本没有自己的this，导致内部的this就是外层代码块的this。	
+			其实在箭头函数中this、arguments、super、new.target都不存在，指向外层函数的对应变量。
+		嵌套的箭头函数
+	7.绑定 this
+		函数绑定运算符是并排的两个双冒号（::），双冒号左边是一个对象，右边是一个函数。
+		如：foo::bar;// 等同于bar.bind(foo);  //等价于bar.call(foo);
+	8.尾调用优化（Tail Call）
+		定义：是函数式编程的一个重要概念，本身非常简单，一句话就能说清楚，就是指某个函数的最后一步是调用另一个函数。
+		尾调用优化（Tail call optimization）----即只保留内层函数的调用帧。如果所有函数都是尾调用，那么完全可以做到每次执行时，调用帧只有一项，这将大大节省内存。这就是“尾调用优化”的意义。
+		尾递归----函数调用自身，称为递归。如果尾调用自身，就称为尾递归。
+			function factorial(n, total = 1) {
+			  if (n === 1) return total;
+			  return factorial(n - 1, n * total);
+			}
+			factorial(5) // 120
+		严格模式，尾调用才有效。
+		尾递归优化的实现----采用“循环”换掉“递归”。
+		函数参数的尾逗号
+
+
+		
