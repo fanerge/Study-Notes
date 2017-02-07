@@ -352,6 +352,123 @@
 		严格模式，尾调用才有效。
 		尾递归优化的实现----采用“循环”换掉“递归”。
 		函数参数的尾逗号
-
-
+八、对象的扩展
+	1.属性的简洁表示方法
+		ES6允许直接写入变量和函数，作为对象的属性和方法。
+			如：
+			var name = 'yu';
+			var obj = {   
+				name, 
+				method(){},
+			};
+	2.属性名表达式
+		let obj = {
+			dd:true,
+			['a' + 'b']:1111,  //属性名表达式
+			['h' + 'ello']:(){}  //方法名表达式
+		};
+		注意，属性名表达式如果是一个对象，默认情况下会自动将对象转为字符串[object Object]，这一点要特别小心。
+	3.方法的 name 属性
+		有两种特殊情况：bind方法创造的函数，name属性返回bound加上原函数的名字；Function构造函数创造的函数，name属性返回anonymous。
+	4.Object.is()----用来比较两个值是否严格相等。Object.is('foo', 'foo')// true
+	5.Object.assign()----用于对象的合并，将源对象（source）的所有可枚举属性（不拷贝继承属性），复制到目标对象（target）。
+		Object.assign方法实行的是浅拷贝，而不是深拷贝。也就是说，如果源对象某个属性的值是对象，那么目标对象拷贝得到的是这个对象的引用。	
+		常见用途	
+			为对象添加属性
+				class Point {
+					constructor(x,y){
+						Object.assign(this,{x,y});
+					}
+				};
+			为对象添加方法
+				Object.assign(SomeClass.prototype,{someMethod(){},someMethod2(){}});
+			克隆对象----return Object.assign({},origin);更好的方式为Object.create();
+			合并多个对象----Object.assign(target, ...sources)
+			为属性指定默认值options = Object.assign({}, DEFAULTS, options);//同名属性覆盖
+	6.属性的可枚举性
+		Object.getOwnPropertyDescriptor方法可以获取该属性的描述对象。
+			Object.getOwnPropertyDescriptor(obj,'foo');
+			for...in循环：只遍历对象自身的和继承的可枚举的属性
+			Object.keys()：返回对象自身的所有可枚举的属性的键名
+			JSON.stringify()：只串行化对象自身的可枚举的属性
+			最好使用Object.keys()代替for...in
+	7.属性的遍历
+		for...in----遍历对象自身的和继承的可枚举属性（不含Symbol属性）。
+		Object.keys(obj)----Object.keys返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含Symbol属性）。
+		Object.getOwnPropertyNames(obj)----Object.getOwnPropertyNames返回一个数组，包含对象自身的所有属性（不含Symbol属性，但是包括不可枚举属性）。
+		Object.getOwnPropertySymbols(obj)----Object.getOwnPropertySymbols返回一个数组，包含对象自身的所有Symbol属性。
+		Reflect.ownKeys(obj)----Reflect.ownKeys返回一个数组，包含对象自身的所有属性，不管是属性名是Symbol或字符串，也不管是否可枚举。
+	8.__proto__属性，Object.setPrototypeOf()，Object.getPrototypeOf() 
+		__proto__ ----用来读取或设置当前对象的prototype对象。该属性的值就是对象的原型。
+		Object.setPrototypeOf(obj, proto);//将proto设置为obj对象的原型
+	9.Object.keys()，Object.values()，Object.entries()//配合for...of使用
+		ES5 引入了Object.keys方法，返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键名。
+	10.对象的扩展运算符	
+		解构赋值
+		扩展运算符
+	11.Object.getOwnPropertyDescriptors()
+		ES5有一个Object.getOwnPropertyDescriptor方法，返回某个对象属性的描述对象（descriptor）。
+			Object.getOwnPropertyDescriptor(obj, 'p')；//返回value、writable、enumerable、configurable描述情况。
+		ES2017 引入了Object.getOwnPropertyDescriptors方法，返回指定对象所有自身属性（非继承属性）的描述对象。
+			主要是为了解决Object.assign()无法正确拷贝get属性和set属性的问题。
+		这时，Object.getOwnPropertyDescriptors方法配合Object.defineProperties方法，就可以实现正确拷贝。
+		实现继承----
+			const obj = Object.assign(
+			  Object.create(prot), //相当于父对象
+			  {
+				foo: 123,
+			  }
+			);
+	12.Null 传导运算符（提案）
+		const firstName = message?.body?.user?.firstName || 'default';
+		上面代码有三个?.运算符，只要其中一个返回null或undefined，就不再往下运算，而是返回undefined。
+九、Symbol（原始数据类型）----类似于字符串的数据类型。
+	1.概述		
+	引入一种机制保证对象的每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。	
+	七种数据类型：Undefined、Null、Boolean、String、Number、Object、Symbol
+	2.作为属性名的Symbol
+		let s = Symbol();
+		let obj = {
+		  [s]: function (arg) { ... }
+		};
+		obj[s](123);
+	3.实例：消除魔术字符串	
+	4.属性名的遍历
+		不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
+		Object.getOwnPropertySymbols方法，可以获取指定对象的所有 Symbol 属性名。
+		由于以 Symbol 值作为名称的属性，不会被常规方法遍历得到。我们可以利用这个特性，为对象定义一些非私有的、但又希望只用于内部的方法。
+	5.Symbol.for()，Symbol.keyFor()会登记在全局环境
+		它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的Symbol值。如果有，就返回这个Symbol值，否则就新建并返回一个以该字符串为名称的Symbol值。
+		Symbol.keyFor方法返回一个已登记的 Symbol 类型值的key。
+	6.模块的 Singleton 模式 
+		Singleton模式指的是调用一个类，任何时候返回的都是同一个实例。
+	7.内置的Symbol值	
+		Symbol.hasInstance----对象的Symbol.hasInstance属性，指向一个内部方法。当其他对象使用instanceof运算符，判断是否为该对象的实例时，会调用这个方法。
+		Symbol.isConcatSpreadable----表示该对象使用Array.prototype.concat()时，是否可以展开。
+		Symbol.species----对象的Symbol.species属性，指向当前对象的构造函数。默认会调用这个方法，即使用这个属性返回的函数当作构造函数，来创造新的实例对象。
+		Symbol.match----对象的Symbol.match属性，指向一个函数。当执行str.match(myObject)时，如果该属性存在，会调用它，返回该方法的返回值。
+		Symbol.replace----对象的Symbol.replace属性，指向一个方法，当该对象被String.prototype.replace方法调用时，会返回该方法的返回值。
+		Symbol.search----对象的Symbol.search属性，指向一个方法，当该对象被String.prototype.search方法调用时，会返回该方法的返回值。
+		Symbol.split----对象的Symbol.split属性，指向一个方法，当该对象被String.prototype.split方法调用时，会返回该方法的返回值。
+		Symbol.iterator----对象的Symbol.iterator属性，指向该对象的默认遍历器方法。
+		Symbol.toPrimitive----对象的Symbol.toPrimitive属性，指向一个方法。该对象被转为原始类型的值时，会调用这个方法，返回该对象对应的原始类型值。
+			Number：该场合需要转成数值
+			String：该场合需要转成字符串
+			Default：该场合可以转成数值，也可以转成字符串
+		Symbol.toStringTag----这个属性可以用来定制[object Object]或[object Array]中object后面的那个字符串。
+		Symbol.unscopables----对象的Symbol.unscopables属性，指向一个对象。该对象指定了使用with关键字时，哪些属性会被with环境排除。
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
