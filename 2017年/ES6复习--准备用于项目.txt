@@ -457,6 +457,85 @@
 			Default：该场合可以转成数值，也可以转成字符串
 		Symbol.toStringTag----这个属性可以用来定制[object Object]或[object Array]中object后面的那个字符串。
 		Symbol.unscopables----对象的Symbol.unscopables属性，指向一个对象。该对象指定了使用with关键字时，哪些属性会被with环境排除。
+十、Set和Map数据结构
+	1.Set----新的数据解构（类似于数组，值唯一，不存在重复）
+			可以有类数组作为参数。nodeList、arguments
+			通过add方法向 Set 结构加入成员。
+		Set实例的属性和方法 
+			Set.prototype.constructor：构造函数，默认就是Set函数。
+			Set.prototype.size：返回Set实例的成员总数。
+		Set实例的方法分为两大类：操作方法（用于操作数据）和遍历方法（用于遍历成员）。	
+		4个操作方法
+			add(value)：添加某个值，返回Set结构本身。
+			delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+			has(value)：返回一个布尔值，表示该值是否为Set的成员。
+			clear()：清除所有成员，没有返回值。
+		4个遍历操作
+			keys()：返回键名的遍历器
+			values()：返回键值的遍历器
+			entries()：返回键值对的遍历器
+			forEach()：使用回调函数遍历每个成员
+			Set的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用Set保存一个回调函数列表，调用时就能保证按照添加顺序调用。
+			forEach()----forEach方法还可以有第二个参数，表示绑定的this对象。
+			遍历的应用
+				扩展运算符和Set结构相结合，就可以去除数组的重复成员。
+				数组的map和filter方法也可以用于Set了。
+				如：[...set].map(x => x * 2)
+				如果想在遍历操作中，同步改变原来的Set结构（变通实现）
+				let set = new Set([1, 2, 3]);
+				set = new Set([...set].map(val => val * 2));
+	2.WeakSet	
+			区别：WeakSet的成员只能是对象，而不能是其他类型的值。
+				WeakSet中的对象都是弱引用，即垃圾回收机制不考虑WeakSet对该对象的引用。
+				WeakSet.prototype.add(value)：向WeakSet实例添加一个新成员。
+				WeakSet.prototype.delete(value)：清除WeakSet实例的指定成员。
+				WeakSet.prototype.has(value)：返回一个布尔值，表示某个值是否在WeakSet实例之中。
+				无ws.size属性、ws.forEach方法
+				WeakSet的一个用处，是储存DOM节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+	3.Map----它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。	
+		Map结构的目的和基本用法
+		实例的属性和操作方法
+			size属性----返回Map结构的成员总数。
+			set(key, value)----设置key所对应的键值，然后返回整个Map结构。如果key已经有值，则键值会被更新，否则就新生成该键。
+			get(key)----读取key对应的键值，如果找不到key，返回undefined。
+			has(key)----返回一个布尔值，表示某个键是否在Map数据结构中。
+			delete(key)----删除某个键，返回true。如果删除失败，返回false。
+			clear()----清除所有成员，没有返回值。
+		遍历方法 
+			keys()：返回键名的遍历器。
+			values()：返回键值的遍历器。
+			entries()：返回所有成员的遍历器。
+			forEach()：遍历Map的所有成员。
+		Map结构转为数组结构，比较快速的方法是结合使用扩展运算符（...）。
+		与其他数据结构的互相转换	
+			Map转为数组----[...myMap]使用扩展运算符（...）。
+			数组转为Map----new Map(参数);
+			Map转为对象----遍历赋值
+			对象转为Map----
+			Map转为JSON----
+			JSON转为Map----
+	4.WeakMap----唯一的区别是它只接受对象作为键名（null除外），不接受其他类型的值作为键名，而且键名所指向的对象，不计入垃圾回收机制。	
+		WeakMap的专用场合就是，它的键所对应的对象，可能会在将来消失。WeakMap结构有助于防止内存泄漏。
+			只有get()、set()、has()、delete()。
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
