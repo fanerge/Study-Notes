@@ -1,0 +1,60 @@
+url：http://www.cnblogs.com/qzsonline/archive/2012/09/04/2670087.html
+作用：
+	1.防止js加载阻塞页面渲染。
+	2.使用程序调用的方式加载js，防出现页面中加载很多ｊｓ文件
+
+RequireJS 基于 baseUrl 配置的地址来加载所有JS文件
+	<script data-main="js/main" src="js/require.js"></script>
+	1.baseUrl 默认被设置成通过data-main属性引入的脚本的相同目录
+	2.baseUrl 能在 require.config 中进行配置.
+	3.如果又没配置，又没使用data-main属性，baseUrl 会被设置为运行requireJS的HTML页面的目录.
+	
+require会定义三个变量：define,require,requirejs，其中require === requirejs	
+	define 从名字就可以看出这个api是用来定义一个模块
+		define(function(){
+			function fun1(){
+			  alert("it works");
+			}
+
+			fun1();
+		})
+	require 加载依赖模块，并执行加载完后的回调函数
+		require(["jquery","underscore"],function($, _){
+			$(function(){
+				_.each([1,2,3],alert);
+			})
+		})
+require.config({
+	baseUrl : "js",   //设置跟路径与data-main=属性的值相同
+	paths : {		//定义每一块的
+        "jquery" : ["http://libs.baidu.com/jquery/2.0.3/jquery", "js/jquery"],    //可一写多个路径，防止cdn失效
+        "a" : "js/a"   
+    },
+	shim: {       //非AMD规范即没有define来申明模块，之后可以通过Backbone来使用
+        'backbone': {
+            deps: ['underscore', 'jquery'],  //表示依赖模块，必须在underscore，jquery模块加载后才能加载Backbone
+            exports: 'Backbone'              //表示对应回调里的参数如requuire(['backbone'],function(Backbone){});使用
+        }
+	}
+});	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
