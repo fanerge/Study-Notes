@@ -11,7 +11,7 @@ RequireJS 基于 baseUrl 配置的地址来加载所有JS文件
 	
 require会定义三个变量：define,require,requirejs，其中require === requirejs	
 	define 从名字就可以看出这个api是用来定义一个模块
-		define(function(){
+		define(['依赖模块'],function(){
 			function fun1(){
 			  alert("it works");
 			}
@@ -30,10 +30,10 @@ require.config({
         "jquery" : ["http://libs.baidu.com/jquery/2.0.3/jquery", "js/jquery"],    //可一写多个路径，防止cdn失效
         "a" : "js/a"   
     },
-	shim: {       //非AMD规范即没有define来申明模块，之后可以通过Backbone来使用
+	shim: {       //专门用来配置不兼容的模块，非AMD
         'backbone': {
-            deps: ['underscore', 'jquery'],  //表示依赖模块，必须在underscore，jquery模块加载后才能加载Backbone
-            exports: 'Backbone'              //表示对应回调里的参数如requuire(['backbone'],function(Backbone){});使用
+            deps: ['underscore', 'jquery'],  //deps数组，表明该模块的依赖性；表示依赖模块，必须在underscore，jquery模块加载后才能加载Backbone
+            exports: 'Backbone'              //exports值（输出的变量名），表明这个模块外部调用时的名称；表示对应回调里的参数如requuire(['backbone'],function(Backbone){});使用
         }
 	}
 });	
