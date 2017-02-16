@@ -1,0 +1,71 @@
+解决复杂的URL和层级组件之间的映射关系式React Router 的核心。
+1.Router组件本身只是一个容器，真正的路由要通过Route组件定义。
+    import { Router, Route, hashHistory } from 'react-router';
+2.Router组件的history属性----它的值hashHistory表示，路由的切换由URL的hash变化决定，即URL的#部分发生变化。
+3.Route组件还可以嵌套。
+    <Router history={hashHistory}>
+        <Route path="/" component={App}>
+            <Route path="/repos" component={Repos} />
+            <Route path="/about" component={About} />
+        </Route>
+    </Router>
+    子路由也可以不写在Router组件里面，单独传入Router组件的routes属性。如：
+    let routes = <Route path="/" component={App}>
+      <Route path="/repos" component={Repos}/>
+      <Route path="/about" component={About}/>
+    </Route>;
+
+    <Router routes={routes} history={browserHistory}/>
+4.Route组件的path属性----指定路由的匹配规则。这个属性是可以省略的，这样的话，不管路径是否匹配，总是会加载指定组件。
+    <Route path="inbox" component={Inbox}>
+       <Route path="messages/:id" component={Message} />
+    </Route>
+    path属性可以使用通配符。可以为相对路由或绝对路由。
+        :paramName----匹配URL的一个部分，直到遇到下一个/、?、#为止。这个路径参数可以通过this.props.params.paramName取出。
+        ()----表示URL的这个部分是可选的。
+        *----匹配任意字符，直到模式里面的下一个字符为止。匹配方式是非贪婪模式。
+        **----匹配任意字符，直到下一个/、?、#为止。匹配方式是贪婪模式。
+    URL的查询字符串/foo?bar=baz，可以用this.props.location.query.bar
+5.IndexRoute 组件
+    定义：指定默认情况下加载的子组件。 
+    <IndexRoute component={Home}/>IndexRoute组件没有路径参数path。
+6.Redirect 组件
+    定义：用于路由的跳转，即用户访问一个路由，会自动跳转到另一个路由。
+    ＜Redirect from="messages/:id" to="/messages/:id" />
+7.IndexRedirect 组件
+    定义：用于访问根路由的时候，将用户重定向到某个子组件。
+8.Link
+    定义：用于取代<a>元素，生成一个链接，允许用户点击后跳转到另一个路由。
+    可以为当前路由设置样式----activeStyle={{color: 'red'}}或者activeClassName指定当前路由的Class。
+    在Router组件之外，导航到路由页面，可以使用浏览器的History API。
+        import { browserHistory } from 'react-router';
+        browserHistory.push('/some/path');
+9.IndexLink
+    如果链接到根路由/，不要使用Link组件，而要使用IndexLink组件。
+        <IndexLink to="/" activeClassName="active">  Home</IndexLink>
+    另一种方法是使用Link组件的onlyActiveOnIndex属性，也能达到同样效果。
+        <Link to="/" activeClassName="active" onlyActiveOnIndex={true}> Home </Link>
+10.histroy属性    
+    定义：用来监听浏览器地址栏的变化，并将URL解析成一个地址对象，供 React Router 匹配。
+        browserHistory----浏览器的路由显示正常的路径。
+        hashHistory----路由将通过URL的hash部分（#）切换。
+        createMemoryHistory----用于服务器渲染。它创建一个内存中的history对象，不与浏览器URL互动。const history = createMemoryHistory(location)
+11.表单处理  
+    第一种方法是使用browserHistory.push
+    第二种方法是使用context对象。
+12.路由的钩子
+    每个路由都有Enter和Leave钩子，用户进入或离开该路由时触发。
+    onEnter(nextState, replaceState, callback?)
+
+
+
+
+
+
+
+
+
+
+
+
+
