@@ -517,7 +517,7 @@
 	4.WeakMap----唯一的区别是它只接受对象作为键名（null除外），不接受其他类型的值作为键名，而且键名所指向的对象，不计入垃圾回收机制。	
 		WeakMap的专用场合就是，它的键所对应的对象，可能会在将来消失。WeakMap结构有助于防止内存泄漏。
 			只有get()、set()、has()、delete()。
-十一、Proxy
+十一、Proxy（操作对象的api）
 	1.定义----Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
 		Proxy 可以理解成，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写。
 		var proxy = new Proxy(target, handler);
@@ -553,9 +553,88 @@
 		主要原因就是在 Proxy 代理的情况下，目标对象内部的this关键字会指向 Proxy 代理。
 	4.实例：Web 服务的客户端	
 		Proxy 对象可以拦截目标对象的任意属性，这使得它很合适用来写 Web 服务的客户端。
-		
-		
-		
+十二、Reflect（操作对象的api）
+    1.定义： 将Object对象的一些明显属于语言内部的方法（比如Object.defineProperty），放到Reflect对象上。Reflect.defineProperty(obj, name, desc)无法定义属性时,则会返回false。
+        Object.defineProoperty(target, property, attributes);----新Reflect.defineProoperty(target, property, attributes)   
+		'name' in obj ----新Reflect.has(obj, 'name');
+		delete  obj['name'] ---- Reflect.deleteProperty(obj, 'name')
+        Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。
+            如：Proxy(target, {
+                set(target, name, value, receiver){
+                    Reflect.set(target, name, value, receiver);  //进行操作
+                }
+            })
+    2.静态方法
+        下面当有receiver参数为接受对象，若存在时，则读取函数的this绑定receiver。
+        Reflect.get(target, name, receiver) ---- Reflect.get方法查找并返回target对象的name属性，如果没有该属性，则返回undefined。
+        Reflect.set(target, name, value, reciver) ----- Reflect.set方法设置target对象的name属性等于value。
+        Reflect.has(obj, name) ---- Reflect.has方法对应name in obj里面的in运算符。
+        Reflect.deleteProperty(obj, name) ---- Reflect.deleteProperty方法等同于delete obj[name]，用于删除对象的属性。
+        Reflect.construct(target, args) ---- Reflect.construct方法等同于new target(...args)，这提供了一种不使用new，来调用构造函数的方法。
+            function Greeting(){ this.name = name;}
+            const instance = new Greeting('张三');    //ES5
+            const instance = Reflect.construct(Greeting, ['张三']);  //ES6写法
+        Reflect.getPrototypeOf(obj) ----  Reflect.getPrototypeOf方法用于读取对象的__proto__属性，对应Object.getPrototypeOf(obj)。   
+        Reflect.setPrototypeOf(obj, newProto) ----  Reflect.setPrototypeOf方法用于设置对象的__proto__属性，对应Object.setPrototypeOf(obj, newProto)。   
+            Reflect.setPrototypeOf(myObj, OtherThing.prototype);
+        Reflect.apply(func, thisArg, args) ---- Reflect.apply方法等同于Function.prototype.apply.call(func, thisArg, args)，用于绑定this对象后执行给定函数。    
+            Math.min.apply(Math, ages);  //ES5
+            Reflect.apply(Math.min, Math, argus);  //ES6
+        Reflect.defineProperty(target, propertyKey, attributes) ---- Reflect.defineProperty方法基本等同于Object.defineProperty，用来为对象定义属性。
+        Reflect.getOwnPropertyDescriptor(target, propertyKey) ---- Reflect.getOwnPropertyDescriptor基本等同于Object.getOwnPropertyDescriptor，用于得到指定属性的描述对象，将来会替代掉后者。    
+        Reflect.isExtensible(target) ---- Reflect.isExtensible方法对应Object.isExtensible，返回一个布尔值，表示当前对象是否可扩展。    
+        Reflect.preventExtensions(target) ---- Reflect.preventExtensions对应Object.preventExtensions方法，用于让一个对象变为不可扩展。它返回一个布尔值，表示是否操作成功。    
+        Reflect.ownKeys(target) ----  Reflect.ownKeys方法用于返回对象的所有属性，基本等同于Object.getOwnPropertyNames与Object.getOwnPropertySymbols之和。   
+    3.实例：使用 Proxy 实现观察者模式        
+十三、Promise对象
+    1.定义：Promise 是异步编程的一种解决方案，Promise 是一个对象，从它可以获取异步操作的消息。
+        三种状态：Pending（进行中）、Resolved（已完成）、Rejected（已失败）
+    2.用法
+        var promise = new Promise(function(resolve, reject){
+            if(success){
+                
+            }
+        });
+
+
+
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+
+
+
+
+
+
+
 		
 		
 		
