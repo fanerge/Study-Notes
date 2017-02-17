@@ -101,7 +101,7 @@
 21.插入JavaScript变量，变量可以为数字，obj等等。			
 22.封装组件,3种方式
     var Hello = React.createClass(render(){return...});
-    function Hello(props){return...}         //使用是为props.name
+    function Hello(props){return...}         //使用是为props.name无状态和周期hook
     class Hello extens React.Component{render(){return...}}
 23.PropsType----propTypes:{title:React.PropTypes.string.isRequired,}
 
@@ -109,7 +109,8 @@
 24.组件通信
     （父》子，子》父）我们就实现了一个模态弹窗的基本逻辑，通过传递props，父组件可以控制子组件的状态，而子组件也通过调用父组件传进来的props方法，来通知父元素改变状态来达到影响自己的目的（比如关闭弹窗）。			
     （子》子）子组件之间的通讯也是一样，一个子组件想作用另一个子组件，可以通过父组件来做中间调度，对于子组件来说，父组件就是一个公共环境，它的一切资源，想调用的话，直接通过props接收就可以了。		
-			
+25. key 属性
+	React 会提示对于循环输出的组件，需要有一个唯一的 key 属性----实现渲染优化。		
 			
 			
 			
