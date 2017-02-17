@@ -58,21 +58,30 @@
 		Updating:正在被重新渲染----更新componentWillReceiveProps(object nextProps)、shouldComponentUpdate(object nextProps, object nextState)、componentWillUpdate(object nextProps, object nextState)、componentDidUpdate(object prevProps, object prevState)
 		Unmounting:已移出真实DOM----卸载componentWillUnmount()、
     React 为每个状态都提供了两种处理函数，will 函数在进入状态之前调用，did 函数在进入状态之后调用，三种状态共计五种处理函数。    
-        componentWillMount()
-        componentDidMount()----ajax、setTimeout、setInterval在这里处理。
-        componentWillUpdate(object nextProps, object nextState)
-        componentDidUpdate(object prevProps, object prevState)
-        componentWillUnmount()----当组件被移除时，释放组件已经占用的资源是非常重要的。
-    React 还提供两种特殊状态的处理函数:
-        componentWillReceiveProps(object nextProps)：已加载组件收到新的参数时调用
-        shouldComponentUpdate(object nextProps, object nextState)：组件判断是否重新渲染时调用
+        VOID　componentWillMount()
+			作用：该方法在整个组件生命周期只会被调用一次，所以可以利用该方法做一些组件内部的初始化工作
+        VOID　componentDidMount()----ajax、setTimeout、setInterval在这里处理。
+			作用：DOM 的操作或者其他的一些如请求数据，和第三方库整合的操作。此时可以获取子组件对应的 DOM。
+        VOID　componentWillUpdate(object nextProps, object nextState)
+			作用：这个时候可以确定一定会更新组件，可以执行更新前的操作，不可使用setState 
+        VOID componentDidUpdate(object prevProps, object prevState)
+			作用：可以执行组件更新过后的操作
+        VOID componentWillUnmount()----当组件被移除时，释放组件已经占用的资源是非常重要的。
+			作用：主要作清理工作，如清理计时器
+	React 还提供两种特殊状态的处理函数:
+        VOID componentWillReceiveProps(object nextProps)：已加载组件收到新的参数时调用
+			作用：这个时候可以根据新的属性来修改组件状态
+        BOOLEAN shouldComponentUpdate(object nextProps, object nextState)：组件判断是否重新渲染时调用
+			作用：该方法让我们有机会决定是否重渲染组件，如果返回 false，那么不会重渲染组件，借此可以优化应用性能（在组件很多的情况）。
 11.React AJAX
 		React 组件的数据可以通过 componentDidMount 方法中的 Ajax 来获取，当从服务端获取数据库可以将数据存储在 state 中，再用 this.setState 方法重新渲染 UI。
 	当使用异步加载数据时，在组件卸载前使用 componentWillUnmount 来取消未完成的请求。配合jquery使用。
 12.React 表单与事件
 	父组件》》子组件，通过props
 	子组件》》父组件，通过在父组件通过创建事件句柄 (handleChange) 
-13.React Refs
+13.获取DOM元素
+	ReactDOM.findDOMNode() 与 Refs
+	只能在生命周期componentDidMount、componentDidUpdate中使用
 		React 支持一种非常特殊的属性 Ref ，你可以用来绑定到 render() 输出的任何组件上。
 	这个特殊的属性允许你引用 render() 返回的相应的支撑实例（ backing instance ）。这样就可以确保在任何时间总是拿到正确的实例。
 	如：render中<input ref="myInput" />，使用var input = this.refs.myInput;
@@ -111,10 +120,13 @@
     （子》子）子组件之间的通讯也是一样，一个子组件想作用另一个子组件，可以通过父组件来做中间调度，对于子组件来说，父组件就是一个公共环境，它的一切资源，想调用的话，直接通过props接收就可以了。		
 25. key 属性
 	React 会提示对于循环输出的组件，需要有一个唯一的 key 属性----实现渲染优化。		
-			
-			
-			
-
+26.	mixins----array
+	mixins 可以理解为 React 的插件列表，通过这种模式在不同组件之间共享方法数据或者行为只需共享 mixin 就行		
+27. statics----object
+	statics可以定义组件的类方法,区别与实例方法，实例方法可以访问 this。
+	使用为：Component.method()
+28.	displayName----string		
+	为了显示调试信息，每个组件都会有一个名称，JSX 在转为 JS 的时候自动的设置 displayName,也可以自定义。
 
 
 
