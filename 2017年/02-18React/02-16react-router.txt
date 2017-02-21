@@ -21,7 +21,7 @@
        <Route path="messages/:id" component={Message} />
     </Route>
     path属性可以使用通配符。可以为相对路由或绝对路由。
-        :paramName----匹配URL的一个部分，直到遇到下一个/、?、#为止。这个路径参数可以通过this.props.params.paramName取出。
+        :paramName----匹配一段位于 /、? 或 # 之后的 URL。 命中的部分将被作为一个参数，这个路径参数可以通过this.props.params.paramName取出。
         ()----表示URL的这个部分是可选的。
         *----匹配任意字符，直到模式里面的下一个字符为止。匹配方式是非贪婪模式。
         **----匹配任意字符，直到下一个/、?、#为止。匹配方式是贪婪模式。
@@ -45,7 +45,7 @@
         <IndexLink to="/" activeClassName="active">  Home</IndexLink>
     另一种方法是使用Link组件的onlyActiveOnIndex属性，也能达到同样效果。
         <Link to="/" activeClassName="active" onlyActiveOnIndex={true}> Home </Link>
-10.histroy属性    
+10.history属性    
     定义：用来监听浏览器地址栏的变化，并将URL解析成一个地址对象，供 React Router 匹配。
         browserHistory----浏览器的路由显示正常的路径。
         hashHistory----路由将通过URL的hash部分（#）切换。
@@ -55,6 +55,7 @@
     第二种方法是使用context对象。
 12.路由的钩子
     每个路由都有Enter和Leave钩子，用户进入或离开该路由时触发。
+	例如权限验证或者在路由跳转前将一些数据持久化保存起来。
     onEnter(nextState, replaceState, callback?)
 
 
