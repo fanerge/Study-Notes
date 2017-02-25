@@ -56,10 +56,20 @@
 12.路由的钩子
     每个路由都有Enter和Leave钩子，用户进入或离开该路由时触发。
 	例如权限验证或者在路由跳转前将一些数据持久化保存起来。
-    onEnter(nextState, replaceState, callback?)
-
-
-
+    1.对于使用React.createClass()创建的组建通过mixins:[Lifecycle] 实现，钩子函数routerWillLeave(nextLocation)
+	2.对于使用Class创建的组建通过， react-mixin 包将 Lifecycle mixin 添加到组件中。
+	3.如果你想在一个深层嵌套的组件中使用 routerWillLeave 钩子，只需在 route 组件 中引入 RouteContext mixin，这样就会把 route 放到 context 中。
+13.动态路由
+	Route 可以定义 getChildRoutes，getIndexRoute 和 getComponents 这几个函数，它们都是异步执行。
+	getIndexRoute(location, callback) {
+		require.ensure([], function (require) {
+			callback(null, require('./components/Index'))
+		})
+	}
+14.服务端渲染
+	发生错误时发送一个 500 的响应
+	需要重定向时发送一个 30x 的响应
+	在渲染之前获得数据 (用 router 帮你完成这点)
 
 
 

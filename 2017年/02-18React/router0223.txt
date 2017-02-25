@@ -1,0 +1,124 @@
+1.组件：
+	Router
+		作用：它能保持 UI 和 URL 的同步。
+		Props： children ---- (required)必须包含一个或多个的 Route 或 PlainRoute。
+				routes ---- children 的别名。
+				history ---- Router 监听的 history 对象，由 history 包提供。
+				createElement(Component, props)
+				stringifyQuery(queryObject) ---- 一个用于把 Link 或调用 transitionTo 函数的对象转化成 URL query 字符串的函数。
+				parseQueryString(queryString) ---- 一个用于把 query 字符串转化成对象，并传递给 route 组件 props 的函数。
+				onError(error) ---- 当路由匹配到时，也有可能会抛出错误由于异步特性。如 route.getComponents，route.getIndexRoute，和 route.getChildRoutes。
+				onUpdate() ---- 当 URL 改变时，需要更新路由的 state 时会被调用。
+	link
+		作用：相当于a标签，允许用户浏览应用的主要方式。<Link> 以适当的 href 去渲染一个可访问的锚标签。
+		Props：to ---- 跳转链接的路径，如 /users/123。
+				query ---- 已经转化成字符串的键值对的对象。
+				hash ---- URL 的 hash 值，如 #a-hash。
+				state ---- 保存在 location 中的 state。
+				activeClassName ---- 当某个route是激活时，可以将calssName添加到链接元素上。
+				activeStyle ---- 当某个 route 是激活状态时，可以将样式添加到链接元素上。
+				onClick ---- 自定义点击事件的处理方法。
+					e.preventDefault() 来防止过度的点击
+					e.stopPropagation() 可以阻止冒泡的事件。
+	IndexLink
+	RoutingContext
+		作用：在 context 中给定路由的 state、设置 history 对象和当前的 location，<RoutingContext> 就会去渲染组件树。
+	Route
+		作用；用于声明路由映射到应用程序的组件层。
+		Props：path ---- 它会组合父 route 的路径，除非它是从 / 开始的， 将它变成一个绝对路径。
+				component ---- 当匹配到 URL 时，单个的组件会被渲染。它可以 被父 route 组件的 this.props.children 渲染。
+				components ---- Route 可以定义一个或多个已命名的组件，当路径匹配到 URL 时， 它们作为 name:component 对的一个对象去渲染。它们可以被 父 route 组件的 this.props[name] 渲染。
+					<Route path="groups" components={{main: Groups, sidebar: GroupsSidebar}}/>
+				getComponent(location, cb) ---- 与 component 一样，但是是异步的，对于 code-splitting 很有用。
+					<Route path="courses/:courseId" getComponent={(location, cb) => { cb(null, Course) }} />
+				getComponents(location, cb) ---- 与 component 一样，但是是异步的，对于 code-splitting 很有用。
+					<Route path="courses/:courseId" getComponent={(location, cb) => { cb(null, {sidebar: CourseSidebar, content: Course}) }} />
+				children ---- Route 可以被嵌套，this.props.children 包含了从子 route 组件创建的元素。
+				onEnter(nextState, replaceState, callback?) ---- 当 route 即将进入时调用,当有callback函数这个钩子将是异步执行的。
+				onLeave() ---- 这个钩子将是异步执行的
+	PlainRoute
+		作用：route 定义的一个普通的 JavaScript 对象，Router 把 JSX 的 <Route> 转化为js对象。
+		Props：childRoutes ---- 子 route 的一个数组，与在 JSX route 配置中的 children 一样。		
+				getChildRoutes(location, callback) ---- 与 childRoutes 一样，但是是异步的，并且可以接收 location。
+					let myRoute = {
+						path: 'course/:courseId',
+						getChildRoutes(location, cb) {
+							// 做一些异步操作去查找子 route
+							cb(null, [ announcementsRoute, gradesRoute, assignmentsRoute ])
+						}
+					}
+				indexRoute ---- 这与在使用 JSX route 配置时指定一个 <IndexRoute> 子集一样。
+				getIndexRoute(location, callback) ---- 与 indexRoute 一样，但是是异步的，并且可以接收 location。
+					let myRoute = {
+						path: 'courses',
+						getIndexRoute(location, cb) {
+							// 做一些异步操作
+							cb(null, myIndexRoute)
+						}
+					}
+	Redirect
+		作用：在应用中 <Redirect> 可以设置重定向到其他 route 而不改变旧的 URL。
+		Props：from ---- 你想由哪个路径进行重定向，包括动态段。
+				to ---- 你想重定向的路径。
+				query ---- 默认情况下，query 的参数只会经过，但如果你需要你可以指定它们。
+	IndexRoute
+		作用：当用户在父 route 的 URL 时， Index Routes 允许你为父 route 提供一个默认的 "child"， 并且为使<IndexLink> 能用提供了约定。
+		Props：与 Route 的 props 一样，除了 path。		
+	IndexRedirect
+		作用；Index Redirects 允许你从一个父 route 的 URL 重定向到其他 route。 它们被用于允许子 route 作为父 route 的默认 route， 同时保持着不同的 URL。
+		Props：与 Redirect 的 props 一样，除了 from。
+	Route Components
+		作用；当 route 匹配到 URL 时会渲染一个 route 的组件。路由会在渲染时将以下属性注入组件中。
+		Props：history ---- Router 的 history,对于跳转很有用的 this.props.history.pushState(state, path, query)
+				location ---- 当前的location。
+				route ---- 渲染组件的route。
+				params ---- URL的动态段。
+				routeParams ---- 是直接在组件中指定 route 的一个子集。
+					如果 route 的路径是 users/:userId 而 URL 是 /users/123/portfolios/345，那么 
+					this.props.routeParams 会是 {userId: '123'}，并且 
+					this.props.params 会是 {userId: '123', portfolioId: 345}。
+				children ---- 匹配到子 route 的元素将被渲染。如果 route 有已命名的组件，那么此属性会是 undefined，并且可用的组件会被直接替换到 this.props 上。
+	Mixins
+		生命周期方法
+		routerWillLeave(nextLocation) ---- 当路由尝试从一个 route 跳转到另一个并且渲染这个组件时被调用。
+			返回true进行跳转，返回false不进行跳转。
+		History Mixin
+			作用；在组件中添加路由的 history 对象。
+			Props：pushState(state, pathname, query) ---- 跳转至一个新的 URL。
+				   replaceState(state, pathname, query) ---- 在不影响 history 长度的情况下（如一个重定向），用新的 URL 替换当前这个。
+				   go(n) ---- 在 history 中使用 n 或 -n 进行前进或后退
+					goBack() ---- 在 history 中后退。
+					goForward() ---- 在 history 中前进。
+					createPath(pathname, query) ---- 使用路由配置，将 query 字符串化加到路径名中。
+					createHref(pathname, query) ---- 使用路由配置，创建一个 URL。例如，它会在 pathname 的前面加上 #/ 给 hash history。
+					isActive(pathname, query, indexOnly) ---- 根据当前路径是否激活返回 true 或 false。
+	工具
+		useRoutes(createHistory) ---- 返回一个新的 createHistory 函数，它可以用来创建读取 route 的 history 对象。
+			listen((error, nextState) => {})
+			listenBeforeLeavingRoute(route, (nextLocation) => {})
+			match(location, (error, redirectLocation, nextState) => {})
+			isActive(pathname, query, indexOnly=false)
+		match(location, cb) ---- 这个函数被用于服务端渲染。它在渲染之前会匹配一组 route 到一个 location，并且在完成时调用 callback(error, redirectLocation, renderProps)。
+		createRoutes(routes) ---- 创建并返回一个从给定对象 route 的数组，它可能是 JSX 的 route，一个普通对象的 route，或是其他的数组。	
+	PropTypes		
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
