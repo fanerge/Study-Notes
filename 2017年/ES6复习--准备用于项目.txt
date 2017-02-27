@@ -592,20 +592,44 @@
     2.用法
         var promise = new Promise(function(resolve, reject){
             if(success){
-                
-            }
+                resolve(value); //返回value
+            }else{
+				reject(error);  //返回error
+			}
         });
-
-
-
-
-
-
-
-        
-        
-        
-        
+		Promise实例生成以后
+			promise.then(function(value){
+				//success
+			},function(){
+				//failure
+			});
+	3.Promise.prototype.then()
+		返回值：一个新的Promise实例
+	4.Promise.prototype.catch() 为.then(null, rejection)的别名
+		返回值：还是一个 Promise 对象
+	5.Promise.all()   相当于且运算
+		作用；用于将多个Promise实例，包装成一个新的Promise实例。
+	6.Promise.race()
+		作用；同样是将多个Promise实例，包装成一个新的Promise实例。
+	7.Promise.resolve()
+		作用：将现有对象转为Promise对象
+    8.Promise.reject()
+		作用：返回一个新的 Promise 实例，该实例的状态为rejected。
+    9.两个有用的附加方法(自己部署)
+		作用；保证抛出任何可能出现的错误。
+		asyncFunc().then(f1).catch(r1).then(f2).done();
+	10.finally()
+		作用：它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。
+    11.应用
+		加载图片
+			const preloadImage = function (path) {
+			  return new Promise(function (resolve, reject) {
+				var image = new Image();
+				image.onload  = resolve;
+				image.onerror = reject;
+				image.src = path;
+			  });
+			};
         
         
         
