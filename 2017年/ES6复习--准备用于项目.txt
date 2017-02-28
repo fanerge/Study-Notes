@@ -609,18 +609,21 @@
 		返回值：还是一个 Promise 对象
 	5.Promise.all()   相当于且运算
 		作用；用于将多个Promise实例，包装成一个新的Promise实例。
-	6.Promise.race()
+	6.Promise.race() 
 		作用；同样是将多个Promise实例，包装成一个新的Promise实例。
+		在所有的 promise 中只要有一个执行结束，它就会触发
+		使用场景：从多个镜像服务器下载资源，一旦有一个返回，其它的返回也就不用处理了。
 	7.Promise.resolve()
 		作用：将现有对象转为Promise对象
     8.Promise.reject()
 		作用：返回一个新的 Promise 实例，该实例的状态为rejected。
     9.两个有用的附加方法(自己部署)
+		done()
 		作用；保证抛出任何可能出现的错误。
 		asyncFunc().then(f1).catch(r1).then(f2).done();
-	10.finally()
+		finally()
 		作用：它接受一个普通的回调函数作为参数，该函数不管怎样都必须执行。
-    11.应用
+    10.应用
 		加载图片
 			const preloadImage = function (path) {
 			  return new Promise(function (resolve, reject) {
@@ -630,35 +633,132 @@
 				image.src = path;
 			  });
 			};
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-
-
-
-
-
+    11.Promise.try()
+		作用；不知道函数f是同步函数还是异步操作，但是想用 Promise 来处理它。
+		Promise.try(database.users.get({id: userId}))
+		  .then(...)
+		  .catch(...);
+十四、Iterator（遍历器）和 for...of循环
+		四种数据集合：Array、Set、Object、Map
+    1.作用：为不同的数据集合提供统一的接口。（value属性是当前成员的值，done属性是遍历是否结束）
+        var it = makeIterator(['a', 'b']);
+		it.next() // { value: "a", done: false }
+		it.next() // { value: "b", done: false }
+		it.next() // { value: undefined, done: true }
+		function makeIterator(array) {
+		  var nextIndex = 0;
+		  return {
+			next: function() {
+			  return nextIndex < array.length ?
+				{value: array[nextIndex++], done: false} :
+				{value: undefined, done: true};
+			}
+		  };
+		}
+    2.数据结构的默认Iterator接口
+		三类数据结构原生具备Iterator接口：数组、某些类似数组的对象、Set和Map结构。
+		为对象部署Symbol.iterator属性（函数），就是可遍历的数据结构。
+        let arr = ['a', 'b', 'c'];
+		let iter = arr[Symbol.iterator](); //调用数组原生部署的遍历接口。
+		iter.next()
+    3.调用Iterator接口的场合    
+        解构赋值
+			let set = new Set().add('a').add('b').add('c');
+			let [x,y] = set;
+			// x='a'; y='b'
+        扩展运算符
+			var str = 'hello';
+			[...str] //  ['h','e','l','l','o']
+        yield*
+			yield*后面跟的是一个可遍历的结构，它会调用该结构的遍历器接口。
+        任何接受数组作为参数的场合，其实都调用了遍历器接口
+			for...of
+			Array.from()
+			Map(), Set(), WeakMap(), WeakSet()（比如new Map([['a',1],['b',2]])）
+			Promise.all()
+			Promise.race()
+    4.字符串的Iterator接口(为类似数组)
+		var someString = "hi";
+		var iterator = someString[Symbol.iterator]();
+		iterator.next()  // { value: "h", done: false }
+    5.Iterator接口与Generator函数
+	6.遍历器对象的return()，throw()
+		遍历器对象除了具有next方法，还可以具有return方法和throw方法。
+        throw配合Generator函数使用。
+    7.配合Generator函数使用
+	8.for...of循环可以使用的范围包括数组、Set 和 Map 结构、某些类似数组的对象（比如arguments对象、DOM NodeList 对象）、后文的 Generator 对象，以及字符串。
+		对象----必须部署了 Iterator 接口后才能使用，才可以使用for...of结构	
+十五、Generator 函数的语法
+	1.Generator 函数是 ES6 提供的一种异步编程解决方案 ---- Generator 函数是一个状态机，封装了多个内部状态。
+        function* helloWorldGenerator() {
+		  yield 'hello';
+		  yield 'world';
+		  return 'ending';
+		}
+		var hw = helloWorldGenerator();  //指向内部状态的指针对象也就是遍历器对象（Iterator Object）
+		hw.next(); //'hello'
+    2.yield语句    
+        yield语句就是暂停标志，只有调用next方法才会遍历下一个内部状态。
+		yield语句如果用在一个表达式之中，必须放在圆括号里面。
+	3.与 Iterator 接口的关系
+		上例中 ---- hw就是一个遍历器对象。
+	4.next方法的参数	
+		next中的参数，将上一次yield语句的值赋值为该参数。
+	5.for...of循环
+	6.Generator.prototype.throw()
+		作用：可以在函数体外抛出错误，然后在Generator函数体内捕获。
+	7.Generator.prototype.return()
+		作用：以返回给定的值，并且终结遍历Generator函数。
+	8.yield* 语句
+		作用：如果在 Generator 函数内部，调用另一个 Generator 函数
 
 
 		
 		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
