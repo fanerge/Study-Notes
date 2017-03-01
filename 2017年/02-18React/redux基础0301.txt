@@ -1,0 +1,179 @@
+redux使用场景：
+	某个组件的状态，需要共享
+	某个状态需要在任何地方都可以拿到
+	一个组件需要改变全局状态
+	一个组件需要改变另一个组件的状态
+redux设计思想：
+	Web 应用是一个状态机，视图与状态是一一对应的。
+	所有的状态，保存在一个对象里面。
+	
+Store
+	作用：就是保存数据的地方，你可以把它看成一个容器。整个应用只能有一个 Store。
+	Redux 提供createStore这个函数，用来生成 Store。
+		import { createStore } from 'redux';
+		const store = createStore( fn );  //参数1为函数参数2表示 State 的最初状态，这通常是服务器给出.并返回一个store对象
+State
+	作用：如果想得到某个时点的数据，就要对 Store 生成快照。这种时点的数据集合，就叫做 State。
+	当前时刻的 State，可以通过store.getState()拿到。
+	const state = store.getState();   //一个 State 对应一个 View。只要 State 相同，View 就相同。
+Action
+	作用：由于用户接触不到 State，只能接触到 View。Action 就是 View 发出的通知，表示 State 应该要发生变化了。
+	改变 State 的唯一办法，就是使用 Action。它会运送数据到 Store。
+	const action = {
+		type: 'ADD_TODO',   //必填的
+		payload: 'learn Redux'
+	};
+Action Creator
+	作用：View 要发送多少种消息，就会有多少种 Action，可以定义一个函数来生成 Action，这个函数就叫 Action Creator。
+	function addTodo(text) {
+		return {
+			type: 'ADD_TODO',
+			text
+		}
+	}
+	cosnt action = addTodo('learn Redux');
+store.dispatch()	
+	作用：是 View 发出 Action 的唯一方法。参数为一个action对象
+	store.dispatch({
+		type: 'ADD_TODO',
+		payload: 'Learn Redux'
+	});
+	或者
+	store.dispatch(addTodo('Learn Redux'));
+Reducer（纯函数）
+	作用：Store 收到 Action 以后，必须给出一个新的 State，这样 View 才会发生变化。这种 State 的计算过程就叫做 Reducer。
+	Reducer 是一个函数，它接受当前 State 和 Action  作为参数，返回一个新的 State。
+	const reducer = (state = 1, action) => {
+		switch (action.type) {
+			case 'ADD_TODO':
+				return state + action.payload;
+			default: 
+				return state;
+		}
+	};
+	const state = reducer(1, {
+		type: 'ADD_TODO',
+		payload: 2
+	});
+	实际项目中：const store = createStore(reducer);
+store.subscrible()	
+	作用：Store 允许使用store.subscribe方法设置监听函数，一旦 State 发生变化，就自动执行这个函数。
+	store.subscribe(listener);
+	对于 React 项目，就是组件的render方法或setState方法）放入listen，就会实现 View 的自动渲染。
+	store.subscribe方法返回一个函数，调用这个函数就可以解除监听。
+	let unsubscribe = store.subscribe(() =>
+		console.log(store.getState())
+	);
+	unsubscribe();   //解除监听
+combineReducers	
+	作用：只要定义各个子 Reducer 函数，然后用这个方法，将它们合成一个大的 Reducer。	
+	import { combineReducers } from 'redux';
+	const chatReducer = combineReducers({
+		chatLog,
+		statusMessage,
+		userName
+	})
+我介绍了 Redux 的基本做法：用户发出 Action，Reducer 函数算出新的 State，View 重新渲染。
+
+
+
+中间件----怎么才能 Reducer 在异步操作结束后自动执行呢？这就要用到新的工具：中间件（middleware）。	
+	中间件就是一个函数，对store.dispatch方法进行了改造，在发出 Action 和执行 Reducer 这两步之间，添加了其他功能	
+	日志中间件 ---- redux-logger模块
+	使用中间件
+		import { applyMiddleware, createStore } from 'redux';
+		import createLogger from 'redux-logger';
+		const logger = createLogger();
+
+		const store = createStore(
+		  reducer,
+		  applyMiddleware(logger) //可以多个中间件
+		);
+		上面代码中，redux-logger提供一个生成器createLogger，可以生成日志中间件logger。然后，将它放在applyMiddleware方法之中，传入createStore方法，就完成了store.dispatch()的功能增强。
+	applyMiddlewares() ---- 作用是将所有中间件组成一个数组
+异步操作的基本思路
+	异步操作的差别是它要发出三种 Action
+		操作发起时的 Action
+		操作成功时的 Action
+		操作失败时的 Action
+	需要改造state
+		let state = {
+		  // ... 
+		  isFetching: true,   //否在抓取数据
+		  didInvalidate: true,  //数据是否过时
+		  lastUpdated: 'xxxxxxx'  //上一次更新时间
+		};
+	第一种方案：异步操作的第一种解决方案就是，写出一个返回函数的 Action Creator，然后使用redux-thunk中间件改造store.dispatch。	
+redux-promise 中间件
+	另一种异步操作的解决方案，就是让 Action Creator 返回一个 Promise 对象。
+	
+React-Redux
+	UI 组件负责 UI 的呈现，容器组件负责管理数据和逻辑。
+	React-Redux 将所有组件分成两大类：UI 组件（presentational component）和容器组件（container component）。
+	UI组件
+		因为不含有状态，UI 组件又称为"纯组件"，即它纯函数一样，纯粹由参数决定它的值。
+		const Title = value => <h1>{value}</h1>;
+	容器组件
+	connect()	
+		作用：用于从 UI 组件生成容器组件。
+		import { connect } from 'react-redux'
+		const VisibleTodoList = connect()(TodoList);
+		//TodoList是 UI 组件，VisibleTodoList就是由 React-Redux 通过connect方法自动生成的容器组件。
+		输入逻辑：外部的数据（即state对象）如何转换为 UI 组件的参数
+		输出逻辑：用户发出的动作如何变为 Action 对象，从 UI 组件传出去。
+		const VisibleTodoList = connect(
+		  mapStateToProps,  //负责输入逻辑，即将state映射到 UI 组件的参数（props）
+		  mapDispatchToProps,  //负责输出逻辑，即将用户对 UI 组件的操作映射成 Action。  
+		)(TodoList)
+		
+		mapStateToProps()
+			mapStateToProps的第一个参数总是state对象，还可以使用第二个参数，代表容器组件的props对象。
+			建立一个从（外部的）state对象到（UI 组件的）props对象的映射关系。
+		mapDispatchToProps()
+			用来建立 UI 组件的参数到store.dispatch方法的映射。也就是说，它定义了哪些用户的操作应该当作 Action，传给 Store。
+	<Provider> 组件
+		作用：可以让容器组件拿到state。
+		import { Provider } from 'react-redux'
+		import { createStore } from 'redux'
+		import todoApp from './reducers'
+		import App from './components/App'
+
+		let store = createStore(todoApp);
+		render(
+		  <Provider store={store}>
+			<App />
+		  </Provider>,
+		  document.getElementById('root')
+		)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
