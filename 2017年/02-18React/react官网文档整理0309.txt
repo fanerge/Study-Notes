@@ -1,0 +1,76 @@
+1.使用函数通过上一个状态赖改变当前状态，因为状态更新可能是异步的。
+	this.setState((prevState, props) => ({
+	  counter: prevState.counter + props.increment
+	}));
+2.函数式组件（无状态、无生命周期）
+	function Welcome(props) {
+	  return <h1>Hello, {props.name}</h1>;
+	}
+3.类组件
+class Welcome extends React.Component {
+  constructor(props){
+	super(props);
+	this.state = {...};
+	this.handleChange = this.handleChange.bind(this);
+  }
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+4.普通组件
+const App = React.createClass({
+	render(){
+		return <h1>Hello, {this.props.name}</h1>;
+	}
+});
+5.事件系统
+	只能通过 e.preventDefault();阻止默认行为。
+6.条件渲染
+	元素变量 
+		let button = null;
+		if (isLoggedIn) {
+		  button = <LogoutButton onClick={this.handleLogoutClick} />;
+		} else {
+		  button = <LoginButton onClick={this.handleLoginClick} />;
+		}
+		{ button }
+	使用 && 逻辑 （短路）|| 
+		{unreadMessages.length > 0 &&
+			<h2>
+			  You have {unreadMessages.length} unread messages.
+			</h2>
+		 }
+	三目运算符 condition ？'true' : 'false';
+		<b>{isLoggedIn ? 'currently' : 'not'}</b>
+	阻止组件渲染
+		return null;
+7.lists and keys
+	循环体需要key来区分兄弟节点，一般可以采用id，但不推荐index
+8.表单组件
+	受控组件
+	textarea Tag  在react中有value属性
+	Handling Multiple Inputs
+9.组件通信通过找到共同父辈组件中设置state来进行state的共享，通过传递函数来更新state
+10.react重要思想为组合
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
