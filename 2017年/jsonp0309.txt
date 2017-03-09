@@ -1,0 +1,44 @@
+ 1.js原生的jsop
+<script type="text/javascript">
+function callbackFunction(result, methodName){
+	var html = '<ul>';
+	for(var i = 0; i < result.length; i++){
+		html += '<li>' + result[i] + '</li>';
+	}
+	html += '</ul>';
+	document.getElementById('divCustomers').innerHTML = html;
+}
+</script>
+<script type="text/javascript" src="http://www.runoob.com/try/ajax/jsonp.php?jsoncallback=callbackFunction"></script>
+
+ 2.$.ajax方式的jsonp
+ $.ajax({
+	 type:"get",
+	 url:"http://www.runoob.com/try/ajax/jsonp.php?jsoncallback=cb",/*jsoncallback的命名由服务端决定，cb命名由客户端决定*/
+	 dataType:"jsonp",
+	 //jsonpCallback:"cb",/*在一个 jsonp 中规定回调函数的名称,必须下面一致*/
+	 success:function(dd){
+		console.log('成功了：' + dd)
+	 }
+ });
+ function cb(result, methodName){
+	var html = '<ul>';
+	for(var i = 0; i < result.length; i++){
+		html += '<li>' + result[i] + '</li>';
+	}
+	html += '</ul>';
+	document.getElementById('divCustomers').innerHTML = html;
+}
+
+3.$.getJson方式的jsonp
+$.getJSON("http://www.runoob.com/try/ajax/jsonp.php?jsoncallback=?", function(data) {
+    
+    var html = '<ul>';
+    for(var i = 0; i < data.length; i++)
+    {
+        html += '<li>' + data[i] + '</li>';
+    }
+    html += '</ul>';
+    
+    $('#divCustomers').html(html); 
+});
