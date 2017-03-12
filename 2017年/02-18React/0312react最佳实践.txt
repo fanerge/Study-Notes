@@ -1,0 +1,97 @@
+1.class组件最佳实践
+//这里为第三方包依赖
+import React, {Component, PropTypes} from 'react'
+
+//这里为本地包依赖
+import ExpandableForm from './ExpandableForm'
+import './styles/ProfileContainer.css'
+ 
+export default class ProfileContainer extends Component {
+  state = { expanded: false }
+  // Initialize state here (ES7) or in a constructor method (ES6)
+ 
+  // Declare propTypes as static properties as early as possible
+  static propTypes = {
+    model: PropTypes.object.isRequired,
+    title: PropTypes.string
+  }
+ 
+  // Default props below propTypes
+  static defaultProps = {
+    model: {
+      id: 0
+    },
+    title: 'Your Name'
+  }
+ 
+  // Use fat arrow functions for methods to preserve context (this will thus be the component instance)
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.model.save()
+  }
+  
+  handleNameChange = (e) => {
+    this.props.model.name = e.target.value
+  }
+  
+  handleExpand = (e) => {
+    e.preventDefault()
+	//这里使用函数借助于prevState更改state，防止state异步更新
+    this.setState(prevState => ({ expanded: !prevState.expanded }))
+  }
+  
+  render() {
+    // Destructure props for readability
+    const {
+      model,
+      title
+    } = this.props
+    return ( 
+      <ExpandableForm 
+        onSubmit={this.handleSubmit} 
+        expanded={this.state.expanded} 
+        onExpand={this.handleExpand}>
+        // Newline props if there are more than two
+        <div>
+          <h1>{title}</h1>
+          <input
+            type="text"
+            value={model.name}
+            // onChange={(e) => { model.name = e.target.value }}
+            // Avoid creating new closures in the render method- use methods like below
+            onChange={this.handleNameChange}
+            placeholder="Your Name"/>
+        </div>
+      </ExpandableForm>
+    )
+  }
+}
+
+2.函数式组件
+import React from 'react'
+// Separate local imports from dependencies
+
+import './styles/Form.css'
+ 
+// Declare propTypes here as a variable, then assign below function declaration 
+// You want these to be as visible as possible
+const expandableFormRequiredProps = {
+  onSubmit: React.PropTypes.func.isRequired,
+  expanded: React.PropTypes.bool
+}
+ 
+// Destructure props like so, and use default arguments as a way of setting defaultProps
+function ExpandableForm({ onExpand, expanded = false, children }) {
+  return (
+    <form style={ expanded ? { height: 'auto' } : { height: 0 } }>
+      {children}
+      <button onClick={onExpand}>Expand</button>
+    </form>
+  )
+}
+ 
+// Set propTypes down here to those declared above
+ExpandableForm.propTypes = expandableFormRequiredProps
+ 
+// Wrap the component instead of decorating it
+export default ExpandableForm;

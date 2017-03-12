@@ -1,4 +1,4 @@
-1.使用函数通过上一个状态赖改变当前状态，因为状态更新可能是异步的。
+1.使用函数通过上一个状态依赖改变当前状态，因为状态更新可能是异步的。
 	this.setState((prevState, props) => ({
 	  counter: prevState.counter + props.increment
 	}));
@@ -7,22 +7,30 @@
 	  return <h1>Hello, {props.name}</h1>;
 	}
 3.类组件
-class Welcome extends React.Component {
-  constructor(props){
-	super(props);
-	this.state = {...};
-	this.handleChange = this.handleChange.bind(this);
-  }
-  render() {
-    return <h1>Hello, {this.props.name}</h1>;
-  }
-}
-4.普通组件
-const App = React.createClass({
-	render(){
+	class Welcome extends React.Component {
+	  constructor(props){
+		super(props);
+		this.state = {...};
+		this.handleChange = this.handleChange.bind(this);
+	  }
+	  render() {
 		return <h1>Hello, {this.props.name}</h1>;
+	  }
 	}
-});
+	
+	Welcome.propTypes = {
+	  name: React.PropTypes.string
+	};
+
+	Welcome.defaultProps = {
+	  name: 'Mary'
+	};
+4.普通组件
+	const App = React.createClass({
+		render(){
+			return <h1>Hello, {this.props.name}</h1>;
+		}
+	});
 5.事件系统
 	只能通过 e.preventDefault();阻止默认行为。
 6.条件渲染
@@ -49,12 +57,22 @@ const App = React.createClass({
 8.表单组件
 	受控组件
 	textarea Tag  在react中有value属性
-	Handling Multiple Inputs
+	多个表单处理事件
+	https://codepen.io/gaearon/pen/wgedvV?editors=0010
 9.组件通信通过找到共同父辈组件中设置state来进行state的共享，通过传递函数来更新state
 10.react重要思想为组合
-
-
-
+11.JSX为语法糖
+	React.createElement(component, props, ...children)
+12.Refs(this.refs.textInput这种形式即将移除)
+	在calss和普通组件中
+		声明：<input type="text" ref={(input) => { this.textInput = input; }} />
+		使用：this.textInput.focus();
+	在函数组件
+		声明：<input type="text" ref={(input) => { textInput = input; }} />
+		使用：先let textInput=null; 然后 textInput.focus();
+13.Immutable.js
+14.高阶组件
+	
 
 
 
