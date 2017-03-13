@@ -1,0 +1,146 @@
+1.导入
+	ES5:var React = require('react');
+	ES6:import React from 'react';
+2.Components
+	ES5:React.createClass
+	ES6:class组件
+		React.Component
+		React.PureComponent  //shouldComponentUpdate()和prop和state为浅比较
+3.创建react元素
+	React.createElement(
+	  type,
+	  [props],
+	  [...children]
+	)
+	React.createFactory(type) //返回一个函数，并产生React给定类型的元素
+	通常是使用JSX
+4.转换Element
+	React.cloneElement(
+	  element,
+	  [props],
+	  [...children]
+	)
+	React.isValidElement(object) //验证一个元素是否为React元素，返回true或false
+	React.Children 类似于 this.props.children 
+		React.Children.map(children, function[(thisArg)])  //返回一个数组
+		React.Children.forEach(children, function[(thisArg)])  //不返回数组
+		React.Children.count(children)  //返回子节点个数
+		React.Children.only(children)   //返回唯一的子节点
+		React.Children.toArray(children)  //
+5.类型检查
+	React.PropTypes.func.isRequired
+	React.PropTypes.array
+	React.PropTypes.bool
+	React.PropTypes.func
+	React.PropTypes.number
+	React.PropTypes.object
+	React.PropTypes.string
+	React.PropTypes.symbol
+	React.PropTypes.node
+	React.PropTypes.element
+	React.PropTypes.instanceOf(class)
+	React.PropTypes.oneOf(['News', 'Photos'])
+	React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.number,
+		React.PropTypes.instanceOf(Message)
+	])
+	React.PropTypes.arrayOf(React.PropTypes.number)
+	React.PropTypes.objectOf(React.PropTypes.number)
+	React.PropTypes.shape({
+		color: React.PropTypes.string,
+		fontSize: React.PropTypes.number
+	})
+	React.PropTypes.any
+6.React.Component
+	组件生命周期
+		A.Mounting
+			constructor(props) {
+			  super(props);
+			  this.state = {
+				color: 'red'
+			  };
+			}  
+			componentWillMount()
+			render()
+			componentDidMount() //ajax等操作
+		B.Updating
+			componentWillReceiveProps(nextProps)
+			shouldComponentUpdate(nextProps, nextState)
+			componentWillUpdate(nextProps, nextState)
+			render()
+			componentDidUpdate(prevProps, prevState)
+		C.Unmouting
+			componentWillUnmount()  //清理无效计时器、取消网络请求、清理componentDidMount中创建的DOM元素
+	Other APIS
+		setState(nextState, callback)
+			this.setState({mykey: 'my new value'});
+			this.setState((prevState, props) => {
+			  return {myInteger: prevState.myInteger + props.step};
+			});
+		component.forceUpdate(callback)
+	Class Properties
+		defaultProps
+			ES6：
+				CustomButton.defaultProps = {
+				  color: 'blue'
+				};
+			ES7：
+				static defaultProps = {
+					color: 'blue'
+				}
+		displayName
+		propTypes
+			ES6:
+				CustomButton.propTypes = {  color: React.PropTypes.string};
+			ES7:
+				static propTypes = {
+					color: React.PropTypes.string
+				}
+	实例属性
+		props
+		state
+7.ReactDOM
+	加载
+		ES5：var ReactDOM = require('react-dom')
+		ES6：import ReactDOM from 'react-dom';
+	ReactDOM.render(  element,  container,  [callback])  //将ReactElement挂载到container上
+	ReactDOM.unmountComponentAtNode(container)  //删除Mount的React组件从DOM中清理处理程序和状态
+	ReactDOM.findDOMNode(component)  //与ref回调类似，尽量用ref替换，返回dom节点
+8.ReactDOMServer  //允许呈现服务器上的组件
+	加载
+		ES5：var ReactDOMServer = require('react-dom/server')
+		ES6：import ReactDOMServer from 'react-dom/server'
+	ReactDOMServer.renderToString(element)  //仅仅用于服务端，返回一个HTML字符串
+	ReactDOMServer.renderToStaticMarkup(element)  //类似于renderToString除了这不会产生额外的DOM属性,如data-reactid
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
