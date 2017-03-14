@@ -1,0 +1,208 @@
+1.导入
+	ES5:var React = require('react');
+	ES6:import React from 'react';
+2.Components
+	ES5:React.createClass
+	ES6:class组件
+		React.Component
+		React.PureComponent  //shouldComponentUpdate()和prop和state为浅比较
+3.创建react元素
+	React.createElement(
+	  type,
+	  [props],
+	  [...children]
+	)
+	React.createFactory(type) //返回一个函数，并产生React给定类型的元素
+	通常是使用JSX
+4.转换Element
+	React.cloneElement(
+	  element,
+	  [props],
+	  [...children]
+	)
+	React.isValidElement(object) //验证一个元素是否为React元素，返回true或false
+	React.Children 类似于 this.props.children 
+		React.Children.map(children, function[(thisArg)])  //返回一个数组
+		React.Children.forEach(children, function[(thisArg)])  //不返回数组
+		React.Children.count(children)  //返回子节点个数
+		React.Children.only(children)   //返回唯一的子节点
+		React.Children.toArray(children)  //
+5.类型检查
+	React.PropTypes.func.isRequired
+	React.PropTypes.array
+	React.PropTypes.bool
+	React.PropTypes.func
+	React.PropTypes.number
+	React.PropTypes.object
+	React.PropTypes.string
+	React.PropTypes.symbol
+	React.PropTypes.node
+	React.PropTypes.element
+	React.PropTypes.instanceOf(class)
+	React.PropTypes.oneOf(['News', 'Photos'])
+	React.PropTypes.oneOfType([
+		React.PropTypes.string,
+		React.PropTypes.number,
+		React.PropTypes.instanceOf(Message)
+	])
+	React.PropTypes.arrayOf(React.PropTypes.number)
+	React.PropTypes.objectOf(React.PropTypes.number)
+	React.PropTypes.shape({
+		color: React.PropTypes.string,
+		fontSize: React.PropTypes.number
+	})
+	React.PropTypes.any
+6.React.Component
+	组件生命周期
+		A.Mounting
+			constructor(props) {
+			  super(props);
+			  this.state = {
+				color: 'red'
+			  };
+			}  
+			componentWillMount()
+			render()
+			componentDidMount() //ajax等操作
+		B.Updating
+			componentWillReceiveProps(nextProps)
+			shouldComponentUpdate(nextProps, nextState)
+			componentWillUpdate(nextProps, nextState)
+			render()
+			componentDidUpdate(prevProps, prevState)
+		C.Unmouting
+			componentWillUnmount()  //清理无效计时器、取消网络请求、清理componentDidMount中创建的DOM元素
+	Other APIS
+		setState(nextState, callback)
+			this.setState({mykey: 'my new value'});
+			this.setState((prevState, props) => {
+			  return {myInteger: prevState.myInteger + props.step};
+			});
+		component.forceUpdate(callback)
+	Class Properties
+		defaultProps
+			ES6：
+				CustomButton.defaultProps = {
+				  color: 'blue'
+				};
+			ES7：
+				static defaultProps = {
+					color: 'blue'
+				}
+		displayName
+		propTypes
+			ES6:
+				CustomButton.propTypes = {  color: React.PropTypes.string};
+			ES7:
+				static propTypes = {
+					color: React.PropTypes.string
+				}
+	实例属性
+		props
+		state
+7.ReactDOM
+	加载
+		ES5：var ReactDOM = require('react-dom')
+		ES6：import ReactDOM from 'react-dom';
+	ReactDOM.render(  element,  container,  [callback])  //将ReactElement挂载到container上
+	ReactDOM.unmountComponentAtNode(container)  //删除Mount的React组件从DOM中清理处理程序和状态
+	ReactDOM.findDOMNode(component)  //与ref回调类似，尽量用ref替换，返回dom节点
+8.ReactDOMServer  //允许呈现服务器上的组件
+	加载
+		ES5：var ReactDOMServer = require('react-dom/server')
+		ES6：import ReactDOMServer from 'react-dom/server'
+	ReactDOMServer.renderToString(element)  //仅仅用于服务端，返回一个HTML字符串
+	ReactDOMServer.renderToStaticMarkup(element)  //类似于renderToString除了这不会产生额外的DOM属性,如data-reactid
+9.DOM Elements
+	aria- 和data- 属性需要小写
+	checked     //受控组件
+	defaultChecked  //首次渲染
+	className
+	dangerouslySetInnerHTML  //使用户可以输入html，但是会发生cross-site scripting (XSS)
+	htmlFor   //
+	onChange   //实时处理用户输入
+	style    //接收JavaScript对象和camelCased属性
+	suppressContentEditableWarning   //有子元素的元素就不能设置contentEditable属性
+	value   //受控组件
+	defaultValue  //首次渲染
+10.事件合成
+	nativeEvent   //该属性可以得到底层的事件
+	事件池Event Pooling ---- 不能以异步访问事件
+	Supported Events
+		事件冒泡 ---- onClickCapture
+		Clipboard Events
+			事件：onCopy onCut onPaste 
+			属性：DOMDataTransfer  clipboardData
+		Composition Events
+			事件：onCompositionEnd onCompositionStart onCompositionUpdate
+			属性：string data
+		Keyboard Events
+			事件：onKeyDown onKeyPress onKeyUp
+			属性：boolean altKey  number charCode  boolean ctrlKey  boolean getModifierState(key)  
+			string key  number keyCode  string locale  number location  
+			boolean metaKey  boolean repeat  boolean shiftKey  number which
+		Focus Events
+			事件：onFocus onBlur
+			属性：DOMEventTarget relatedTarget
+		Form Events
+			事件：onChange onInput onSubmit
+		Mouse Events
+			事件：onClick onContextMenu onDoubleClick onDrag onDragEnd onDragEnter onDragExit
+			onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave
+			onMouseMove onMouseOut onMouseOver onMouseUp
+			属性：boolean altKey  number button  number buttons  number clientX  number clientY
+			boolean ctrlKey  boolean getModifierState(key)  boolean metaKey  number pageX
+			number pageY  DOMEventTarget relatedTarget  number screenX  number screenY  boolean shiftKey
+		Selection Events
+			事件：onSelect
+		Touch Events
+			事件：onTouchCancel onTouchEnd onTouchMove onTouchStart
+			属性：boolean altKey  DOMTouchList changedTouches  boolean ctrlKey  boolean getModifierState(key)
+			boolean metaKey  boolean shiftKey  DOMTouchList targetTouches  DOMTouchList touches
+		UI Events
+			事件：onScroll
+			属性：number detail  DOMAbstractView view
+		Wheel Events
+			事件：onWheel
+			属性：number deltaMode  number deltaX  number deltaY  number deltaZ
+		Media Events
+			事件：onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted 
+			onEnded onError onLoadedData onLoadedMetadata onLoadStart onPause onPlay 
+			onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend 
+			onTimeUpdate onVolumeChange onWaiting
+		Image Events
+			事件：onLoad onError
+		Animation Events
+			事件：onAnimationStart onAnimationEnd onAnimationIteration
+			属性：string animationName  string pseudoElement  float elapsedTime
+		Transition Events
+			事件：onTransitionEnd
+			属性：string propertyName  string pseudoElement  float elapsedTime
+11.Performance Tools
+	加载：
+		import Perf from 'react-addons-perf' // ES6
+		var Perf = require('react-addons-perf') // ES5 with npm
+		var Perf = React.addons.Perf; // ES5 with react-with-addons.js
+	使用：
+		Perf.start()
+		Perf.stop()
+		Perf.getLastMeasurements()
+		Perf.printInclusive(measurements)
+		Perf.printExclusive(measurements)
+		Perf.printWasted(measurements)
+		Perf.printOperations(measurements)
+		Perf.printDOM(measurements)
+12.测试 Test Utilities
+	加载：import ReactTestUtils from 'react-addons-test-utils' // ES6
+13.Animation
+	加载：import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+	使用：
+	<ReactCSSTransitionGroup
+		transitionName="example"
+		transitionEnterTimeout={500}
+		transitionLeaveTimeout={300}>
+		{items}
+    </ReactCSSTransitionGroup>
+
+	
+	
