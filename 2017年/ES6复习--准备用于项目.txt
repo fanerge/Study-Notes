@@ -131,7 +131,7 @@
 		用途为数值补全指定位数。----如：'123456'.padStart(10, '0') // "0000123456"
 		另一个用途是提示字符串格式。----如：'09-12'.padStart(10, 'YYYY-MM-DD') // "YYYY-09-12"
 	10.模板字符串（template string）
-		作用：它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量。----如：var name = "Bob";`Hello ${name}`;
+		作用：它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量。----如：var name = 'Bob';`Hello ${name}`;
 		其实在${}中可以写任何js代码。
 	11.标签模板
 		它可以紧跟在一个函数名后面，该函数将被调用来处理这个模板字符串。如：alert`123` === alert(123)
@@ -711,54 +711,229 @@
 		作用：以返回给定的值，并且终结遍历Generator函数。
 	8.yield* 语句
 		作用：如果在 Generator 函数内部，调用另一个 Generator 函数
-
-
+	9.作为对象属性的Generator函数
+		let obj = {  * myGeneratorMethod() {    ···  }};
+	10.Generator是实现状态机的最佳结构。	
+十六、Generator函数的异步应用
+	1.异步定义：
+		比如，有一个任务是读取文件进行处理，任务的第一段是向操作系统发出请求，要求读取文件。
+		然后，程序执行其他任务，等到操作系统返回文件，再接着执行任务的第二段（处理文件）。这种不连续的执行，就叫做异步。
+	2.所有异步解决方案
+		回调函数
+		事件监听
+		发布/订阅
+		Promise对象
+		Generator函数
+		async函数
+	3.异步任务的封装
+		var fetch = require('node-fetch');
+		function* gen(){
+		  var url = 'https://api.github.com/users/github';
+		  var result = yield fetch(url);
+		  console.log(result.bio);
+		}	
+		var g = gen();
+		var result = g.next();
+		result.value.then(function(data){
+		  return data.json();
+		}).then(function(data){
+		  g.next(data);
+		})
+	4.Generator 函数的流程管理
+		var fs = require('fs');
+		var thunkify = require('thunkify');
+		var readFileThunk = thunkify(fs.readFile);
+		var gen = function* (){
+		  var r1 = yield readFileThunk('/etc/fstab');
+		  console.log(r1.toString());
+		  var r2 = yield readFileThunk('/etc/shells');
+		  console.log(r2.toString());
+		};
+	5.co模块
+		var gen = function* () {
+		  var f1 = yield readFile('/etc/fstab');
+		  var f2 = yield readFile('/etc/shells');
+		  console.log(f1.toString());
+		  console.log(f2.toString());
+		};
+		var co = require('co'); //返回一个Promise对象
+		co(gen).then(function(){
+			console.log('Generator 函数执行完成');
+		});
+十七、async函数
+	1.其实为Generator 函数的语法糖。async函数返回一个 Promise 对象，可以使用then方法添加回调函数。
+	2.用法	
+		async function getStockPriceByName() {
+		  var symbol = await console.log(1);
+		  var stockPrice = await console.log(2);
+		  return stockPrice;
+		}
+		getStockPriceByName();
+	3.实践
+		//第一种
+		async function myFunction() {
+		  try {
+			await somethingThatReturnsAPromise();
+		  } catch (err) {
+			console.log(err);
+		  }
+		}
+		//第二种
+		async function myFunction() {
+		  await somethingThatReturnsAPromise()  //返回一个Promise对象
+		  .catch(function (err) {
+			console.log(err);
+		  };
+		}
+十八、Class
+	1.ES6的类只是ES5的构造函数的一层包装,语法糖.
+	2.继承
+		class Point {
+		  constructor(x, y) {
+			this.x = x;
+			this.y = y;
+		  }
+		}
+		class ColorPoint extends Point {
+		  constructor(x, y, color) {
+			super(x, y);
+			this.color = color; // 使用this只能在super之后才能使用
+		  }
+		}
+	3.super关键字
+		第一种情况，super作为函数调用时，代表父类的构造函数。ES6 要求，子类的构造函数必须执行一次super函数。
+		第二种情况，super作为对象时，指向父类的原型对象。
+	4.Class的取值函数（getter）和存值函数（setter）
+		class MyClass {
+		  constructor() {
+			// ...
+		  }
+		  get prop() {
+			return 'getter';
+		  }
+		  set prop(value) {
+			console.log('setter: '+value);
+		  }
+		}
+		let inst = new MyClass();
+		inst.prop = 123;  // setter: 123
+		inst.prop   // 'getter
+	5.Class的静态方法
+		class Foo {
+		  static classMethod() {
+			return 'hello';
+		  }
+		}
+		Foo.classMethod() // 'hello'，不能在实例上使用
+	6.Class的静态属性和实例属性
+		静态属性指的是Class本身的属性，即Class.propname
+	7.私有属性提案 #开头
+		class Point {
+		  #x = 0;  //私有属性
+		  constructor() {
+			#x; // 0
+		  }
+		}
+	8.new.target属性
+		ES6为new命令引入了一个new.target属性，（在构造函数中）返回new命令作用于的那个构造函数。
+十九、Decorator修饰器
+	1.类的修饰
+		修饰器（Decorator）是一个函数，用来修改类的行为。
+		//为其添加了静态属性
+		function testable(target) {
+		  target.isTestable = true;
+		}
+		@testable
+		class MyTestableClass {}
+		console.log(MyTestableClass.isTestable) // true
+		//为其添加实例属性
+		function testable(target) {  
+			target.prototype.isTestable = true;
+		}
+		@testable
+		class MyTestableClass {}
+		let obj = new MyTestableClass();
+		obj.isTestable // true
+	2.方法的修饰
+		修饰器不仅可以修饰类，还可以修饰类的属性。
+		class Person {
+		  @nonenumerable
+		  get kidCount() { return this.children.length; }
+		}
+		//修饰器函数一共可以接受三个参数，第一个参数是所要修饰的目标对象，第二个参数是所要修饰的属性名，第三个参数是该属性的描述对象。
+		function nonenumerable(target, name, descriptor) {
+		  descriptor.enumerable = false;
+		  return descriptor;
+		}
+	3.core-decorators.js是一个第三方模块
+		@autobind ---- 使得方法中的this对象，绑定原始对象。
+		@readonly ---- readonly修饰器使得属性或方法不可写。
+		@override ---- 检查子类的方法，是否正确覆盖了父类的同名方法，如果不正确会报错。
+		@deprecate (别名@deprecated) ---- 修饰器在控制台显示一条警告，表示该方法将废除。
+	4.Mixin,意为在一个对象之中混入另外一个对象的方法。
+二十、Module模块	
+	1.import 加载对应的模块
+		import { lastName as surname } from './profile';
+	2.export 定义了模块的对外接口
+		export {firstName, lastName, year};
+		export {
+		  v1 as streamV1,  //相当于重命名
+		  v2 as streamV2,
+		  v2 as streamLatestVersion
+		};
+	3.模块的整体加载
+		即用星号（*）指定一个对象，所有输出值都加载在这个对象上面。
+		如：import * as circle from './circle';
+	4.export default 命令
+	5.export 与 import 的复合写法
+		export { foo as myFoo } from 'my_module'; //接口改名
+	6.import() 完成动态加载，也就是运行时才加载。
+		（1）按需加载
+		（2）条件加载	
+		（3）动态的模块路径
+二十一、编程风格
+	1.块级作用域
+		let取代var
+		所有的函数都应该设置为常量
+	2.字符串
+		静态字符串使用单引号  //const c = 'foobar';
+		动态字符串使用反引号  //const b = `foo${a}bar`;
+	3.解构赋值
+		使用数组成员对变量赋值时，优先使用解构赋值。
+			const [first, second] = arr;
+		函数的参数如果是对象的成员，优先使用解构赋值。
+			function getFullName({ firstName, lastName }) {}
+		
+	4.对象
+		单行定义的对象，最后一个成员不以逗号结尾。多行定义的对象，最后一个成员以逗号结尾。
+			const a = { k1: v1, k2: v2 };
+			const b = {
+			  k1: v1,
+			  k2: v2,
+			};
+	5.数组	
+		使用扩展运算符（...）拷贝数组。
+			const itemsCopy = [...items];
+	6.函数	
+		尽量使用箭头函数。
+	7.Map结构	
+		只有模拟现实世界的实体对象时，才使用Object。如果只是需要key: value的数据结构，使用Map结构。因为Map有内建的遍历机制。
+			let map = new Map(arr);
+			for (let key of map.keys()) {  //mp.keys()、map.value()、map.entries()
+			  console.log(key);
+			}
+	8.Class
+		总是用Class，取代需要prototype的操作。因为Class的写法更简洁，更易于理解。
+		使用extends实现继承，因为这样更简单，不会有破坏instanceof运算的危险。
+	9.模块
+		使用import和export
+	10.ESlint的使用
 		
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
+		
+		
+		
+		
+		
 		
