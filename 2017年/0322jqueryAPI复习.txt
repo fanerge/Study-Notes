@@ -1,72 +1,72 @@
 面对国内的浏览器使用情况的现实吧，还有很长一段时间要使用jquery，再好好复习下jquery的api吧！不在那么任性了。
 一.Ajax
 	1.全局Ajax事件处理器（均只能绑定到document元素上）
-		.ajaxStart(handler())
+		$(document).ajaxStart(handler())
 			在AJAX 请求刚开始时执行一个处理函数。 这是一个 Ajax Event.
-		.ajaxSend(handler(event, jqXHR, ajaxOptions))
+		$(document).ajaxSend(handler(event, jqXHR, ajaxOptions))
 			在Ajax请求发送之前绑定一个要执行的函数，这是一个 Ajax Event.
-		.ajaxComplete(handler(event, XMLHttpRequest, ajaxOptions))
+		$(document).ajaxSuccess(handler(event, XMLHttpRequest, ajaxOptions))
+			绑定一个函数当 Ajax 请求成功完成时执行。 这是一个Ajax Event.
+		$(document).ajaxComplete(handler(event, XMLHttpRequest, ajaxOptions))
 			在Ajax请求完成后注册一个回调函数。这是一个AjaxEvent。
 			应用：我们能限制我们的回调到只处理事件处理某一特定的URL
-		.ajaxError(handler(event, jqXHR, ajaxSettings, thrownError))
+		$(document).ajaxError(handler(event, jqXHR, ajaxSettings, thrownError))
 			在Ajax请求出错时注册一个回调处理函数，这是一个 Ajax Event。
-		.ajaxStop(handler())
+		$(document).ajaxStop(handler())
 			在AJAX 请求完成时执行一个处理函数。 这是一个 Ajax Event.	
-		.ajaxSuccess(handler(event, XMLHttpRequest, ajaxOptions))
-			绑定一个函数当 Ajax 请求成功完成时执行。 这是一个Ajax Event.
 	2.辅助函数
-		.param()
+		$.param( obj, traditional )  //traditional决定是否传统的“shallow”的序列化
 			创建一个数组或对象序列化的的字符串，适用于一个URL 地址查询字符串或Ajax请求。
-		.serialize()
+		$("form").serialize()
 			将用作提交的表单元素的值编译成字符串。
-		.serializeArray()
+		$("form").serializeArray()
 			将用作提交的表单元素的值编译成拥有name和value对象组成的数组。
 	3.底层接口	
-		.ajax()	
+		$.ajax( url [, settings ] )
 			执行一个异步的HTTP（Ajax）的请求。
-		.ajaxPrefilter()
+		$.ajaxPrefilter( [dataTypes ], handler(options, originalOptions, jqXHR) )
 			在每个请求之前被发送和$.ajax()处理它们前处理，设置自定义Ajax选项或修改现有选项。
-		.ajaxSetup()
+		$.ajaxSetup( options )
 			为以后要用到的Ajax请求设置默认的值
-		.ajaxTransport()
+		$.ajaxTransport( dataType, handler(options, originalOptions, jqXHR) )
 			创建一个对象，用于处理Ajax数据的实际传输。
 	4.快捷方法
-		.get()
+		$.get( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
 			使用一个HTTP GET请求从服务器加载数据。
-		.getJSON()
+		$.getJSON( url [, data ] [, success(data, textStatus, jqXHR) ] )
 			使用一个HTTP GET请求从服务器加载JSON编码的数据。
-		.getScript()
+		$.getScript( url [, success(script, textStatus, jqXHR) ] )
 			使用一个HTTP GET请求从服务器加载并执行一个 JavaScript 文件
-		.post()
+		$.post( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
 			使用一个HTTP POST 请求从服务器加载数据。
-		.load()
+		$.load( url [, data ] [, complete(responseText, textStatus, XMLHttpRequest) ] )
 			从服务器载入数据并且将返回的 HTML 代码并插入至 匹配的元素 中。
 二.DOM属性
-	addClass()
+	addClass( function(index, currentClass) )
 		为每个匹配的元素添加指定的样式类名
-	hasClass()
+	hasClass( className )
 		确定任何一个匹配元素是否有被分配给定的（样式）类。
-	removeClass()
+	removeClass( function(index, class) )
 		移除集合中每个匹配元素上一个，多个或全部样式。
-	toggleClass()
+	toggleClass( function(index, class, switch) [, switch ] )
 		在匹配的元素集合中的每个元素上添加或删除一个或多个样式类,取决于这个样式类是否存在或值切换属性。即：如果存在（不存在）就删除（添加）一个类。
-	attr()
+	attr( attributeName, function(index, attr) )
 		获取匹配的元素集合中的第一个元素的属性的值。设置每一个匹配元素的一个或多个属性。
-	removeAttr()
+	removeAttr( attributeName )
 		为匹配的元素集合中的每个元素中移除一个属性（attribute）。
-	prop()用于返回 ture或false的属性
+	prop( propertyName, function(index, oldPropertyValue) ) //用于返回 ture或false的属性
 		获取匹配的元素集中第一个元素的属性（property）值为匹配的元素设置一个或多个属性（properties）。
-	removeProp()
+	removeProp( propertyName )
 		为集合中匹配的元素删除一个属性（property）。
 	text()
 		获取定义文本
-	html()
+	html( function(index, oldhtml) )
 		获取集合中第一个匹配元素的HTML内容 设置每一个匹配元素的html内容。
-	val()获取表单元素的值
+	val( function(index, value) )  //获取表单元素的值
 		获取匹配的元素集合中第一个元素的当前值。设置匹配的元素集合中每个元素的值。
 三.回调对象
-	jQuery.Callbacks() 函数返回一个全能的对象，此对象对管理回调列表提供了强大的方式。它能够增加、删除、触发、禁用回调函数。
-	$.Callbacks().add()
+	jQuery.Callbacks( flags ) 函数返回一个全能的对象，此对象对管理回调列表提供了强大的方式。它能够增加、删除、触发、禁用回调函数。
+	$.Callbacks().add( callbacks )
 		回调列表中添加一个回调或回调的集合。
 	$.Callbacks().disable()	
 		禁用回调列表中的回调。
@@ -74,40 +74,40 @@
 		确定回调列表是否已被禁用。
 	$.Callbacks().empty()
 		从列表中删除所有的回调。
-	$.Callbacks().fire()
+	$.Callbacks().fire( arguments )
 		传入指定的参数调用所有的回调。
-	$.Callbacks().fireWith()	
+	$.Callbacks().callbacks.fireWith( [context ] [, args ] )	
 		访问给定的上下文和参数列表中的所有回调。
 	$.Callbacks().fired()
 		确定回调是否至少已经调用一次。
-	$.Callbacks().has()	
+	$.Callbacks().has( callback )
 		确定列表中是否提供一个回调。
 	$.Callbacks().lock()	
 		锁定回调列表的当前状态。
 	$.Callbacks().locked()	
 		确定回调列表是否已被锁定。
-	$.Callbacks().remove()	
+	$.Callbacks().remove( callbacks )	
 		从回调列表中的删除一个回调或回调集合。
 四.核心API
-	jQuery.holdReady()	
+	$.holdReady( hold ) 	
 		暂停或恢复.ready() 事件的执行。
-	jQuery()
+	$()
 		接受一个包含一个CSS选择器的字符串，用于匹配的一组元素。根据提供的原始 HTML 标记字符串，动态创建由 jQuery 对象包装的 DOM 元素。当DOM完成加载的时候绑定一个要执行的函数。
-	jQuery.noConflict()	
+	jQuery.noConflict( [removeAll ] )	
 		放弃jQuery控制$ 变量。
-	jQuery.when()
+	$.when( deferreds )
 		提供一种方法来执行一个或多个对象的回调函数， Deferred(延迟)对象通常表示异步事件。
 		
 五.CSS		
-	.addClass()
+	.addClass( function(index, currentClass) )
 		为每个匹配的元素添加指定的样式类名
 	.removeClass()
 		移除集合中每个匹配元素上一个，多个或全部样式。
 	.toggleClass()
 		在匹配的元素集合中的每个元素上添加或删除一个或多个样式类,取决于这个样式类是否存在或值切换属性。即：如果存在（不存在）就删除（添加）一个类。
-	.css()
+	.css( propertyNames )
 		获取匹配元素集合中的第一个元素的样式属性的值设置每个匹配元素的一个或多个CSS属性。
-	.hasClass()
+	.hasClass( className )
 		确定任何一个匹配元素是否有被分配给定的（样式）类。
 	.offset()
 		在匹配的元素集合中，获取的第一个元素的当前坐标，坐标相对于文档。 设置匹配的元素集合中每一个元素的坐标， 坐标相对于文档。
@@ -122,47 +122,47 @@
 六.数据操作
 	.queue()
 		显示在匹配的元素上的已经执行的函数列队。在匹配元素上操作已经附加函数的列表。
-	.clearQueue()
+	.clearQueue( [queueName ] )
 		从列队中移除所有未执行的项。
-	.dequeue()
+	.dequeue( [queueName ] )
 		执行匹配元素队列的下一个函数。
-	.data()
+	.data( key, value )
 		在匹配元素上存储任意相关数据. 返回匹配的元素集合中的第一个元素的给定名称的数据存储的值。 通过.data(name, value)或HTML5 data-* 属性设置
 	.removeData()
 		在元素上移除绑定的数据
-	jQuery.data()
+	$.data( element, key, value )
 		存储任意数据到指定的元素,返回设置的值。 返回用jQuery.data(element, name, value)储存在元素上的相应名字的数据，或者元素上完整的数据存储
-	jQuery.dequeue()
+	$.dequeue( element [, queueName ] )
 		在匹配的元素上执行队列中的下一个函数。
-	jQuery.hasData()
+	$.hasData( element )
 		确定任何一个元素是否有与之相关的jQuery数据。
-	jQuery.queue()
+	$.jQuery.queue( element, queueName, newQueue )
 		显示在匹配的元素上的已经执行的函数列队。操作匹配元素上将要执行的函数队列。
-	jQuery.removeData()	
+	$.removeData( [list ] )	
 		删除一个先前存储的数据片段。element，name
 七.延迟对象
 	jQuery.Deferred()
-	deferred.always()	
+	deferred.always( alwaysCallbacks [, alwaysCallbacks ] )
 		当Deferred（延迟）对象解决或拒绝时，调用添加处理程序。
-	deferred.done()
+	deferred.done( doneCallbacks [, doneCallbacks ] )
 		当Deferred（延迟）对象解决时，调用添加处理程序。
-	deferred.fail()
+	deferred.fail( failCallbacks [, failCallbacks ] )
 		当Deferred（延迟）对象拒绝时，调用添加的处理程序。
-	deferred.notify()
+	deferred.notify( args )
 		根据给定的 args参数 调用Deferred（延迟）对象上进行中的回调 （progressCallbacks）。
-	deferred.notifyWith()
+	deferred.notifyWith( context [, args ] )
 		根据给定的上下文（context）和args递延调用Deferred（延迟）对象上进行中的回调（progressCallbacks ）。
-	deferred.progress()
+	deferred.progress( progressCallbacks )
 		当Deferred（延迟）对象生成进度通知时，调用添加处理程序。
-	deferred.promise()
+	deferred.promise( [target ] )
 		返回Deferred(延迟)的Promise（承诺）对象。
-	deferred.reject()
+	deferred.reject( args )
 		拒绝Deferred（延迟）对象，并根据给定的args参数调用任何失败回调函数（failCallbacks）。
-	deferred.rejectWith()
+	deferred.rejectWith( context [, args ] )
 		拒绝Deferred（延迟）对象，并根据给定的 context和args参数调用任何失败回调函数（failCallbacks）。
-	deferred.resolve()
+	deferred.resolve( args )
 		解决Deferred（延迟）对象，并根据给定的args参数调用任何完成回调函数（doneCallbacks）。
-	deferred.resolveWith()
+	deferred.resolveWith( context [, args ] )
 		解决Deferred（延迟）对象，并根据给定的 context和args参数调用任何完成回调函数（doneCallbacks）。
 	deferred.state()
 		确定一个Deferred（延迟）对象的当前状态。
@@ -179,86 +179,86 @@
 		获取匹配元素集合中的第一个元素的当前计算高度值。设置每一个匹配元素的高度值。
 	.innerHeight() || .innerWidth()
 		为匹配的元素集合中获取第一个元素的当前计算高度值,包括padding，但是不包括border。
-	.outerHeight()  || .outerWidth()
+	.outerHeight()  || .outerWidth()   //参数true表示（包括margin）
 		获取元素集合中第一个元素的当前计算高度值,包括padding，border和选择性的margin。返回一个整数（不包含“px”）表示的值  ，或如果在一个空集合上调用该方法，则会返回 null。		
 九.特效
 	1.基本特效
-		.hide()
+		.hide( [duration ] [, easing ] [, complete ] )
 			隐藏匹配的元素。
-		.show()
+		.show( [duration ] [, easing ] [, complete ] )
 			显示匹配的元素。
-		.toggle()
-			.toggle()
+		.toggle( [duration ] [, easing ] [, complete ] )
+			显示或隐藏匹配元素。
 	2.自定义
 		jQuery.fx.interval
 			该动画的频率（以毫秒为单位）。
 		jQuery.fx.off
 			全局的禁用所有动画。
-		.animate()
+		.animate( properties [, duration ] [, easing ] [, complete ] )
 			根据一组 CSS 属性，执行自定义动画。
-		.queue()
+		.queue( [queueName ], callback( next ) )
 			显示在匹配的元素上的已经执行的函数列队。在匹配元素上操作已经附加函数的列表。
-		.clearQueue()
+		.clearQueue( [queueName ] )
 			从列队中移除所有未执行的项。
-		.delay()
+		.delay( duration [, queueName ] )
 			设置一个延时来推迟执行队列中后续的项。
-		.dequeue()
+		.dequeue( [queueName ] )
 			执行匹配元素队列的下一个函数。
-		.finish()
+		.finish( [queue ] )
 			停止当前正在运行的动画，删除所有排队的动画，并完成匹配元素所有的动画。
-		.stop()
+		.stop( [queue ] [, clearQueue ] [, jumpToEnd ] )
 			停止匹配元素当前正在运行的动画。
 	3.渐变
-		.fadeIn()
+		.fadeIn( [duration ] [, easing ] [, complete ] )
 			通过淡入的方式显示匹配元素。
-		.fadeOut()
+		.fadeOut( [duration ] [, easing ] [, complete ] )
 			通过淡出的方式隐藏匹配元素。
-		.fadeTo()
+		.fadeTo( duration, opacity [, easing ] [, complete ] )
 			调整匹配元素的透明度。
-		.fadeToggle()
+		.fadeToggle( [duration ] [, easing ] [, complete ] )
 			通过匹配的元素的不透明度动画，来显示或隐藏它们。
 	4.滑动
-		.slideDown()
+		.slideDown( [duration ] [, easing ] [, complete ] )
 			用滑动动画显示一个匹配元素。
-		.slideUp()
+		.slideUp( [duration ] [, easing ] [, complete ] )
 			用滑动动画隐藏一个匹配元素。
-		.slideToggle()
+		.slideToggle( [duration ] [, easing ] [, complete ] )
 			用滑动动画显示或隐藏一个匹配元素。
 十.事件
 	1.浏览器事件
-		.error()
+		.error( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "error" 事件绑定一个处理函数。
-		.resize()
+		$(window).resize( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "resize" 事件绑定一个处理函数，或者触发元素上的该事件。
-		.scroll()
+		.scroll( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "scroll" 事件绑定一个处理函数，或者触发元素上的该事件。
 	2.文档加载
-		.load()
+		.load( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "load" 事件绑定一个处理函数。
-		.ready()
+		$(document).ready( handler )
 			当DOM准备就绪时，指定一个函数来执行。
-		.unload()
+		$(window).unload( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "unload" 事件绑定一个处理函数。
 	3.绑定事件处理器
-		.bind()
+		.bind( eventType [, eventData ], preventBubble )
 			为一个元素绑定一个事件处理程序。
-		.unbind()
+		.unbind( eventType, false )
 			从元素上删除一个以前附加事件处理程序。
-		.on()
+		.on( events [, selector ] [, data ], handler(eventObject) )
 			在选定的元素上绑定一个或多个事件处理函数。
-		.off()
+		.off( events [, selector ] [, handler(eventObject) ] )
 			移除一个事件处理函数。
-		.one()
+		.one( events [, selector ] [, data ], handler(eventObject) )
 			为元素的事件添加处理函数。处理函数在每个元素上每种事件类型最多执行一次。
-		.trigger()
+		.trigger( eventType [, extraParameters ] )
 			根据绑定到匹配元素的给定的事件类型执行所有的处理程序和行为。
-		.triggerHandler()
+		.triggerHandler( eventType [, extraParameters ] )
 			为一个事件执行附加到元素的所有处理程序。
-		.delegate()
+		.delegate( selector, eventType, eventData, handler(eventObject) )  //委派
 			为所有匹配选择器（selector参数）的元素绑定一个或多个事件处理函数，基于一个指定的根元素的子集，匹配的元素包括那些目前已经匹配到的元素，也包括那些今后可能匹配到的元素。
-		.undelegate()
+		.undelegate( selector, eventType, handler(eventObject) )
 			删除当前选择器匹配的所有元素的事件处理程序，根据一组特定根元素的集合。
-		jQuery.proxy()
+		$.proxy( context, name [, additionalArguments ] )
 			接受一个函数，然后返回一个新函数，并且这个新函数始终保持了特定的上下文语境。
 	4.事件对象
 		Event Properties
@@ -309,47 +309,47 @@
 			event.which
 				针对键盘和鼠标事件，这个属性能确定你到底按的是哪个键。
 	5.表单事件
-		.blur()
+		.blur( [eventData ], handler(eventObject) )
 			为 "blur" 事件绑定一个处理函数，或者触发元素上的 "blur" 事件（注：此事件不支持冒泡）。
-		.change()
+		.change( [eventData ], handler(eventObject) )
 			为JavaScript 的 "change" 事件绑定一个处理函数，或者触发元素上的 "change" 事件。
-		.focus()
+		.focus( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "focus" 事件绑定一个处理函数，或者触发元素上的 "focus" 事件。
-		.focusin()
+		.focusin( [eventData ], handler(eventObject) )
 			将一个事件函数绑定到"focusin" 事件。
-		.focusout()	
+		.focusout( [eventData ], handler(eventObject) )
 			将一个事件函数绑定到"focusout" 事件。
-		.select()
+		.select( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "select" 事件绑定一个处理函数，或者触发元素上的该事件。
-		.submit()
+		.submit( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "submit" 事件绑定一个处理函数，或者触发元素上的该事件。
 	6.键盘事件
-		.keydown()
+		.keydown( [eventData ], handler(eventObject) )
 			为 "keydown" 事件绑定一个处理函数，或者触发元素上的 "keydown" 事件。
-		.keypress()
+		.keypress( [eventData ], handler(eventObject) )
 			为 "keypress" 事件绑定一个处理函数，或者触发元素上的 "keypress" 事件。
-		.keyup()
+		.keyup( [eventData ], handler(eventObject) )
 			为 "keyup" 事件绑定一个处理函数，或者触发元素上的 "keyup" 事件。
 	7.鼠标事件
-		.click()
+		.click( [eventData ], handler(eventObject) )
 			为 JavaScript 的"click" 事件绑定一个处理器，或者触发元素上的 "click" 事件。
-		.dblclick()
+		.dblclick( [eventData ], handler(eventObject) )
 			为JavaScript 的 "dblclick" 事件绑定一个处理函数，或者触发元素上的 "dblclick" 事件。
-		.hover()
+		.hover( handlerIn(eventObject), handlerOut(eventObject) )
 			将二个事件函数绑定到匹配元素上，分别当鼠标指针进入和离开元素时被执行。将一个单独事件函数绑定到匹配元素上，分别当鼠标指针进入和离开元素时被执行。
-		.mousedown()
+		.mousedown( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "mousedown" 事件绑定一个处理函数，或者触发元素上的该事件。
-		.mouseenter()	
+		.mouseenter( [eventData ], handler(eventObject) )	
 			为 mouse enters（鼠标进入） 事件绑定一个处理函数，或者触发元素上的 mouse enters（鼠标进入） 事件。
-		.mouseleave()
+		.mouseleave( [eventData ], handler(eventObject) )
 			为 mouse leaves（鼠标离开） 事件绑定一个处理函数，或者触发元素上的 mouse leaves（鼠标离开） 事件。
-		.mousemove()
+		.mousemove( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "mousemove" 事件绑定一个处理函数，或者触发元素上的该事件。
-		.mouseout()
+		.mouseout( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "mouseout" 事件绑定一个处理函数，或者触发元素上的该事件。（注：支持事件冒泡）
-		.mouseover()
+		.mouseover( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "mouseover" 事件绑定一个处理函数，或者触发元素上的该事件。（注：支持事件冒泡）
-		.mouseup()
+		.mouseup( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "mouseup" 事件绑定一个处理函数，或者触发元素上的该事件。
 		.toggle()
 十一.表单
@@ -363,7 +363,7 @@
 			将一个事件函数绑定到"focusin" 事件。
 		.focusout()
 			将一个事件函数绑定到"focusout" 事件。
-		jQuery.param()
+		jQuery.param( obj, traditional )
 			创建一个数组或对象序列化的的字符串，适用于一个URL 地址查询字符串或Ajax请求。
 		.select()
 			为 JavaScript 的 "select" 事件绑定一个处理函数，或者触发元素上的该事件。
@@ -453,7 +453,7 @@
 	1.集合操作
 		each()
 			遍历一个jQuery对象，为每个匹配元素执行一个函数。
-		jQuery.param()
+		jQuery.param( obj, traditional )
 			创建一个数组或对象序列化的的字符串，适用于一个URL 地址查询字符串或Ajax请求。
 	2.数据存储
 		data()
