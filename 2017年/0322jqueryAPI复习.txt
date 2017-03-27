@@ -353,34 +353,34 @@
 			为 JavaScript 的 "mouseup" 事件绑定一个处理函数，或者触发元素上的该事件。
 		.toggle()
 十一.表单
-		.blur()
+		.blur( [eventData ], handler(eventObject) )
 			为 "blur" 事件绑定一个处理函数，或者触发元素上的 "blur" 事件（注：此事件不支持冒泡）。
-		.change()
+		.change( [eventData ], handler(eventObject) )
 			为JavaScript 的 "change" 事件绑定一个处理函数，或者触发元素上的 "change" 事件。
-		.focus()
+		.focus( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "focus" 事件绑定一个处理函数，或者触发元素上的 "focus" 事件。
-		.focusin()
+		.focusin( [eventData ], handler(eventObject) )
 			将一个事件函数绑定到"focusin" 事件。
-		.focusout()
+		.focusout( [eventData ], handler(eventObject) )
 			将一个事件函数绑定到"focusout" 事件。
 		jQuery.param( obj, traditional )
 			创建一个数组或对象序列化的的字符串，适用于一个URL 地址查询字符串或Ajax请求。
-		.select()
+		.select( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "select" 事件绑定一个处理函数，或者触发元素上的该事件。
 		.serialize()
 			将用作提交的表单元素的值编译成字符串。
 		.serializeArray()
 			将用作提交的表单元素的值编译成拥有name和value对象组成的数组。例如[ { name: a value: 1 }, { name: b value: 2 },...]
-		.submit()
+		.submit( [eventData ], handler(eventObject) )
 			为 JavaScript 的 "submit" 事件绑定一个处理函数，或者触发元素上的该事件。
-		.val()
+		.val( function(index, value) )
 			获取匹配的元素集合中第一个元素的当前值。设置匹配的元素集合中每个元素的值。
 十二.内部函数
-	jQuery.error()	
+	$.error( message )   //jQuery.error = console.error;
 		接受一个字符串，并抛出包含这个字符串的异常。	
-	.jquery
+	.jquery  //$.fn.jquery
 		一个包含了jQuery版本号的字符串。
-	.pushStack()
+	.pushStack( elements, name, arguments )
 		将一个DOM元素集合加入到jQuery栈。
 十三.DOM操作
 	1.Class属性
@@ -389,56 +389,59 @@
 		removeClass()
 		toggleClass()
 	2.复制元素
-		.clone()
+		.clone( [withDataAndEvents ] [, deepWithDataAndEvents ] )  //第一个为事件处理是否复制，第二个为子元素是否复制
+			创建一个匹配的元素集合的深度拷贝副本。
 	3.DOM插入
 			
 	4.DOM插入并包裹现有内容
 		.unwrap()
 			将匹配元素集合的父级元素删除，保留自身（和兄弟元素，如果存在）在原来的位置。
-		.wrap()
+		.wrap( function(index) )
 			在每个匹配的元素外层包上一个html元素。
-		.wrapAll()
+		.wrapAll( wrappingElement )
 			在所有匹配元素外面包一层HTML结构。
-		.wrapInner()
+		.wrapInner( function(index) )
 			在匹配元素里的内容外包一层结构。
 	5.DOM 插入现有元素内
-		append()
+		append( function(index, html) )
 			在被选元素的结尾插入内容(内部)
-		appendTo()
-		prepend()
+		appendTo( target )
+			将匹配的元素插入到目标元素的最后面（内部）
+		prepend( function(index, html) )
 			在被选元素的开头插入内容(内部)
-		prependTo()
-		.html()
+		prependTo( target )
+			将所有元素插入到目标前面（元素内）
+		.html( function(index, oldhtml) )
 			获取集合中第一个匹配元素的HTML内容 设置每一个匹配元素的html内容。
-		.text()
+		.text( function(index, text) )
 			得到匹配元素集合中每个元素的合并文本，包括他们的后代设置匹配元素集合中每个元素的文本内容为指定的文本内容。
 	6.DOM 插入现有元素外		
-		after()
+		after( function(index) )
 			在被选元素之后插入内容(同级)
-		insertAfter()
-		before() 
+		insertAfter( target )
+		before( function(index) ) 
 			在被选元素之前插入内容(同级)	
-		insertBefore()	
+		insertBefore( target )
 	7.DOM 移除		
-		detach()	
+		detach( [selector ] )	
 			从DOM中去掉所有匹配的元素。
 		empty()
 			从DOM中移除集合中匹配元素的所有子节点。
-		remove()	
+		remove( [selector ] )	
 			将匹配元素集合从DOM中删除。（注：同时移除元素上的事件及 jQuery 数据。）
 		unwrap()	
 			将匹配元素集合的父级元素删除，保留自身（和兄弟元素，如果存在）在原来的位置。
 	8.DOM 替换
-		replaceAll()
-			用集合的匹配元素替换每个目标元素。
-		replaceWith()	
+		replaceWith( function )	
 			用提供的内容替换集合中所有匹配的元素并且返回被删除元素的集合。
+		replaceAll( target )
+			用集合的匹配元素替换每个目标元素。
 	9.通用属性操作
-		attr()
-		removeAttr()
-		prop()
-		removeProp()
-		val()
+		attr( attributeName, value )
+		removeAttr( attributeName )
+		prop( propertyName, value )
+		removeProp( propertyName )
+		val( function(index, value) )
 	10.css属性
 		css()
 		height()  ||  width()
@@ -451,37 +454,35 @@
 		jQuery.cssNumber	
 十四.杂项
 	1.集合操作
-		each()
+		$( "li" ).each( function(index, Element) )
 			遍历一个jQuery对象，为每个匹配元素执行一个函数。
-		jQuery.param( obj, traditional )
+		$.param( obj, traditional )
 			创建一个数组或对象序列化的的字符串，适用于一个URL 地址查询字符串或Ajax请求。
 	2.数据存储
-		data()
+		data( obj )
 			在匹配元素上存储任意相关数据. 返回匹配的元素集合中的第一个元素的给定名称的数据存储的值。 通过.data(name, value)或HTML5 data-* 属性设置
-		removeData()
+		removeData( [list ] )
 			在元素上移除绑定的数据
 	3.DOM 元素方法
-		get()
+		get( [index ] )
 			通过jQuery对象获取一个对应的DOM元素。通过检索匹配jQuery对象得到对应的DOM元素。
-		index()
+		index( selector )
 			从匹配的元素中搜索给定元素的索引值，从0开始计数。
-		size()
-			返回的jQuery对象匹配的DOM元素的数量。
 		toArray()
 			返回一个包含jQuery对象集合中的所有DOM元素的数组。
 	4.设置
-		jQuery.noConflict()
+		jQuery.noConflict( [removeAll ] )
 			放弃jQuery控制$ 变量。
 十五.偏移
-	offset()
+	offset( function(index, coords) )
 		在匹配的元素集合中，获取的第一个元素的当前坐标，坐标相对于文档。 设置匹配的元素集合中每一个元素的坐标， 坐标相对于文档。
 	offsetParent()
 		取得离指定元素最近的含有定位信息的祖先元素。含有定位信息的元素指的是，CSS 的 position 属性是 relative, absolute, 或 fixed 的元素。
 	position()
 		获取匹配元素中第一个元素的当前坐标，相对于offset parent的坐标。( 译者注：offset parent指离该元素最近的而且被定位过的祖先元素 )
-	scrollLeft()
+	scrollLeft( value )
 		获取匹配的元素集合中第一个元素的当前水平滚动条的位置。设置每个匹配元素的水平滚动条位置。
-	scrollTop()
+	scrollTop( value )
 		获取匹配的元素集合中第一个元素的当前垂直滚动条的位置或设置每个匹配元素的垂直滚动条位置。设置每个匹配元素的垂直滚动条位置。
 十六.内部属性
 	1.jQuery对象实例的属性
