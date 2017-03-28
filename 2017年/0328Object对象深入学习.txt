@@ -1,0 +1,158 @@
+Reflect对象是ES6 为了操作对象而提供的新 API，作用是把原本Object的静态方法放到Reflect上。
+如：Object.defineProperty(obj, name, desc)  》》 Reflect.defineProperty(obj, name, desc)
+一.静态方法
+	1.Object.assign(target, ...sources)
+		把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。
+		var Obj = { a: 1 };
+		var Copy = Object.assign({}, obj);
+	2.Object.create(prototype, [properties])
+		创建一个具有指定原型且可选择性地包含指定属性的对象，然后返回该对象。
+		var Obj = Object.create({}, { p: { value: 42 } })
+	3.Object.defineProperty(obj, prop, descriptor)
+		直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象。
+		enumerable，configurable，wirtable，value，get方法，set方法，__proto__
+		Object.defineProperty(obj, 'key', {
+		  __proto__: null, // no inherited properties
+		  value: 'static'  
+		});
+	4.Object.defineProperties(obj, props)
+		直接在一个对象上定义新的属性或修改现有属性，并返回该对象。
+		Object.defineProperties(obj, {
+		  "property1": {
+			value: true,
+			writable: true
+		  }
+		 });
+	5.Object.keys(obj);
+		以数组的形式返回该对象自身的属性（不包括原型上的属性）的key。
+		var anObj = { 100: 'a', 2: 'b', 7: 'c' };
+		Object.keys(anObj)); // ['2', '7', '100']与for...in遍历顺序一致，区别for...in还可遍历原型上的属性
+	6.Object.values(obj);	
+		以数组的形式返回该对象自身的属性（不包括原型上的属性）的value。
+		var anObj = { 100: 'a', 2: 'b', 7: 'c' };
+		Object.values(anObj)); // ['b', 'c', 'a']
+	7.Object.entries(obj);
+		以数组的形式返回该对象自身的属性（不包括原型上的属性）的key-value。
+		var anObj = { 100: 'a', 2: 'b', 7: 'c' };
+		Object.entries(anObj)); // [ ['2', 'b'], ['7', 'c'], ['100', 'a'] ]
+	8.Object.freeze();
+		阻止修改现有属性的特性和值，并阻止添加新属性，并返回被冻结的对象。
+		var obj = { pasta: "spaghetti", length: 10 };
+		Object.freeze(obj);
+		Object.isFrozen(obj); //true
+	9.Object.getOwnPropertyNames(obj);
+		返回一个由指定对象的所有自身属性的属性名（包括不可枚举属性）组成的数组。
+		var my_obj = Object.create({}, {
+		  getFoo: { //不可枚举的属性
+			value: function() { return this.foo; },
+			enumerable: false
+		  }
+		});
+		my_obj.foo = 1;
+		Object.getOwnPropertyNames(my_obj); //["foo", "getFoo"]
+	10.Object.getOwnPropertyDescriptor(obj, prop)
+		返回指定对象上一个自有属性对应的属性描述符(对象)。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）	
+		var O = { bar: 42 };
+		var d = Object.getOwnPropertyDescriptor(O, "bar"); //{ configurable: true, enumerable: true, value: 42, writable: true }
+	11.Object.getPrototypeOf(object);
+		返回该对象的原型(也就是prototype属性的值)。
+		var proto = {};
+		var obj = Object.create(proto);
+		Object.getPrototypeOf(obj) === proto; //true	
+	12.Object.is(value1, value2);
+		用来判断两个值是否是同一个值，两个值指向同一个对象。
+		Object.is('foo', 'foo');     // true
+	13.Object.isExtensible(obj);	
+		判断一个对象是否是可扩展的（是否可以在它上面添加新的属性）。
+		var empty = {};
+		Object.preventExtensions(empty); //变的不可扩展.
+		Object.isExtensible(empty); // === true
+	14.Object.isFrozen(obj);
+		判断一个对象是否被冻结 frozen。 // 一个不可扩展的空对象同时也是一个冻结对象.
+		var vacuouslyFrozen = Object.preventExtensions({});
+		Object.isFrozen(vacuouslyFrozen) === true;
+	15.Object.isSealed(obj)
+		判断一个对象是否被密封(sealed)。	
+		var sealed = {};
+		Object.seal(sealed);  //
+		Object.isSealed(sealed); // === true
+	16.Object.setPrototypeOf(obj, prototype);
+		设置一个指定的对象的原型 ( 例如,内置的 [[Prototype]]属性）到另一个对象或  null。
+		var dict = Object.setPrototypeOf({}, null);
+二.实例方法（定义在原型上的方法）
+	1.obj.hasOwnProperty(prop)
+		返回一个布尔值，表示某个对象是否含有指定的属性，而且此属性非原型链继承。	
+		var o = new Object();
+		o.prop = 'exists';
+		o.hasOwnProperty('prop');   // 返回 true
+	2.prototypeObj.isPrototypeOf(object)
+		用于测试一个对象是否存在于另一个对象的原型链上。
+	3.obj.propertyIsEnumerable(prop)	
+		返回一个布尔值，表明指定的属性名是否是当前对象可枚举的自身属性。
+		var o = {};
+		o.prop = 'is enumerable';
+		o.propertyIsEnumerable('prop');   //  返回 true
+	3.obj.toString();
+		返回对象的字符串表示。
+		var o = new Object();
+		o.toString(); // returns [object Object]
+	4.obj.watch(prop, handler);
+		给对象的某个属性增加监听。
+		var o = { p: 1 };
+		o.watch('p', function (id, oldval, newval) {
+			console.log('o.' + id + '改变了'); //id为监听的属性
+		});	
+		o.unwatch('p');  //取消对属性的监听
+三.Reflect对象13个静态方法
+	1.Reflect.get(target, name, receiver)
+		Reflect.get方法查找并返回target对象的name属性，如果没有该属性，则返回undefined。
+	2.Reflect.set(target, name, value, receiver)
+		Reflect.set方法设置target对象的name属性等于value。
+	3.Reflect.has(obj, name)
+		Reflect.has方法对应name in obj里面的in运算符。
+	4.Reflect.deleteProperty(obj, name)
+		Reflect.deleteProperty方法等同于delete obj[name]，用于删除对象的属性。
+	5.Reflect.construct(target, args)
+		Reflect.construct方法等同于new target(...args)，这提供了一种不使用new，来调用构造函数的方法。
+	6.Reflect.getPrototypeOf(obj)
+		Reflect.getPrototypeOf方法用于读取对象的__proto__属性，对应Object.getPrototypeOf(obj)。
+	7.Reflect.setPrototypeOf(obj, newProto)
+		Reflect.setPrototypeOf方法用于设置对象的__proto__属性，返回第一个参数对象，对应Object.setPrototypeOf(obj, newProto)。
+	8.Reflect.apply(func, thisArg, args)
+		Reflect.apply方法等同于Function.prototype.apply.call(func, thisArg, args)，用于绑定this对象后执行给定函数。
+	9.Reflect.defineProperty(target, propertyKey, attributes)
+		Reflect.defineProperty方法基本等同于Object.defineProperty，用来为对象定义属性。未来，后者会被逐渐废除，请从现在开始就使用Reflect.defineProperty代替它。
+	10.Reflect.getOwnPropertyDescriptor(target, propertyKey)
+		Reflect.getOwnPropertyDescriptor基本等同于Object.getOwnPropertyDescriptor，用于得到指定属性的描述对象，将来会替代掉后者。
+	11.Reflect.isExtensible (target)	
+		Reflect.isExtensible方法对应Object.isExtensible，返回一个布尔值，表示当前对象是否可扩展。
+	12.Reflect.preventExtensions(target)	
+		Reflect.preventExtensions对应Object.preventExtensions方法，用于让一个对象变为不可扩展。它返回一个布尔值，表示是否操作成功。	
+	13.Reflect.ownKeys (target) 	
+		Reflect.ownKeys方法用于返回对象的所有属性，基本等同于Object.getOwnPropertyNames与Object.getOwnPropertySymbols之和。
+		
+		
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
