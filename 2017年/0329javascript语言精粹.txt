@@ -1,0 +1,69 @@
+1.运算符优先级(从上往下降低，()可以改变优先级)
+	. [] ()                    //属性存取及函数调用
+	delete new typeof + - ！   //一元运算符
+	* / %                      //乘法、除法、取模
+	+ -                        //加法/链接、减法
+	>= <= > <                  //不定式运算符
+	=== !==                    //等式运算符
+	&&                         //逻辑与
+	||                         //逻辑或
+	？ ：                      //三元
+2.typeof运算符
+	number string boolean undefined function object（包括null和Array）symbol（七种） 
+	基本类型：number string boolean null undefined symbol。
+	引用类型（对象）：function array regexp object
+一.对象
+	1.对象字面量
+		let Person = {
+			name: 'fanerge',
+			age: 12
+		};
+	2.检索
+		Person['name'] //fanerge
+		Person.name    //fanerge推荐
+	3.更新
+		Person.name = 'zhenfanyu';
+	4.引用
+		对象通过引用来传递，它们永远不会被拷贝。
+	5.原型
+		所有的字面量对象的原型为Object.prototype === undefined（这是最顶层的原型链）。
+	6.反射
+		typeof
+		hasOwnProperty()   //实例方法
+	7.枚举
+		for in   //遍历自身 和 原型的可枚举属性
+		Object.keys()、Object.values()、Object.entires()   //遍历自生可枚举属性
+		Object.getOwnPropertyNames()  //遍历自生属性（包括不可枚举的属性）
+		使用typeof 或 hasOwnProperty  过滤后在遍历
+	8.删除
+		delete Person.name
+		Reflect.deleteProperty(obj, name)   //ES7
+	9.减少全局变量污染
+		namespace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
