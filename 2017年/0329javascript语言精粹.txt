@@ -40,15 +40,73 @@
 		Reflect.deleteProperty(obj, name)   //ES7
 	9.减少全局变量污染
 		namespace
-
-
-
-
-
-
-
-
-
+二.函数
+	1.函数对象
+		函数对象的原型===Function.prototype再连接到Object.prototype。
+	2.函数字面量
+		var dd = function(){};
+	3.调用
+		方法调用模式（对象上的方法）---- this指向该对象
+		函数调用模式 ---- this指向window,使用taht、self保存原this
+		构造器调用模式（new）---- this指向实例对象
+		Apply调用模式 ---- 第一个参数为被绑定给this的值，第二个为参数数组。		
+	4.参数
+		arguments
+	5.返回
+		return
+	6.异常
+		throw
+		try{  }catch(e){  }
+	7.给类型添加方法
+		String.prototype.trim = function(){ this.replace(/^\s+|\s+$/g,'') };	
+	8.递归（处理树形结构）
+	9.作用域		
+	10.闭包closure  IIFE
+	11.	回调
+	12.模块
+		函数作用域 和 闭包来创建绑定对象与私有成员的关联。
+		形式：一个定义了私有变量和函数（闭包）的函数。		
+	13.级联（类似jq的链式调用）
+		return this;//都返回该对象
+	14.套用
+		允许我们将函数与传递给它的参数相结合去产生一个新的函数。
+	15.记忆（缓存一般用对象 和 数组）
+		在内部缓存之前的计算结果，以后用到先读取缓存，否则再计算。
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 
