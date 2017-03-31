@@ -72,14 +72,67 @@
 		允许我们将函数与传递给它的参数相结合去产生一个新的函数。
 	15.记忆（缓存一般用对象 和 数组）
 		在内部缓存之前的计算结果，以后用到先读取缓存，否则再计算。
+三.继承
+	1.伪类
+		var Mammal = function (name){
+			this.name = name;
+		};
+		Mammal.prototype.getName = function(){
+			return this.name;
+		};
 		
+		var Cat = function (name){
+			this.name = name;
+			this.saying = 'dan';
+		};
+		Cat.prototype.sayDo = function(){
+			return this.saying;
+		};
+		Cat.Prototype = new Mammal();
 		
+		var dd = new Cat('dd');
+	2.对象说明符
+		对于一个函数有多个参数时传入一个对象比较友好
+			var myObject = maker({
+				first: f,
+				last: l,
+				state: s,
+				city: c
+			});
+	3.原型实现继承	
+		var Parent = {
+			name: 'fanerge',
+			getName: function(){
+				return this.name;
+			}
+		};	
 		
-		
-		
-		
-		
-		
+		var Child = {
+			name: '1111'
+		};
+		Object.setPrototypeOf(Child, Parent);	
+	4.函数化实现继承
+		var mammal = function (spec){
+			var that = {};
+			that.getName = function (){
+				return spec.name;
+			};
+			that.says = function (){
+				return spec.saying || '##';
+			};
+			return that;
+		};
+		//在cat种就可以用mammal种定义的方法了。
+		var cat = function (spec){
+			var that = mammal(spec); //先获得原来的两个方法
+			that.getAge = function (){ //在添加特有的方法
+				return spec.age;
+			};
+			return that;
+		}; 
+	5.部件
+		我们可以构造一个能添加简单事件处理特性到任何对象上的函数。
+		它会给对象添加一个on方法，一个fire方法和私有的事件注册表对象。
 		
 		
 		
