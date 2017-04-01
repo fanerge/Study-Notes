@@ -79,7 +79,7 @@ Reflect对象是ES6 为了操作对象而提供的新 API，作用是把原本Object的静态方法放到Ref
 	16.Object.setPrototypeOf(obj, prototype);
 		设置一个指定的对象的原型 ( 例如,内置的 [[Prototype]]属性）到另一个对象或  null。
 		var dict = Object.setPrototypeOf({}, null);
-二.实例方法（定义在原型上的方法）
+二.原型方法
 	1.obj.hasOwnProperty(prop)
 		返回一个布尔值，表示某个对象是否含有指定的属性，而且此属性非原型链继承。	
 		var o = new Object();

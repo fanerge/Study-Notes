@@ -133,20 +133,33 @@
 	5.部件
 		我们可以构造一个能添加简单事件处理特性到任何对象上的函数。
 		它会给对象添加一个on方法，一个fire方法和私有的事件注册表对象。
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+四.数组
+	1.数组字面量
+	2.长度 ---- length
+	3.删除 ---- splice(index, number, adds)	
+	4.枚举 ---- for\for...of 
+	5.混淆的地方 ---- 何时使用数组 和 对象？	
+	6.方法	
+		Array.prototype >> Object.prototype >> null
+	7.维度（二维数组）
+五.正则表达式
+	1.方法
+		regexp.exec\regexp.test
+		string.match\string.replace\string.search\string.split		
+	2.修饰符
+		i\g\m\y
+	3.元素
+		正则表达式选择 ---- /in|int/
+		正则表达式序列 ---- 
+		正则表达式因子 ---- 
+		正则表达式转义 ---- \
+		正则表达式分组 ---- 
+			捕获型	     （）
+			非捕获型     （?:前缀）
+			向前正向匹配 （?=前缀）
+			向前负向匹配 （?!前缀）
+		正则表达式量词
+			｛a, b｝
 		
 		
 		
