@@ -1,0 +1,64 @@
+大多OO语言都支持两种继承方式： 接口继承和实现继承 ，而ECMAScript中无法实现接口继承，ECMAScript只支持实现继承，而且其实现继承主要是依靠原型链来实现。
+定义一个父类。
+function Animal(name){
+	this.name = name || 'Animal';
+	//实例方法
+	this.sleep = function (){ 
+		console.log(this.name + '正在睡觉！');
+	}
+}
+//原型方法
+Animal.prototype.eat = function (food){  
+	console.log(this.name + '正在吃' + food);
+};
+1.原型链
+	基本思想：将父类的实例作为子类的原型。
+	function Cat(){ }
+	Cat.prototype = new Animal();
+	Cat.prototype.name = 'cat';
+	测试代码：
+		var cat = new Cat();
+		console.log(cat.name); //cat
+		console.log(cat.eat('fish')); //"cat正在吃fish"
+		console.log(cat.sleep()); //"cat正在睡觉！"
+		console.log(cat instanceof Animal); //true 
+		console.log(cat instanceof Cat); //true
+	特点：
+		非常纯粹的继承关系，实例是子类的实例，也是父类的实例。
+		父类新增原型方法/原型属性，子类都能访问到。
+	缺点：
+		要想为子类新增属性和方法，必须要在new Animal()这样的语句之后执行，不能放到构造器中。
+		无法实现多继承。
+		来自原型对象的引用属性是所有实例共享的。
+		创建子类实例时，无法向父类构造函数传参。
+2.构造继承
+	基本思想：使用父类的构造函数来增强子类实例，等于是复制父类的实例属性给子类（没用到原型）
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
