@@ -1,0 +1,86 @@
+meta 标签使用总结
+	Meta标签给搜索引擎提供了许多关于网页的信息。这些信息都是隐含信息,意味着对于网页自身的访问者是不可见的.
+	1.format-detection(是否对电话号码和emial进行检测)
+		<meta name="format-detection" content="telephone=no">
+		<meta name="format-detection" content="email=no">
+		<meta name="format-detection" content="telephone=no,email=no">
+	2.HandheldFriendly
+		<!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+		<meta name="HandheldFriendly" content="true">
+	3.MobileOptimized
+		<meta name="MobileOptimized" content="320">
+		介绍: 功能机时代的事实标签,用于标识移动内容的另一种方法,改标签的缺点是—特定的宽度必须给出
+	4.viewport
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+		width: viewport 的宽度[device-width | pixel_value]width如果直接设置pixel_value数值，大部分的安卓手机不支持，但是iOS支持；
+		height: viewport 的高度(范围从223到10000)
+		user-scalable: [yes | no] 是否允许缩放
+		initial-scale : [数值] 初始化比例（范围从 > 0 到 10）
+		minimum-scale : [数值] 允许缩放的最小比例
+		maximum-scale:  [数值] 允许缩放的最大比例
+		minimal-ui : IOS7.1的新属性，最小化浏览器UI
+	5.keywords
+		<meta name="keywords" content="">
+		介绍:这个标签在过去很重要，但是现在却没什么价值了。现在没有一个主流的搜索引擎使用meta keywords来判断网页的内容了。
+	6.robots
+		<meta name="robots" content="noindex,nofollow">
+		介绍: Meta robots标签管理着搜索引擎是否可以进入网页，你可以用它来允许或不允许搜索引擎来获取你的网页、进入你网页中的子链接或对你的网页存档。
+	7.description
+		<meta name="description" content="string">
+		介绍: 这个标签曾经在搜索排名中占有很大的比重,但随着算法的不断更新升级,他的地位也逐渐下降.他虽然不会提高网站的排名,但是,因为他会被用在搜索引擎的结果页,所以依然有用.
+	8.author
+		<meta name="author" content="name,xxx@163.com">
+		介绍: 设置作者和联系方式
+	9.charset
+		<meta charset='utf-8'>
+	10.http-equiv
+		<!-- 优先使用 IE 最新版本和 Chrome -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<!-- 不让百度转码 -->
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+	11.renderer
+		<!-- 启用360浏览器的极速模式(webkit) -->
+		<meta name="renderer" content="webkit">
+	12.浏览器强制竖屏
+		<!-- uc强制竖屏 -->
+		<meta name="screen-orientation" content="portrait">
+		<!-- QQ强制竖屏 -->
+		<meta name="x5-orientation" content="portrait">
+		<!-- UC强制全屏 -->
+		<meta name="full-screen" content="yes">
+		<!-- QQ强制全屏 -->
+		<meta name="x5-fullscreen" content="true">
+		<!-- UC应用模式 -->
+		<meta name="browsermode" content="application">
+		<!-- QQ应用模式 -->
+		<meta name="x5-page-mode" content="app">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
