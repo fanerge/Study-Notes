@@ -160,24 +160,61 @@
 			向前负向匹配 （?!前缀）
 		正则表达式量词
 			｛a, b｝
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+六.方法	
+	Array	
+		array1.concat(array2);	//返回新数组
+		array1.join(separator); //返回字符串
+		array1.pop(); //修改原数组 ，返回被删项
+		array1.push(item); //修改原数组，返回长度
+		array1.reverse(); //修改原数组，返回反转
+		array1.shift(); //修改原数组 ，返回被删项
+		array1.unshift(); //修改原数组，返回长度
+		array1.slice(start, end); //返回新数组，负数则加上length
+		array1.sort(); //修改原数组，排序
+		array1.splice(start, deleteCount, item...); //修改原数组 ，返回被删项
+	Function
+		function.apply(thisArg, argArray)
+	Number
+		number.toExponential(fractionDigits); //参数为小数点的位数
+		number.toFixed(fractionDigits); //参数为小数点的位数
+		number.toPrecision(precision); //参数为控制有效数字的位数
+		number.toString(radix); //将其转化为指定的进制数
+	Object
+		object.hasOwnProperty(name);
+	RegExp
+		regexp.exec(string);
+		regexp.test(string)
+	String
+		string.charAt(pos);
+		string.charCodeAt(pos);
+		string.concat(string...);
+		string.indexOf(searchString, position);
+		string.lastIndexOf(searchString, position);
+		string.localeCompare(that);
+		string.match(regexp);
+		string.replace(searchValue, replaceValue); //返回一个新的字符串
+		string.search(regexp); 
+		string.slice(start, end);
+		string.substring(start, end);
+		string.split(separator, limit); 
+		string.toLocaleLowerCase();
+		string.toLocaleUpperCase
+		string.toLowerCase();
+		string.toUpperCase();
+		String的静态方法
+		String.fromCharCode(char...);
 
-
-
-
-
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 
