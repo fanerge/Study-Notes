@@ -203,20 +203,62 @@
 		string.toUpperCase();
 		String的静态方法
 		String.fromCharCode(char...);
-
+七.应该避免的
+	1.全局变量
+	2.作用域
+	3.自动插入分号
+	4.保留字
+	5.Unicode ---- es6支持32位的。
+	6.typeof null === 'object'	
+	7.parseInt(string, [radix]);	
+	8. + 运算符可以用于加法运算或字符串连接。	
+	9.浮点数
+		0.1 + 0.2 = 0.3; 1 === 1.0;
+	10.NaN
+	11.伪数组
+	12.假值
+		0 NaN '' false null undefined 均返回false。
+	13.对象
+		对象都会有原型链指向Object.prototype,其中包括constructor对象。
+八.可避免的
+	1.使用 === 和 !== 代替 == !=		
+	2.with语句
+	3.eval
+		setTimeout、setInterval应该避免参数为字符串
+	4.cintinue语句
+	5.switch贯穿 case 后最好 有break
+	6.缺少块的语句
+	7. ++ --
+	8.位运算符
+	9.function语句对比函数表达式
+	10.类型的包装对象
+		尽量使用字面量定义如 []数组 {}对象
+	11.new
+	12.void
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
