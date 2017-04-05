@@ -198,7 +198,7 @@
 		string.substring(start, end);
 		string.split(separator, limit); 
 		string.toLocaleLowerCase();
-		string.toLocaleUpperCase
+		string.toLocaleUpperCase();
 		string.toLowerCase();
 		string.toUpperCase();
 		StringµÄ¾²Ì¬·½·¨
