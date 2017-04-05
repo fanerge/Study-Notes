@@ -34,7 +34,7 @@
 		for in   //遍历自身 和 原型的可枚举属性
 		Object.keys()、Object.values()、Object.entires()   //遍历自生可枚举属性
 		Object.getOwnPropertyNames()  //遍历自生属性（包括不可枚举的属性）
-		使用typeof 或 hasOwnProperty  过滤后在遍历
+		使用typeof 或 hasOwnProperty()  过滤后在遍历
 	8.删除
 		delete Person.name
 		Reflect.deleteProperty(obj, name)   //ES7
@@ -62,7 +62,7 @@
 	8.递归（处理树形结构）
 	9.作用域		
 	10.闭包closure  IIFE
-	11.	回调
+	11.回调
 	12.模块
 		函数作用域 和 闭包来创建绑定对象与私有成员的关联。
 		形式：一个定义了私有变量和函数（闭包）的函数。		
@@ -136,7 +136,7 @@
 四.数组
 	1.数组字面量
 	2.长度 ---- length
-	3.删除 ---- splice(index, number, adds)	
+	3.删除 ---- splice(index, number, adds...)	
 	4.枚举 ---- for\for...of 
 	5.混淆的地方 ---- 何时使用数组 和 对象？	
 	6.方法	
@@ -213,7 +213,7 @@
 	7.parseInt(string, [radix]);	
 	8. + 运算符可以用于加法运算或字符串连接。	
 	9.浮点数
-		0.1 + 0.2 = 0.3; 1 === 1.0;
+		0.1 + 0.2 != 0.3; 1 === 1.0;
 	10.NaN
 	11.伪数组
 	12.假值
@@ -225,7 +225,7 @@
 	2.with语句
 	3.eval
 		setTimeout、setInterval应该避免参数为字符串
-	4.cintinue语句
+	4.continue语句
 	5.switch贯穿 case 后最好 有break
 	6.缺少块的语句
 	7. ++ --
