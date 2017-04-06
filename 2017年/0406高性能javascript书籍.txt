@@ -1,0 +1,64 @@
+一.加载和执行
+	1.脚本位置
+		将脚本放在底部。
+	2.组织脚本
+		合并js文件。
+	3.无阻塞的脚本
+		延迟的脚本 ---- script标签的defer属性（立即下载，在window.onload触发之前执行，与其他资源并行下载），HTML5中async属性	
+		动态脚本 ---- var script = document.createElement('script'); script.src='demo.js';document.head.appendChild(script);
+			判断动态脚本是否加载成功 w3c为script.onload IE为script.onreadystatechange(判断readyState为loaded || complete)
+		XMLHttpRequest脚本注入 ---- 先创建一个XHR对象，再根据xhr.onreadystatechange事件中readyState 为 4 xhr.status 为 200时在动态创建script标签  
+		推荐的无阻塞模式 ---- 先建立动态加载script代码的函数，再动态加载需要的script代码
+二.数据存取
+	1.javascript只有四种基本的数据存取位置
+		字面量 ---- 字符串、数字、布尔值、对象、数组、函数、正则表达式、null、undefined
+		本地变量 ---- var 等定义的数据存储单元
+		数组元素 ---- 存储在数组对象内部，以数字作为索引
+		对象成员 ---- 存储在js对象内部，以key进行访问
+	2.管理作用域
+		作用域链（内部属性[[scope]]）和标识符解析
+			函数定义时 ---- 在作用域链[[scope]]中插入一个对象变量，这个全局对象代表着全局定义的变量
+			函数执行时 ---- 创建一个执行环境（execution context）的内部对象，它将初始化作用域链为[[scope]]作为，并创近啊一个活动对象（activation object）保存着this值，参数，并将其推入作用域链的最前端。
+		标识符解析的性能
+			如果一个全局变量被访问多次，可以用一个局部变量赖保存该全局变量，后面就使用该局部变量代替全局变量
+		改变作用域链
+			with ---- 给对象的所有属性创建一个变量（少用）
+			try{}catch(e){}
+		动态作用域
+			with、try-catch、eval()
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
