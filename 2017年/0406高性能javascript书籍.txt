@@ -18,7 +18,7 @@
 	2.管理作用域
 		作用域链（内部属性[[scope]]）和标识符解析
 			函数定义时 ---- 在作用域链[[scope]]中插入一个对象变量，这个全局对象代表着全局定义的变量
-			函数执行时 ---- 创建一个执行环境（execution context）的内部对象，它将初始化作用域链为[[scope]]作为，并创近啊一个活动对象（activation object）保存着this值，参数，并将其推入作用域链的最前端。
+			函数执行时 ---- 创建一个执行环境（execution context）的内部对象，它将初始化作用域链为[[scope]]作为，并创近啊一个活动对象（activation object）保存着this值、参数、及局部变量，并将其推入作用域链的最前端。
 		标识符解析的性能
 			如果一个全局变量被访问多次，可以用一个局部变量赖保存该全局变量，后面就使用该局部变量代替全局变量
 		改变作用域链
@@ -26,27 +26,43 @@
 			try{}catch(e){}
 		动态作用域
 			with、try-catch、eval()
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	3.闭包、作用域和内存
+		原理：闭包代码执行时，会创建一个执行环境，它的作用域与属性[[scope]]中所引用的两个相同的作用域链对象一起被初始化，然后一个活动对象为闭包自身所创建。
+		相当于创建3个对象：1.为自身的活动对象,2.父级函数的活动对象，3.父级函数对全局对象的引用
+	4.对象成员	
+		原型
+			对象有两种成员类型：1.实例成员（也称为own成员）和原型成员
+			通过内部属性 __proto__来访问原型成员
+		原型链
+			book.__proto__ >> Book.prototype >> Object >> Object.prototype(null)
+		嵌套成员
+			window.location.href
+		缓存对象成员值
+			let className = element.className;
+三.DOM编程
+	1.浏览器种的DOM
+		DOM用于操作HTML文档的程序接口(API)
+	2.DOM访问与修改
+		重绘和重排（几何）
+	3.节点克隆
+		element.cloneNode()
+	4.HTML集合
+		document.getElementsByName()、document.getElementsByTagName()、document.getElementsByClassName()
+		document.images、document.links、document.forms
+		访问集合元素时使用局部变量
+	5.遍历DOM	
+		childNodes、nextSibling
+	6.选择合适的API
+		querySelectorAll()、querySelector()
+	7.重绘和重排（几何）	
+		DOM树 ---- 表示页面结构
+		渲染树 ---- 表示DOM节点如何显示
+	8.最小化重绘和重排
+		多次操作合并为一次操作
+			element.style.cssText ="";
+			使用class
+	9.事件委托
+		1.绑定事件到冒泡的元素，2.再判断事件源对象是否为你所期望的元素。
 		
 		
 		
