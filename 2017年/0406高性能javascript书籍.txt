@@ -17,10 +17,10 @@
 		对象成员 ---- 存储在js对象内部，以key进行访问
 	2.管理作用域
 		作用域链（内部属性[[scope]]）和标识符解析
-			函数定义时 ---- 在作用域链[[scope]]中插入一个对象变量，这个全局对象代表着全局定义的变量
-			函数执行时 ---- 创建一个执行环境（execution context）的内部对象，它将初始化作用域链为[[scope]]作为，并创近啊一个活动对象（activation object）保存着this值、参数、及局部变量，并将其推入作用域链的最前端。
+			函数定义时 ---- 在作用域链[[scope]]中插入一个对象变量，它保存了对全局变量的引用
+			函数执行时 ---- 创建一个执行环境（execution context）的内部对象，它将初始化作用域链为函数定义是产生的[[scope]]，并创建一个活动对象（activation object）保存着this值、参数、及局部变量，并将其推入作用域链的最前端。
 		标识符解析的性能
-			如果一个全局变量被访问多次，可以用一个局部变量赖保存该全局变量，后面就使用该局部变量代替全局变量
+			如果一个全局变量被访问多次，可以用一个局部变量来保存该全局变量，后面就使用该局部变量代替全局变量
 		改变作用域链
 			with ---- 给对象的所有属性创建一个变量（少用）
 			try{}catch(e){}
@@ -31,16 +31,16 @@
 		相当于创建3个对象：1.为自身的活动对象,2.父级函数的活动对象，3.父级函数对全局对象的引用
 	4.对象成员	
 		原型
-			对象有两种成员类型：1.实例成员（也称为own成员）和原型成员
+			对象有两种成员类型：1.实例成员（也称为own成员）和 2.原型成员
 			通过内部属性 __proto__来访问原型成员
 		原型链
-			book.__proto__ >> Book.prototype >> Object >> Object.prototype(null)
+			book.__proto__ >> Book.prototype(继承Object所有方法) >> Object.prototype(null)
 		嵌套成员
 			window.location.href
 		缓存对象成员值
 			let className = element.className;
 三.DOM编程
-	1.浏览器种的DOM
+	1.浏览器中的DOM
 		DOM用于操作HTML文档的程序接口(API)
 	2.DOM访问与修改
 		重绘和重排（几何）
@@ -104,13 +104,89 @@
 			使用非捕获组
 			只捕获感兴趣的文本以减少后处理
 			暴露必需的字元
-		
-		
-		
-		
-		
-		
-		
+			使用合适的量词
+			把正则表达式赋值给变量并重用它们
+			将复杂的正则表达式拆分为简单的片段(化繁为简)
+	4.合适不使用正则表达式	
+六.快速响应的用户界面
+	1.浏览器UI线程 ---- 单线程，有一个队列放所有的任务，要么运行javascript，要么执行UI更新(包括重排和重绘)。
+	2.浏览器限制 ---- 调用栈大小限制、长时间运行脚本限制 	
+	3.使用定时器让出事件片段	
+		setTimeout()、setInterval()
+		使用定时器处理数组 至少25ms
+		分割任务
+	4.Web Workers
+		Worker 运行环境 ---- 不能访问浏览器的许多资源。
+		与Worker通信 ---- Worker与网页代码通过事件接口进行通信
+			网页代码和Worker 传递数据通过postMessage()
+			Worker 接收数据通过 onmessage 事件处理器
+			加载外部文件 ---- importScripts()
+		Web Workers 可以做的事
+			解析一个字符串（json文件）
+			编码/解码大字符串
+			复杂数学运算(包括图像或视频处理)
+			大数组排序
+七.Ajax
+	1.数据传输
+		请求数据
+			XMLHttpRequest(XHR)
+			动态脚本注入(jsonp跨域)
+			multipartXHR
+		发送数据
+			XHR
+			图片信标(Beacons)
+	2.数据格式
+		XML
+		JSON
+		JSONP
+		HTML
+	3.Ajax性能指南
+		缓存数据
+			设置HTTP头信息 ---- Expires
+			本地数据存储 ---- 本地对象缓存
+		Ajax类库的局限
+			不能访问 XMLHttpRequest 的完整功能
+八.编程实践
+	1.避免双重求值（一下函数中传入string时，这会导致在js代码中执行另一段js代码时，从而导致双重求值）
+		eval()|Function()构造函数|setTimeout()|setInterval()
+
+	2.使用Object/Array直接量（字面量）
+	3.避免重复工作
+		//问题为，每次调用该函数都将进行浏览器探测
+			function addHandler(target, eventType, handler){
+				if(target.addEventListener){ //W3C
+					target.addEventListener(eventType, handler, false);
+				}else{                       //IE
+					target.attachEvent('on' + eventType, handler);
+				}	
+			}
+		延迟加载（需要的时候再进行浏览器检测）
+			//这里只会在初次调用时进行浏览器探测
+			function addHandler(target, eventType, handler){
+				//复写现有函数
+				if(target.addEventListener){  //W3C
+					addHandler = function(target, eventType, handler){
+						target.addEventListener(eventType, handler, false);
+					}
+				}else{                       //IE 
+					addHandler = function(target, eventType, handler){
+						target.attachEvent('on' + eventType, handler);
+					}
+				}
+				//调用新函数，用于第一次调用
+				addHandler(target, eventType, handler);
+			}
+		条件预加载（加载js就进行浏览器检测）
+			let addHandler = document.body.addEventListener ?
+								function(target, eventType, handler){  //W3C
+									target.addEventListener(eventType, handler, false);;
+								}:
+								function(target, eventType, handler){  //IE
+									target.attachEvent('on' + eventType, handler);
+								}
+	4.使用速度最快的部分
+		位操作 AND & OR | XOR ^ NOT ~
+		原生方法  querySelector()、querySelectorAll()
 		
 		
 		
