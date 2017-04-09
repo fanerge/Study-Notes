@@ -147,7 +147,7 @@
 		Ajax类库的局限
 			不能访问 XMLHttpRequest 的完整功能
 八.编程实践
-	1.避免双重求值（一下函数中传入string时，这会导致在js代码中执行另一段js代码时，从而导致双重求值）
+	1.避免双重求值（以下函数中传入string时，这会导致在js代码中执行另一段js代码时，从而导致双重求值）
 		eval()|Function()构造函数|setTimeout()|setInterval()
 
 	2.使用Object/Array直接量（字面量）
