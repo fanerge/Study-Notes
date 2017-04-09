@@ -187,6 +187,30 @@
 	4.使用速度最快的部分
 		位操作 AND & OR | XOR ^ NOT ~
 		原生方法  querySelector()、querySelectorAll()
+九.构建并部署高性能javascript应用
+	1.Apache Ant		
+	2.合并多个javascript文件	
+	3.预处理javascript文件	
+	4.javascript压缩 ---- JSMin	、YUI Compressor 、 Closure Compiler
+	5.构建时处理对比运行时处理
+		javascript的http压缩（YUI Compressor + Gzip）
+	6.缓存javascript文件 Expires(HTTP 响应头) 、HTML5离线缓存(mainfest)
+	7.处理缓存问题 ---- 应用更新(一般在后面加上时间戳)
+	8.使用内容分发网络（CDN）	
+	9.部署javascript资源	
+	10.敏捷javascript构建过程	
+十.工具
+	1.javascript性能分析
+		YUI Profiler
+	2.匿名函数	
+	3.firebug(现停更)	
+		console.profile() ---- console.profileEnd()
+		console.time('demo') ---- console.timeEnd('demo')
+	4.chrome开发人员工具	
+	5.Page Speed	
+	6.Fiddler ---- HTTP调试代理工具	
+	7.YSlow	---- 观察页面初始加载和运行过程的整体性能
+		
 		
 		
 		
