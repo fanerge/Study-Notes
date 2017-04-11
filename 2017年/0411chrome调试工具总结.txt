@@ -1,0 +1,70 @@
+全部在开发者模式下 ---- F12
+1.coverage ---- 在操作过程中，加载需要的js、css等资源，并分析代码利用率
+常用快捷键
+	ctrl+p 项目中定位文件，如jquery.js库文件。
+	ctrl+shif+o 文件中定位成员函数，以下定位到jquery的addClass()方法。
+	Chrome在souces页面提供snippets一栏，这里我们可以随时编写JS代码，运行结果会打印到控制台。
+	copy 格式化拷贝 ---- 能需要将后台数据拷贝到本地，作为本地数据进行调试。
+		请求项的右键菜单中选择Copy Response拷贝响应内容
+		命令行中使用copy接口处理数据
+		得到格式化的JSON数据
+	iframe 调试
+		页面中<iframe id="iframe"></iframe>
+		with (document.getElementById('iframe').contentWindow) {
+			inspect(document.body);
+		}
+	debug()接口
+		Chrome控制台提供debug接口，可以传入一个函数，当这个函数下次执行的时候，调试器会自动在该函数中进行断点调试。
+		debug(Object.getOwnPropertyDescriptor(vm._data, "name").get)
+	条件breakpoint
+		// 当DOM元素满足某个条件进行断点，同时查看这个元素
+		elem.hasAttribute('class') && inspect(elem);
+	Async调试
+		开启Async模式后，异步函数之前的调用栈都会被记录下来，而且调用栈中代码执行状态也得到了保留。
+	$0 ---- 显示当前元素
+	代码格式化 ---- Sourse 面板 >> Pretty print 按钮(这种符号 {})
+	查看元素绑定事件 ----  Elements 面板 >> 选中一个元素 >> 右侧的 Event Listeners
+	Ajax 时中断 ---- Sourse 面板右侧 >> XHR Breakpoints右侧的 + 
+	Javascript 异常时中断 ---- 发生异常自动暂停，Pause On Caught Exceptions若选择了，try/catch 的异常也会暂停
+	DOM Level 3 Event 事件中断 ---- 在 Elements 面板, 选中一个元素右键, Break on 有两个选项：subtree modifications, attributes modifications, 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
