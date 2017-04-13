@@ -1,3 +1,5 @@
+参考文献地址：https://juejin.im/post/58e8c932ac502e4957bde78b
+一.JSONP
  1.js原生的jsop
 <script type="text/javascript">
 function callbackFunction(result, methodName){
@@ -42,3 +44,45 @@ $.getJSON("http://www.runoob.com/try/ajax/jsonp.php?jsoncallback=?", function(da
     
     $('#divCustomers').html(html); 
 });
+二.document.domain + iframe
+	来自www.a.com想要获取document.a.com中的数据
+	document.domain = 'a.com';
+	var iframe = document.createElement('iframe');
+	iframe.src = 'http://document.a.com';
+	iframe.style.display = 'none';
+	document.body.appendChild(iframe);
+
+	iframe.onload = function() {
+	  var targetDocument = iframe.contentDocument || iframe.contentWindow.document;
+	  //可以操作targetDocument
+	}
+三.window.name + iframe
+四.window.postMessage
+服务端协助跨域
+1.反向代理
+	客户端直接发送请求给代理服务器，然后代理服务器会根据客户端的请求，从真实的资源服务器中获取资源返回给客户端。
+2.CORS
+	CORS的核心思想是通过一系列新增的HTTP头信息来实现服务器和客户端之间的通信。所以，要支持CORS，服务端都需要做好相应的配置，这样，在保证安全性的同时也更方便了前端的开发。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
