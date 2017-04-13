@@ -9,7 +9,7 @@ javascriptDOM高级程序设计读书笔记
 		换行
 	4.可选的分号和花括号
 	5.重载（并非真正的重载）替换
-		重载的定义 ---- 根据不同的参数个数，执行不同的函数(具有相同名，不同参数的函数)。
+		重载的定义 ---- 根据不同的参数，执行不同的函数(具有相同名，不同参数的函数)。
 		不像其他语言，js中会发生同名函数替换。
 	6.匿名函数
 	7.作用域解析和闭包
@@ -23,7 +23,102 @@ javascriptDOM高级程序设计读书笔记
 		window对象中的一切：
 		理解作用域和闭包的根本
 	2.创建你自己的对象
-		
+		一变多：创建构造函数
+			Function对象的特殊之处在于，它的实例也能作为构造函数。
+				//MyConstructor 为 Function对象的实例
+				function MyConstructor( message ){
+					this.myMessage = message;
+				}
+				//myObject 为 MyConstructor对象的实例
+				var myObject = new MyConstructor('fanerge');
+		添加静态方法
+			var MyObject = new Object(); //var MyObject = {};
+			//添加一个属性(静态成员)
+			MyObject.name = 'fanerge';
+			var MyConstructor = function(){};
+			//添加一个静态属性
+			MyConstructor.name = 'fanerge';
+		向原型中添加公有方法
+			//添加一个公有方法
+			MyConstructor.prototype.clearMessage = function( str ){};
+		私有方法和特权方法
+			function MyConstructor( message ){
+				this.myMessage = message;
+				
+				//私有属性
+				let separator = '-';
+				let myOener = this;
+				
+				//私有方法(只能在对象内部访问)
+				function alertMessage(){
+					alert( myOener.myMessage );
+				}
+				//在实例化时显示
+				alertMessage();
+				
+				//特权方法(可以公开访问，还能够访问私有成员,也是公有方法)
+				this.appendMessage = function( str ){
+					this.myMessage += separator + str;
+					alertMessage();
+				};
+			}
+			//公有方法(与特权方法区别是，能否访问私有成员)
+			MyConstructor.prototype.clearMessage = function( str ){};
+			//静态属性
+			MyConstructor.name = 'fanerge';
+			//静态方法
+			MyConstructor.alertName = function(){
+				alert( this.name );
+			};
+		对象字面量
+	3.this
+		普通函数 this --- window
+		对象中的this --- 该对象
+		构造函数 --- 指向它的实例
+		call()、apply() --- 重新定义执行环境
+	4.try{}、catch{}和异常处理
+		try{
+			//试着执行的代码
+		}catch( e ){
+			console.error( e.name + e.message );
+		}
+	5.实例：你自己的调试日志
+		MyLogger()对象 --- 见库文件
+三.DOM2核心和DOM2 HTML
+	1.DOM不是javascript，它事文档
+	2.DOM的级别	
+		//参数1为特性，参数2为DOM级别
+		document.implementation.hasFeature( 'Core',2.0 );
+	3.创建示例文档
+	4.DOM核心
+		Node >> Element >> HTMLElement >> HTMLAnchorElement（继承关系）
+		nodeName\nodeValue\nodeType\parentNode\childNodes\firstChild\lastChild
+		previousSibling\nextSibling\attributes\ownerDocument（根文档）
+		操纵DOM节点树
+			appendChild()\insertBefore(new, old)\replaceChild(new, old)\removeChild(old)
+		复制和移动节点	
+			cloneNode()\replaceChild(new, old)
+		操纵Element对象的属性
+			getAttribute()\setAttribute()\removeAttribute()
+			getAttributeNode()\setAttributeNode()\removeAttributeNode()
+		文档根元素 ---- document.documentElement
+			createElement()\createDocumentFragment()
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
