@@ -27,7 +27,7 @@
 			let element = arguments[i];
 			
 			//如果该参数是一个字符串那假设它是一个id
-			if( typeof element === 'String' ){
+			if( typeof element === 'string' ){
 				element = document.getElementById( element );	
 			}
 			
@@ -53,7 +53,7 @@
 	
 	//添加事件
 	function addEvent( node, type, listener ){
-		//使用前面的犯法兼容性以保证平稳退化
+		//使用前面的方法兼容性以保证平稳退化
 		if( !isCompatible() ){
 			return false;
 		}
@@ -149,7 +149,7 @@
 		if( !(referenceNode = $(referenceNode)) ){
 			return false;
 		}
-		return referenceNode.parentNode.insertBefore( node, recalc.nextSibling );
+		return referenceNode.parentNode.insertBefore( node, referenceNode.nextSibling );
 	};
 	window['ADS']['insertAfter'] = insertAfter;
 	
@@ -311,6 +311,9 @@
 	
 	//添加prependChild
 	function prependChild( child, parent ){
+		if( !(parent = $(parent)) ){
+			return false;
+		}
 		if( parent.firstChild ){
 			parent.insertBefore( child, parent.firstChild );
 		}else{
