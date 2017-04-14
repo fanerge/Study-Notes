@@ -5,16 +5,16 @@ function Foo( name ){
 		console.log( name );
 	};
 	
-	//特权成员(公有成员)
+	//特权成员(公有成员 ---- 实例成员)
 	this.name = name;
 	this.getName = function(){   //可以访问私有成员
 		console.log( name );  //fan
 	};
 }
 
-//公有成员
+//原型成员(公有成员 ---- 实例成员)
 Foo.prototype.name = 'yuzhenfan';
-Foo.prototype.getName = function(){  //可以访问公有成员
+Foo.prototype.getName = function(){  //可以访问特权成员
 	return this.name;
 };
 
@@ -24,11 +24,22 @@ Foo.getName = function(){
 	console.log();
 };
 
+//实例成员(直接在实例上添加实例成员)
+let foo = new Foo();
+foo.name = 'fanerge';
+foo.getName = function(){
+	console.log();
+};
 总结：
 1.私有成员只能在构造函数内部访问
-2.公有成员必须实例化后方可使用，且特权方法是可以访问私有变量，而外部特权方法时不可以访问的
-3.静态成员是可以直接访问(不需要实例化)以Foo.getName()形式调用函数
-4.this ---- 所在函数的调用方式(环境)所决定的。
+2.实例成员必须实例化后方可使用，且特权成员是可以访问私有成员，而原型成员不可以访问的
+	特权成员为每个实例都各自拥有，而原型成员所有实例都共享同一个。
+	同名的特权成员和原型成员，其特权成员优先级高。
+3.实例成员有3中创建方式：1.特权成员 2.原型成员 3.直接在实例对象上直接添加
+	且优先级：3(直接) > 1(this) > 2(prototype)
+4.静态成员是可以直接访问(不需要实例化)以Foo.getName()形式调用函数
+	只能本身访问，每个实例是不能访问的
+5.this ---- 所在函数的调用方式(环境)所决定的。
 补充：
 1.函数声明 与 函数表达式 区别
 	//函数声明
