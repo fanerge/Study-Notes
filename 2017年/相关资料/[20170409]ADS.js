@@ -1,3 +1,16 @@
+//扩展String对象
+if( !String.repeat ){
+	String.prototype.repeat = function( l ){
+		return new Array( l + l ).join( this );
+	};
+}
+if( !String.trim ){
+	String.prototype.trim = function(){
+		this.replace(/^\s+|\s+$/g,'');
+	};
+}
+
+
 (function(){
 	//先检查全局是否有变量ADS
 	if( !window.ADS ){
@@ -27,7 +40,7 @@
 			let element = arguments[i];
 			
 			//如果该参数是一个字符串那假设它是一个id
-			if( typeof element === 'string' ){
+			if( typeof element === 'String' ){
 				element = document.getElementById( element );	
 			}
 			
@@ -53,7 +66,7 @@
 	
 	//添加事件
 	function addEvent( node, type, listener ){
-		//使用前面的方法兼容性以保证平稳退化
+		//使用前面的犯法兼容性以保证平稳退化
 		if( !isCompatible() ){
 			return false;
 		}
@@ -149,7 +162,7 @@
 		if( !(referenceNode = $(referenceNode)) ){
 			return false;
 		}
-		return referenceNode.parentNode.insertBefore( node, referenceNode.nextSibling );
+		return referenceNode.parentNode.insertBefore( node, recalc.nextSibling );
 	};
 	window['ADS']['insertAfter'] = insertAfter;
 	
@@ -311,9 +324,6 @@
 	
 	//添加prependChild
 	function prependChild( child, parent ){
-		if( !(parent = $(parent)) ){
-			return false;
-		}
 		if( parent.firstChild ){
 			parent.insertBefore( child, parent.firstChild );
 		}else{
@@ -372,7 +382,14 @@
 	}
 	window['ADS']['walkTheDOMWithAttributes'] = walkTheDOMWithAttributes;
 	
-	
+	/*把word-word 转化为 wordWord*/
+	function camelize( s ){
+		return s.replace(/-(\w)/g,function( strMatch, p1 ){
+			return p1.toUpperCase();
+		});
+	}
+	window['ADS']['camelize'] = camelize;
+		
 	
 	
 	

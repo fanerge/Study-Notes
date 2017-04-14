@@ -85,7 +85,7 @@ javascriptDOM高级程序设计读书笔记
 	5.实例：你自己的调试日志
 		MyLogger()对象 --- 见库文件
 三.DOM2核心和DOM2 HTML
-	1.DOM不是javascript，它是文档对象模型
+	1.DOM不是javascript，它事文档
 	2.DOM的级别	
 		//参数1为特性，参数2为DOM级别
 		document.implementation.hasFeature( 'Core',2.0 );
@@ -103,16 +103,19 @@ javascriptDOM高级程序设计读书笔记
 			getAttributeNode()\setAttributeNode()\removeAttributeNode()
 		文档根元素 ---- document.documentElement
 			createElement()\createDocumentFragment()
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	5.DOM HTML
+四.响应用户操作和事件
+	1.DOM2级事件
+	2.事件的类型	
+		对象事件、鼠标事件、键盘事件、表单事件、W3C事件、浏览器事件
+		对象事件（window对象、DOM对象-HTMLImageElement）
+		load\unload\abort\error
+		resize
+		scroll
+		mouseover\mousemove\mouseout(子元素也可触发)\mouseenter\mouseleave
+		mousedown\mouseup\click\dblclick
+		keydown\keyup\keypress
+		submit\reset\blur\focus\focusin\focusout\change\select
 	
 	
 	
