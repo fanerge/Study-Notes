@@ -116,10 +116,12 @@ javascriptDOM高级程序设计读书笔记
 		mousedown\mouseup\click\dblclick
 		keydown\keyup\keypress
 		submit\reset\blur\focus\focusin\focusout\change\select
-	
-	
-	
-	
+	3.控制事件流和注册事件侦听器
+		冒泡（ie）| 捕获（w3c）
+		dispatchEvent() //手动触发事件
+		Event对象
+		MouseEvent对象
+五.动态修改样式和层叠样式
 	
 	
 	

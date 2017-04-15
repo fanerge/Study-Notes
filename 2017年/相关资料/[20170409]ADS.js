@@ -390,6 +390,172 @@ if( !String.trim ){
 	}
 	window['ADS']['camelize'] = camelize;
 		
+	//阻止事件冒泡
+	function stopPropagation( e ){
+		e = e || window.event;
+		if( e.stopPropagation ){
+			e.stopPropagation();
+		}else{
+			e.cancelBubble = true;
+		}
+	}
+	window['ADS']['stopPropagation'] = stopPropagation;
+	
+	//阻止事件默认行为
+	function preventDefault( e ){
+		e = e || window.event;
+		if( e.prevent.preventDefault ){
+			e.preventDefault();
+		}else{
+			e.returnValue = false;
+		}
+	}
+	window['ADS']['preventDefault'] = preventDefault;
+	
+	function addLoadEvent( loadEvent, waitForImages ){
+		if( !isCompatible ){
+			return false;
+		}
+		
+		//如果waitForImages设置为true
+		if( waitForImages ){
+			return addEvent(window, 'load', loadEvent);
+		}
+		
+		//否则需要包装loadEvent，但需要确保事件不会执行两次
+		let init = function(){
+			//如果函数已经执行过了
+			if( arguements.callee.done ){
+				return ;
+			}
+			//将其标记为true，表示执行过了
+			arguements.callee.done = true;
+			//在docuemnt的环境中注册事件
+			loadEvent.apply( document, arguments );
+		};
+		
+		//为DOMContentLoaded事件注册事件侦听器
+		if( document.addEventListener ){
+			document.addEventListener( 'DOMContentLoaded', init, false );
+		}
+		
+		//safiri
+		if( /Webkit/i,test( navigator.userAgent ) ){
+			let _timer = setInterval( function(){
+				if( /loaded|complete/.test( docuemnt.readyState ) ){
+					clearInterval( _timer );
+					init();
+				}
+			} );
+		}
+		
+		//IE
+		/*@cc_on @*/
+		/*@if (@_win32)*/
+		document.write("<script id=__ie_onload defer src=javascript:void(0)></script>");
+		let script = document.getElementById('__ie_onload');
+		script.onreadystatechange = function(){
+			if( this.readyState === 'complete' ){
+				init();
+			}
+		};
+		/*@end @*/
+		return true;
+	}
+	window['ADS']['addLoadEvent'] = addLoadEvent;
+	
+	//获取事件目标对象
+	function getTarget( e ){
+		e = e || window.event;
+		//兼容W3c和ie
+		let target = e.target || e.srcElement;
+		return target;
+	}
+	window['ADS']['getTarget'] = getTarget;
+	
+	//兼容鼠标按键
+	function getMouseButton( e ){
+		e = e || window.event;
+		let buttons = {
+			'left': false,
+			'middle': false,
+			'right': false
+		};
+		if( e.toString && e.toSting().indexOf('MouseEvent') !== -1 ){
+			//w3c
+			switch( e.button ){
+				case 0: buttons.left = true; break;
+				case 1: buttons.middle = true; break;
+				case 2: buttons.right = true; break;
+				fefault: break;
+			}
+		}else if( e.button ){
+			//ie
+			switch( e.button ){
+				case 1: buttons.left = true; break;
+				case 2: buttons.right = true; break;
+				case 3:
+					buttons.left = true;
+					buttons.right = true;
+					break;
+				case 4: button.middle = true; break;
+				case 5:
+					buttons.left = true;
+					buttons.middle = true;
+					break;
+				case 6:
+					buttons.middle = true;
+					buttons.right = true;
+					break;
+				case 7:
+					buttons.left = true;
+					buttons.middle = true;
+					buttons.right = true;
+					break;
+				default : break;
+			}
+		}else{
+			return false;
+		}
+		return buttons;
+	}
+	window.['ADS']['getMouseButton'] = getMouseButton;
+	
+	//获得鼠标相对于文档的位置
+	function getPointerPositionInDocument( e ){
+		e = e || window.event;
+		//先后兼容safari、w3c、ie
+		let x = e.pageX || (e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft));
+		let y = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+		return {
+			'x': x,
+			'y': y
+		}
+	}
+	window['ADS']['getPointerPositionInDocument'] = getPointerPositionInDocument;
+	
+	//键盘
+	function getKeyPressed( e ){
+		e = e || window.event;
+		let code = e.keyCode;
+		let value = String.fromCharCode(code);
+		return {
+			'code': code,
+			'value': value
+		};
+	}
+	window['ADS']['getKeyPressed'] = getKeyPressed;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
