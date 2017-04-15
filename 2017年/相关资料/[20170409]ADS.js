@@ -546,6 +546,395 @@ if( !String.trim ){
 	}
 	window['ADS']['getKeyPressed'] = getKeyPressed;
 	
+	//通过id修改单个元素的样式
+	function setStyleById( element, styles ){
+		if( !(element = $(element)) ){
+			return false;
+		}
+		//循环遍历styles对象并应用每个属性
+		for( property in styles ){
+			if( !styles.hasOwnProperty(property) ){
+				continue;
+			}
+			if( element.style.setProperty ){
+				//w3c
+				element.style.setProperty(uncamelize(property,'-'), styeles[property], null);
+			}else{
+				//ie
+				element.style[camelize(property)] = styles[property];
+			}
+		}
+		return true;
+	}
+	//window['ADS']['setStyle'] = setStyleById;
+	window['ADS']['setStyleById'] = setStyleById;
+	
+	//通过类名修改多个元素的样式
+	function setStyleByClassName( parent, tag, className, styles ){
+		if( !parent = $(parent) ){
+			return false;
+		}
+		let elements = getElementsByClassName(className, tag, parent);
+		for( let e = 0, len = elements.length; e < len; e++ ){
+			setStyeleById(elements[e], styles);
+		}
+		return true;
+	}
+	window['ADS']['setStylesByClassName'] = setStylesByClassName;
+	
+	//通过标签名修改多个元素的样式
+	function setStylesByTagName( tagName, styles, parent ){
+		parent = $(parent) || document;
+		let elements = parent.getElementByTagName(tagName);
+		for( let e = 0, len = elements.length; e < len; e++ ){
+			setStyeleById(elements[e], styles);
+		}
+		return true;
+	}
+	window['ADS']['setStylesByTagName'] = setStylesByTagName;
+	
+	//取得包含元素类名的数组
+	function getClassNames( element ){
+		if( !(element = $(element)) ){
+			return false;
+		}
+		return element.className.replace(/\s+/,' ').split(' ');
+	}
+	window['ADS']['getClassNames'] = getClassNames;
+	
+	//检查元素中是否存在该类
+	function hasClassName( element, className ){
+		if( !(element = $(element)) ){
+			return false;	
+		}
+		let calsses = getClassNames(element);
+		for( let i = 0, len = classes.length; i++ ){
+			if( classes[i] === className ){
+				return true;
+			}
+		}
+		return false;
+	}
+	window['ADS']['hasClassName'] = hasClassName;
+	
+	//为元素添加类
+	function addClassName( element, className ){
+		if( !(element = $(element)) ){
+			return false;
+		}
+		element.className += (element.className ? ' ' : '') + className;
+		return true;
+	}
+	window['ADS']['addClassName'] = addClassName;
+	
+	//为元素删除类
+	function removeClassName( element, className ){
+		if( !(element = $(element)) ){
+			return false;
+		}
+		let classes = getClassNames(element);
+		let len = classes.length;
+		for( let i = len - 1; i >= 0 ;i-- ){
+			if( classes[i] === className ){
+				delete(classes[i]);
+			}
+		}
+		element.className = classes.join(' ');
+		return (len === classes.length ? false : true);
+	}
+	window['ADS']['removeClassName'] = removeClassName;
+	
+	//动态载入样式表
+	function addStyleSheet( url, media = 'screen' ){
+		let link = document.createElement('link');
+		link.setAttribute('rel', 'stylesheet');
+		link.setAttribute('type', 'text/css');
+		link.setAttribute('href', url);
+		link.setAttribute('media', media);
+		document.getElementsByTagNae('head')[0].appendChild(link);
+	}
+	window['ADS']['addStyleSheet'] = addStyleSheet;
+	
+	//移除样式表
+	function removeStyleSheet( url, media ){
+		let styles = getStyleSheets( url, media );
+		for( let i = 0, len = styles.length; i < len; i++ ){
+			let node = styles[i].ownerNode || styles[i]owningElement;
+			styles[i].disabled = true;
+			node.parentNode.removeChild(node);
+		}
+	}
+	window['ADS']['removeStyleSheet'] = removeStyleSheet;
+	
+	//获取样式列表
+	function getStyleSheets( url, media ){
+		let sheets = [];
+		for( let i = 0, len = document.styleSheets.length; i < len; i++ ){
+			if( url && document.styleSheets[i].href.indexOf( url ) == -1 ){
+				continue;
+			}
+			if( media ){
+				//规范化media字符串
+				media = media.replace(/,\s*/,',');
+				let sheetMedia;
+				if(document.styleSheet[i].media.mediaText){
+					//DOM方法
+					sheetMedia = document.styleSheet[i].media.mediaText.replace(/,\s*/,',');
+					//safari添加额外的都好和空格
+					sheetMedia = sheetMedia.replace(/,\s*$/,'');
+				}else{
+					//MSIE
+					sheetMedia = document.styleSheets[i].media.replace(/,\s*/,',');
+				}
+				if( media != sheetMedia ){
+					continue;
+				}
+			}
+			sheets.push(document.styleSheet[i]);
+		}
+		return sheets;	
+	}
+	window['ADS']['getStyleSheets'] = getStyleSheets;
+	
+	//编辑一天样式规则
+	function editCSSRule( selector, styles, url, media ){
+		let styleSheets = (typeof url === 'array' ? url : getStyleSheets( url, media ))
+		for( let i = 0, len = styleSheets.length; i < len; i++  ){
+			let rules = styleSheets[i].rules || styleSheets[i].rules;
+			if( !rules ){
+				continue;
+			}
+			selector = selector.toUpperCase();
+			for( let j = 0, len = rules.length; i < len ; i++ ){
+				if( rules[j].selectorText.toUpperCase() === selector ){
+					for( property in styles ){
+						if( !styles.hasOwnProperty(property) ){
+							continue;
+						}
+						rules[j].style[camelize(property)] = styles[property];
+					}
+				}
+			}
+		}
+	}
+	window['ADS']['editCSSRule'] = editCSSRule;
+	
+	//添加一条css规则
+	function addCSSRule( selector, styles, index, url, media ){
+		let declaration = '';
+		for( property in styles ){
+			if( !styles.hasOwnProperty(property) ){
+				continue;
+			}
+			declaration += property + ':' + style[property] + '; ';
+		}
+		let styleSheets = (typeof url === 'array' ? url : getStyleSheets(url, media));
+		let newIndex;
+		for( let i = 0; i < styleSheets.length; i++ ){
+			if( styleSheets[i].insertRule ){
+				inewIndex = (index >= 0 ? index : styleSheets[i].cssRules.length);
+				styleSheets[i].insertRule(
+					selector + '{' + declaration + '}',
+					newIndex
+				);
+			}else if( styleSheets[i].addRule ){
+				newIndex = (index >= 0 ? index : -1);
+				styleSheets[i].addRule(selector, declaration, newIndex);
+			}
+		}
+	}
+	window['ADS']['addCSSRule'] = addCSSRule;
+	
+	//计算样式
+	function getStyle( element, property ){
+		if( !(element = $(element)) || !property ){
+			return false;
+		}
+		let value = element.style[camelize(property)];
+		if( !value ){
+			//取得计算的样式
+			if( docuemnt.defaultView && document.defaultView.getComputedStyle ){
+				//w3c
+				let css = document.defaultView.getComputedStyle( element, null );
+				value = css ? css.getPropertyValue(property) : null;
+			}else if( element.currentStyle ){
+				//ie
+				value = element.currentStyle[camelize(property)];
+			}
+		}
+		return value === 'auto' ? '' : value;
+	}
+	window['ADS']['getStyle'] = getStyle;
+	window['ADS']['getStyleById'] = getStyle;
+	
+	//XMLHttpRequest
+	function getRequestObject( url, options = {} ){
+		let req = null;
+		if( window.XMLHttpRequest ){
+			req = new window.XMLHttpRequest();
+		}else if( window.ActiveXObject ){
+			req = new window.ActiveXObject('Microsofr.XMLHTTP');
+		}
+		if( !req ){
+			return false;
+		}
+		//定义默认选项
+		options.method = options.method || 'GET';
+		options.send = options.send || null;
+		
+		//为请求种的每个阶段定义不同的侦听器
+		req.onreadystatechange = function(){
+			switch( req.readyState ){
+				case 1: 
+					//载入中
+					if( options.loadListener ){
+						options.loadListener.apply( req.arguments );
+					}
+					break;
+				case 2:
+					//载入完成
+					if( options.loadListener ){
+						options.loadListener.apply( req.arguments );
+					}
+				case 3:
+					//交互
+					if( options.ineractiveListener ){
+						options.ineractiveListener.apply( req, arguments );
+					}
+					break;
+				case 4:
+					//完成
+					try{
+						if( req.status && req.status == 200 ){
+							let contentType = req.getResponseHeader( 'Content-Type' );
+							let mimeType = contentType.match( /\s*([^;]+)\s*(;|$)/i )[1];
+							switch( mimeType ){
+								case 'text/javascript':
+								case 'application/javascript':
+									if( options.jsResponseListener ){
+										options.jsResponseListener.call(req, req.responseText)
+									}
+									break;
+								case 'application/json':
+									if( options.jsonResponseListener ){
+										try{
+											let jons = parseJSON(req.responseText);
+										}catch( e ){
+											let json = false;
+										}
+										options.jsonResponseListener.call(req, json);
+									}
+									break;
+								case 'text/xml':
+								case 'application/xml':
+								case 'application/xhtml + xml':	
+									if( options.xmlResponseListener ){
+										options.xmlResponseListener.call(req, req.responseXML);	
+									}
+									break;
+								case 'text/html':
+									if( options.htmlResponseListener ){
+										options.htmlResponseListener.call(req, req.responseText);
+									}
+									break;
+							}
+							//针对响应完成的侦听器
+							if( options.completeListener ){
+								options.completeListener.apply(req, arguments);
+							}
+						}else{
+							//响应出现错误
+							if( options.errorListener ){
+								options.errorListener.apply(req, arguments);
+							}
+						}
+					}catch(e){
+						//忽略错误
+					}
+					break;
+			}
+		};
+		//开启请求
+		req.open(options.method, url, true);
+		req.setRequestHeader('X-ADS-Ajax-Request', 'AjaxRequest');
+		return req;
+	}
+	window['ADS']['getRequestObject'] = getRequestObject;
+	
+	//
+	function ajaxRequest( url, options ){
+		let req = getRequestObject( url, options );
+		return req.send( options.send );
+	}
+	window['ADS']['ajaxRequest'] = ajaxRequest;
+	
+	//跨域解决
+	let XssHttpRequestCount = 0;
+	let XssHttpRequest = function(){
+		this.requestId = 'XSS_HTTP_REQUEST_' + (++XssHttpRequestCount);
+	};
+	XssHttpRequest.prorotype = {
+		url: null,
+		scriptObject: null,
+		responseJSON: null,
+		status: 0,
+		readyState: 0,
+		timeout: 30000,
+		onreadystatechange: function(){
+			
+		},
+		setReadyState: function( newReadyState ){
+			if( this.readyState < newReadyState || newReadyState == 0 ){
+				this.readyState = newReadyState;
+				this.onreaystatechange();
+			}
+		},
+		open: function( url, timeout ){
+			this.timeout = timeout || 30000;
+			this.url = url
+				+ ((url.indexOf('?') != -1 ? '&' : '?'))
+				+ 'XSS_HTTP_REQUEST_CALLBACK='
+				+ this.requestID
+				+ '_CALLBACK';
+			this.setReadyState(0);
+		},
+		send: function(){
+			let requestObject = this;
+			this.scriptObject = document.createElement('script');
+			this.scriptObject.setAttribute('id', this.requestID);
+			this.scriptObject.setAttribute('type', 'text/javascript');
+			let timeoutWatcher = setTimeout(function(){
+				window[requestObject.requestID + '_CALLBACK'] = function(){};
+				requestObject.scriptObject.parentNode.removeChild(requestObject.scriptObject);
+				requestObject.status = 2;
+				requestObject.statusText = 'Timwout after '
+					+ requestObject.timeout
+					+ ' millseconds.';
+				requestObject.setReadyState(2);
+				requestObject.setReadyState(3);
+				requestObject.setReadyState(4);
+			}, this.timeout);
+			window[this.requestI + '_CALLBACK'] = function( JSON ){
+				clearTimeout( timeoutWatcher );
+				requestObject.setReadyState(2);
+				requestObject.setReadyState(3);
+				requestObject.responseJSON = JSON;
+				requestObject.status = 1;
+				requestObject.statusText = 'Loaded';
+				requestObject.setReadyState(4);
+			}
+			this.setReadyState(1);
+			this.scriptObject.setAttribute('src',this.url);
+			let head = document.getElementsByTagName('head')[0];
+			head.appendChild(this.scriptObject);
+		}
+	};
+	window['ADS']['XssHttpRequest']= XssHttpRequest;
+	
+	
+	
+	
+	
 	
 	
 	
