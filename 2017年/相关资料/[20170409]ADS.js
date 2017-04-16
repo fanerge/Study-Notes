@@ -931,7 +931,21 @@ if( !String.trim ){
 	};
 	window['ADS']['XssHttpRequest']= XssHttpRequest;
 	
-	
+	//克隆一个对象
+	function clone( myObj ){
+		if( typeof(myObj) != 'object' ){
+			return myObj;
+		}
+		if( myObj === null ){
+			reutn myObj;
+		}
+		let myNewObj = {};
+		for( let i in myObj ){
+			myNewObj[i] = clone(myObj[i]);
+		}
+		return myNewObj;
+	}
+	window['ADS']['clone'] = clone;
 	
 	
 	
