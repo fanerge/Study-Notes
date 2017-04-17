@@ -1,10 +1,10 @@
 //¿©’πString∂‘œÛ
-if( !String.repeat ){
+if( !String.prototype.repeat ){
 	String.prototype.repeat = function( l ){
 		return new Array( l + l ).join( this );
 	};
 }
-if( !String.trim ){
+if( !String.prototype.trim ){
 	String.prototype.trim = function(){
 		this.replace(/^\s+|\s+$/g,'');
 	};
