@@ -1,15 +1,9 @@
 //扩展String对象
-if( !String.prototype.repeat ){
-	String.prototype.repeat = function( l ){
-		return new Array( l + l ).join( this );
-	};
-}
 if( !String.prototype.trim ){
 	String.prototype.trim = function(){
 		this.replace(/^\s+|\s+$/g,'');
 	};
 }
-
 
 (function(){
 	//先检查全局是否有变量ADS
@@ -19,12 +13,11 @@ if( !String.prototype.trim ){
 	
 	//判断当前浏览器是否与整个库兼容
 	function isCompatible( other ){
-		//使用能力检测来检查必要条件
+		//使用能力检测来检查必要条件(判断是否支持es6语法)
 		if( other === false 
-			|| !Array.prototype.push 
-			|| !Object.hasOwnProperty
-			|| !document.createElement
-			|| !document.getElementsByTagName
+			|| !Array.isArray
+			|| !Array.prototype.include
+			|| !Object.keys
 			){
 			return false;	
 		}
@@ -66,7 +59,7 @@ if( !String.prototype.trim ){
 	
 	//添加事件
 	function addEvent( node, type, listener ){
-		//使用前面的犯法兼容性以保证平稳退化
+		//使用前面的方法兼容性以保证平稳退化
 		if( !isCompatible() ){
 			return false;
 		}
@@ -115,31 +108,6 @@ if( !String.prototype.trim ){
 	};
 	window['ADS']['removeEvent'] = removeEvent;
 	
-	function getElementsByClassName( className, tag, parent = document ){
-		if( !$(parent) ){
-			return false;
-		}
-		
-		//查找所有匹配的标签
-		let allTags = ( tag == '*' && parent.all ) ? parent.all : parent.getElementsByTagName( tag );
-		let matchingElements = [];
-		
-		//创建一个正则表达式,判断className是否正确
-		className = className.replace( /\-/g, '\\-' );
-		let regex = new RegExp( '(^|\\s)' + className + '(\\s|$)' );
-		let element;
-		//查找每个元素
-		for( let i = 0, len = allTags.length; i < len; i++ ){
-			element = allTags[i];
-			if( regex.test( element.className ) ){
-				matchingElements.push( element );
-			}
-		}
-		//返回任何匹配的元素
-		return matchingElements;
-	}; 
-	window['ADS']['getElementsByClassName'] = getElementsByClassName;
-	
 	function toggleDisplay( node, value = '' ){
 		if( !(node = $(node)) ){
 			return false;
@@ -162,7 +130,7 @@ if( !String.prototype.trim ){
 		if( !(referenceNode = $(referenceNode)) ){
 			return false;
 		}
-		return referenceNode.parentNode.insertBefore( node, recalc.nextSibling );
+		return referenceNode.parentNode.insertBefore( node, referenceNode.nextSibling );
 	};
 	window['ADS']['insertAfter'] = insertAfter;
 	
@@ -206,7 +174,7 @@ if( !String.prototype.trim ){
 			func.apply( obj, arguments);
 		};
 	}
-	window['ADS'].bindFunction = bindFunction;
+	window['ADS']['bindFunction'] = bindFunction;
 	
 	//获取窗口大小，返回一个对象
 	function getBrowserWindowSize(){
