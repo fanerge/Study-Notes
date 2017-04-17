@@ -1,7 +1,7 @@
 javascriptDOM高级程序设计读书笔记
 第一部分.深入理解DOM脚本编程
 一.遵循最佳实践
-	1.a标签种href 属性 javascript:只能处理一个函数
+	1.a标签中href 属性 javascript:只能处理一个函数
 	2.使用能力检测(基于对象 -- 就是判断该对象是否有该方法)代替浏览器版本嗅探	
 	3.javascript语法中常见的陷进
 		区分大小写
@@ -85,7 +85,7 @@ javascriptDOM高级程序设计读书笔记
 	5.实例：你自己的调试日志
 		MyLogger()对象 --- 见库文件
 三.DOM2核心和DOM2 HTML
-	1.DOM不是javascript，它事文档
+	1.DOM不是javascript，它是文档对象模型
 	2.DOM的级别	
 		//参数1为特性，参数2为DOM级别
 		document.implementation.hasFeature( 'Core',2.0 );
@@ -101,7 +101,7 @@ javascriptDOM高级程序设计读书笔记
 		操纵Element对象的属性
 			getAttribute()\setAttribute()\removeAttribute()
 			getAttributeNode()\setAttributeNode()\removeAttributeNode()
-		文档根元素 ---- document.documentElement
+		文档根元素 ---- document.documentElement -- (html)
 			createElement()\createDocumentFragment()
 	5.DOM HTML
 四.响应用户操作和事件
@@ -112,65 +112,13 @@ javascriptDOM高级程序设计读书笔记
 		load\unload\abort\error
 		resize
 		scroll
-		mouseover\mousemove\mouseout(子元素也可触发)\mouseenter\mouseleave
+		mouseover\mouseout(区别在于子元素也可触发)
+		mouseenter\mouseleave
 		mousedown\mouseup\click\dblclick
 		keydown\keyup\keypress
-		submit\reset\blur\focus\focusin\focusout\change\select
-	3.控制事件流和注册事件侦听器
-		冒泡（ie）| 捕获（w3c）
-		dispatchEvent() //手动触发事件
-		Event对象
-		MouseEvent对象
-五.动态修改样式和层叠样式
-	1.w3c DOM2样式规范
-		CSSStyleSheet对象
-			CSSStyleRule对象
-	2.当DOM脚本遇到样式
-	3.把样式置于DOM脚本之外
-		类操作
-		切换样式表
-		修改css规则
-	4.访问计算样式
-	5.ie的filter	
-六.图像裁剪和缩放工具	
-第二部分浏览器外部通信
-七.向应用程序中加入Ajax
-	1.组合的技术
-	2.Ajax破坏网站及如何解决
-八.实现带进度条的异步文件上传功能
-第三部分.部分高级脚本编程资源
-九.通过库赖提高生产力
-	1.增强DOM操作能力
-十.添加效果增强用户体验
-十一.丰富的Mashup！运用API添加地图、搜索及更多功能	
-十二.用DOM设计选择列表	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		submit\reset\change\select
+		blur\focus
+		focusin\focusout(区别在于支持冒泡)
 	
 	
 	
