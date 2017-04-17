@@ -69,28 +69,38 @@
 	可以使用bind()方法
 第二部分.this和对象原型
 一.关于this
-	this指向为该函数执行的环境。
-	1.为神要用this
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	this指向为该函数执行的环境（调用方式），在运行时绑定的。
+	1.为什么要用this
+	2.误解
+		foo.call( foo, i); //将强制foo中的this指向foo
+	3.this到底是什么
+二.this全面解析
+	1.调用位置
+	2.绑定规则
+		默认绑定（普通函数this指向window），但在严格模式中 this 指向undefined
+		隐式绑定（对象中的函数this指向对象），对象属性引用链中只有最顶层会影响调用位置。
+			隐式丢失 --- var bar = obj.foo;(只是对函数的引用),这是bar函数this指向window
+			回调函数丢失this
+		显示绑定 （call()、apply()）
+			fun.apply( obj, arguements ); //将fun的this指向obj	
+			fun.bind( obj );  //方法会创建一个新函数,并将this指向obj，函数柯里化
+		new绑定（指向它的实例）
+	3.优先级
+		new绑定 > 显示绑定 > 隐式绑定 > 默认绑定
+	4.绑定例外
+	5.this词法		
+		箭头函数 --- 更具外层(函数或者全局)作用域来决定this。其实箭头函数式没有this的
+		箭头函数 （可以用于回调函数中，这样就不用重写绑定this了）	
+三.对象
+	1.语法
+		字面量 和 构造形式
+	2.类型
+		7种类型（string、number、boolean、null、undefined、symbol、object（function 和 array））
+		简单基本类型（string、boolean、number、null、undefined、symbol）
+		内置对象（String、Number、Boolean、Object、Function、Array、Date、RegExp、Error）
+			null 和 undefined 是没有构造形式的，而 Date 只有构造形式。
+	3.内容
+		
 
 
 
