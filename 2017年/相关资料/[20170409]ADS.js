@@ -357,7 +357,12 @@ if( !String.prototype.trim ){
 		});
 	}
 	window['ADS']['camelize'] = camelize;
-		
+	
+	/*把 wordWord转化为 word-word*/
+	function uncamelize( s ){
+		return s.replace(/([A-Z])/g,'-$1').toLowerCase();
+	}
+	
 	//阻止事件冒泡
 	function stopPropagation( e ){
 		e = e || window.event;
@@ -372,7 +377,7 @@ if( !String.prototype.trim ){
 	//阻止事件默认行为
 	function preventDefault( e ){
 		e = e || window.event;
-		if( e.prevent.preventDefault ){
+		if( e.preventDefault ){
 			e.preventDefault();
 		}else{
 			e.returnValue = false;
