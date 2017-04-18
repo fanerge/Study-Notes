@@ -100,27 +100,87 @@
 		内置对象（String、Number、Boolean、Object、Function、Array、Date、RegExp、Error）
 			null 和 undefined 是没有构造形式的，而 Date 只有构造形式。
 	3.内容
+		可计算属性名 --- obj[prefix + name]
+		属性 和 方法 --- 
+		数组 --- 
+			你向数组添加属性，数组的长度并不会发生改变。
+		复制对象 --- 浅复制（直接属性）、深复制	
+			浅复制 --- Object.assign(target, ...sources)将所有sources对象中可枚举的属性赋值(=)到target对象上
+			区别在于层数问题
+		属性描述符
+			//获取obj.a的value、writable(修改)、enumerable(枚举)、configurable(配置，重新设置属性描述符，还会禁止删除这些属性)等属性描述符
+			Object.getOwnPropertyDescriptor(obj, a);  
+			//创建或修改obj.a的属性描述符
+			Object.defineProperty(obj, 'a', {
+				value: 2,
+				wirtable: true,
+				configurable: true,
+				enumerable: true
+			});	
+		不变性（浅不可变，单层的不变）
+			对象常量 --- writable: false 和 configurable: false (不可修改、配置、删除)
+			禁止扩展 --- Object.preventExtensions() 禁止添加新属性且保留已有属性
+				Object.isExtensible()
+			密封 --- Object.seal() 密封，不能添加新属性，不能配置和删除，但可以修改属性
+				Object.isSealed()
+				实际上调用了Object.preventExtendions() 和 configurable: false
+			冻结 --- Object.freeze() 冻结，级别最高的不可变性 
+				Object.isFrozen()
+				实际上调用Object.seal() 和 writable: false
+		[[Get]]
+			先字身查找属性，再[[protorype]]中查找
+		[[put]]
+			为对象的属性赋值会触发[[put]],分该属性存在与否？
+		Getter 和 Setter
+			let Obj = {
+				//给a定义一个getter
+				get a(){
+					return 2;
+				}
+			};
+			Obj.a = 3;
+			Obj.a;   //2 获取就会调用get方法
+			通常这样使用
+			let Obj = {
+				//为a定义一个getter
+				get a(){
+					return this._a_;
+				},
+				//为a定义一个setter
+				set a( val ){
+					return this._a_ = val * 2;
+				}
+			};
+			//Obj.a = 2; 调用setter
+			//Obj.a;   4 调用getter
+		存在性
+			in --- 如：'a' in Obj（检查属性是否在对象及其[[prototype]]中）
+			hasOwnProperty() 如：Obj.hasOwnProperty('a')（检查属性是否在对象自身中）
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		判断是否可枚举
+			Obj.propertyIsEnumerable('a');  //是否直接在对象中,并可枚举
+			Object.keys();  //返回一个数组，包含自身可枚举属性  
+			Object.getOwnPropertyNames();  //返回一个数组，自身属性（包括不可枚举的属性）
+	4.遍历
+		数组 --- for、forEach、every、some、map
+			forEach --会遍历数组中的所有制并忽略回调函数的返回值
+			every -- 一直运行到函数返回false
+			some -- 一直运行到函数返回true
+			map -- 返回一个新的数组
+		for...of直接遍历值而不是数组下标 或者 对象属性
+			数组有内置的迭代器 let it = array[Symbol.iterator](),it.next(); 
+四.混合对象‘类’
+	1.类理论	
+		继承(Vehicle、Car)、实例化（建筑设计图-类和房子-实例）、多态(父类和子类具有相同的方法，子类重写该方法)
+	2.类的机制
+	3.类的继承
+		多态 --- 重写父类方法
+		
+		
+		
+		
+		
+		
 
 
 
