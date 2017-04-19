@@ -175,8 +175,42 @@
 	2.类的机制
 	3.类的继承
 		多态 --- 重写父类方法
-		
-		
+		多重继承 --- 
+	4.混入  （模拟类语言中的复制行为）
+		库的extend() 或 mixin()
+			function mixin( sourceObj, targetObj ){
+				for( let key in sourceObj ){
+					//只会再不存在子类中进行复制
+					if( !(key in targetObj) ){
+						targetObj[key] = sourceObj[key];
+					}
+				}
+			}
+		显式多态 --- Vehicle.drive.call( this ); 再Car 中 进行 
+五.原型
+	1.[[prototype]]内置属性		
+		Object.create( prototypeChian, { ... } );
+		Object.prototype --- 尽头
+			使其拥有了toString()、valueOf()、hasOwnproperty()、isPrototypeOf()等方法
+	2.类
+		javascript只有对象
+		类函数
+		构造函数 
+			通过new调用时 它会创建一个对象
+	3.(原型)继承		
+		Bar.prototype = Object.create( Foo.prototype );	代替一下两种方式
+		Bar.prototype = Foo.Prototype; //Bar.protorype做操纵时会修改Foo.Prototype
+		Bar.prototype = new Foo();
+			Object.setPrototypeOf(); 代替之前的__proto__属性修改关联
+			Object.setPrototypeOf(obj, prototype); obj为要设置原型的对象，prototype为待设置的原型
+		检查‘类’关系
+			a instanceof Foo; //true
+			Foo.prototype.isPrototypeOf( a ); //判断Foo.prototype是否存在与a的原型链上
+			Object.getPrototypeOf( a ); //获取a的原型链
+			a.__proto__; //访问a的原型链
+	4.对象关联
+		let a = Object.create( b, ...propertys ); //创建一个原型为b 的对象a
+		let a = Object.create( null ); //完全空的对象，可用于存储数据
 		
 		
 		
@@ -184,4 +218,27 @@
 
 
 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
