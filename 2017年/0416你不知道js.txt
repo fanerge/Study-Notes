@@ -89,7 +89,7 @@
 		new绑定 > 显示绑定 > 隐式绑定 > 默认绑定
 	4.绑定例外
 	5.this词法		
-		箭头函数 --- 根据外层(函数或者全局)作用域来决定this。其实箭头函数式没有this的
+		箭头函数 --- 根据外层(函数或者全局)作用域来决定this。其实箭头函数是没有this的
 		箭头函数 （可以用于回调函数中，这样就不用重写绑定this了）	
 三.对象
 	1.语法
@@ -108,7 +108,7 @@
 			浅复制 --- Object.assign(target, ...sources)将所有sources对象中可枚举的属性赋值(=)到target对象上
 			区别在于层数问题
 		属性描述符
-			//获取obj.a的value、writable(修改)、enumerable(枚举)、configurable(配置，重新设置属性描述符，还会禁止删除这些属性)等属性描述符
+			//获取obj.a的value、writable(修改)、enumerable(枚举)、configurable(配置，重新设置属性描述符，还会禁止删除这个属性)等属性描述符
 			Object.getOwnPropertyDescriptor(obj, a);  
 			//创建或修改obj.a的属性描述符
 			Object.defineProperty(obj, 'a', {
@@ -121,14 +121,14 @@
 			对象常量 --- writable: false 和 configurable: false (不可修改、配置、删除)
 			禁止扩展 --- Object.preventExtensions() 禁止添加新属性且保留已有属性
 				Object.isExtensible()
-			密封 --- Object.seal() 密封，不能添加新属性，不能配置和删除，但可以修改属性
+			密封 --- Object.seal() 密封，不能添加新属性、配置和删除，但可以修改属性
 				Object.isSealed()
 				实际上调用了Object.preventExtendions() 和 configurable: false
 			冻结 --- Object.freeze() 冻结，级别最高的不可变性 
 				Object.isFrozen()
 				实际上调用Object.seal() 和 writable: false
 		[[Get]]
-			先字身查找属性，再[[protorype]]中查找
+			先自身查找属性，再[[protorype]]中查找
 		[[put]]
 			为对象的属性赋值会触发[[put]],分该属性存在与否？
 		Getter 和 Setter
@@ -163,7 +163,7 @@
 			Object.getOwnPropertyNames();  //返回一个数组，自身属性（包括不可枚举的属性）
 	4.遍历
 		数组 --- for、forEach、every、some、map
-			forEach --会遍历数组中的所有制并忽略回调函数的返回值
+			forEach --会遍历数组中的所有元素并忽略回调函数的返回值
 			every -- 一直运行到函数返回false
 			some -- 一直运行到函数返回true
 			map -- 返回一个新的数组
