@@ -9,7 +9,7 @@
 	1.3作用域嵌套
 		当一个块或(函数)嵌套在另一个块或(函数)中时，就发生了作用域的嵌套。
 	1.4异常
-		LRS --- 赋值操作的目标时谁
+		LRS --- 赋值操作的目标是谁
 		RHS --- 谁是赋值操作的源头
 	1.5小结 
 		如果查找的目标是对变量进行赋值，那么就会使用LHS查询。
@@ -90,7 +90,7 @@
 	4.绑定例外
 	5.this词法		
 		箭头函数 --- 根据外层(函数或者全局)作用域来决定this。其实箭头函数是没有this的
-		箭头函数 （可以用于回调函数中，这样就不用重写绑定this了）	
+		箭头函数 （可以用于回调函数中，这样就不用重新绑定this了）	
 三.对象
 	1.语法
 		字面量 和 构造形式
@@ -198,14 +198,14 @@
 		构造函数 
 			通过new调用时 它会创建一个对象
 	3.(原型)继承		
-		Bar.prototype = Object.create( Foo.prototype );	代替一下两种方式
+		Bar.prototype = Object.create( Foo.prototype );	代替以下两种方式
 		Bar.prototype = Foo.Prototype; //Bar.protorype做操纵时会修改Foo.Prototype
 		Bar.prototype = new Foo();
 			Object.setPrototypeOf(); 代替之前的__proto__属性修改关联
 			Object.setPrototypeOf(obj, prototype); obj为要设置原型的对象，prototype为待设置的原型
 		检查‘类’关系
 			a instanceof Foo; //true
-			Foo.prototype.isPrototypeOf( a ); //判断Foo.prototype是否存在与a的原型链上
+			Foo.prototype.isPrototypeOf( a ); //判断Foo.prototype是否存在于a的原型链上
 			Object.getPrototypeOf( a ); //获取a的原型链
 			a.__proto__; //访问a的原型链
 	4.对象关联
