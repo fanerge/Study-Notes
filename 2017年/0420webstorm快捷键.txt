@@ -1,0 +1,35 @@
+用了这么久的webstorm，对一些快捷键还是不太清楚，今日总结下
+1.ctrl + shift + n: 在该工程下查找指定目录文件
+2.ctrl + shift + alt + n: 在该工程下查找指定符号
+3.ctrl + b: 跳到变量声明处(满足作用于链)。
+4.ctrl + alt + t: 为代码添加指定包裹。
+5.ctrl + []: 匹配 {} 和 []
+5.ctrl + shift + []: 选中块代码
+6.ctrl + f12: 显示当前文档的结构
+7.ctrl + x: 剪切(选中为部分剪切，不选中为整行剪切)
+8.ctrl + r: 替换(replace)
+9.ctrl + f: 查找(find)
+1.ctrl + shift + up/dpwn: 上下移动代码
+2.ctrl + d: 行复制
+3.ctrl + /: 单行注释
+4.ctrl + shift + /: 块注释
+5.ctrl + shift + i: 显示当前css选择器或者js函数的详细信息
+6.ctrl + -/+: 折叠或打开代码块
+9.ctrl + alt + L: 格式化代码
+9.ctrl + p: 函数中的参数提醒
+1.ctrl + shift + space: 自动补全代码
+1.ctrl + 鼠标左键: 跳到对应的声明处
+7.alt + 7: 显示当前的函数结构/若为html页面则显示DOM结构
+8.alt + left/right: 标签切换
+
+
+
+
+
+
+
+
+
+
+
+
