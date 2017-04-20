@@ -211,27 +211,160 @@
 	4.对象关联
 		let a = Object.create( b, ...propertys ); //创建一个原型为b 的对象a
 		let a = Object.create( null ); //完全空的对象，可用于存储数据
+六.行为委托
+	1.面向委托的设计
+		类推理
+		委托推理（关联）
+			let Task = {};
+			let ABC = Object.create( Task );  //ABC的原型指向Task，ABC委托给Task
+			禁止相互委托
+			调试
+			比较思维模型
+				对象关联
+				let Foo = {
+					init: function(){},
+					identify: function(){}
+				};
+				let Bar = Object.create( Foo );
+				Bar.speak = function(){};
+				let b1 = Object.create( Bar );
+				b1.init();
+				//形成了3个对象关联 b1 > Bar > Foo
+	2.类与对象
+		控件‘类’ --- 可以使用ES6的class
+		委托控件对象 （Widget/Button）
+			let Widget = {
+				init: function( width = 50, height = 50 ){
+					this.width = width;
+					this.height = height;
+					this.$elem = null;
+				},
+				insert: function( $where ){
+					if( this.$elem ){
+						this.$elem.css({
+							width: this.width + 'px',
+							height: this.height + 'px',
+						}).appendTo( $where );
+					}
+				}
+			};
+			let Button = Object.create( Widget );
+			Button.setUp = function( width, height, label = 'Default' ){
+				//委托调用
+				this.init( width, height );
+				this.label = label;
+				this.$elem = $('<button>').text( this.label );
+			};
+			Button.build = function( $where ){
+				//委托调用
+				this.insert( $where );
+				this.$elem.click( this.onClick.bind( this ) );
+			};
+			Button.onClick = function( evt ){
+				console.log( "Button" + this.label + "clicked!" );
+			};
+			$(document).ready(function(){
+				let $body = $('body');
+				let btn1 = Object.create( Button );
+				btn1.setUp( 125, 30, 'Hello' );
+				btn1.build( $body );
+			});
+	3.更简洁的设计
+		对象关联
+		let LoginController = {
+			errors: [],
+			getUser: function(){
+				return document.getElementById( 'loginUsername' ).value;
+			},
+			getPassword: function(){
+				return document.getElementById( 'loginPassword' ).value;
+			},
+			validateEntry: function( user, pw ){
+				user = user || this.getUser();
+				pw = pw || this.getPassword();
+				if( !( user && pw ) ){
+					return this.failure( '请输入用户名和密码' );
+				}
+				if( pw.length < 5 ){
+					return this.failure( '密码至少5位' );
+				}
+				return true;
+			},
+			showDialog: function( title, msg ){
+				//给用户显示标题和消息
+			},
+			failure: function( err ){
+				this.errors.push( err );
+				this.showDialog( 'Error', 'login invalid' + err );
+			}
+		};
+		//让AuthController委托LoginController
+		let AuthController = Object.create( LoginController );
+		AuthController.errors = [];
+		AuthController.checkAuth = function(){
+			let user = this.getUser();
+			let pw = this.getPassword();
+			if( this.validateEntry( user, pw ) ){
+				this.serve( '/checkAuth',{
+					user: user,
+					pw: pw
+				} )
+				.then( this.accepted.bind( this ) )
+				.catch( this.rejected.bind( this ) );
+			}
+		};
+		AuthController.server = function( url, data ){
+			return $.ajax({
+				url: url,
+				data: data
+			});
+		};
+		AuthController.accepted = function(){
+			this.showDialog( 'Success','Authenticated' );
+		};
+		AuthController.rejected = function( err ){
+			this.failure( 'Auth Failed' + err );
+		};
+	4.更好的语法
+	5.内省
+附录A.ES6中的class
+	1.class
+		改写Widget/Button
+		class Widget {
+			constructor( width = 50, height = 50 ){
+				this.width = width;
+				this.height = height;
+				this.$elem = null;
+			}
+			render( $where ){
+				if( this.$elem ){
+					this.$elem.css({
+						width: this.width + 'px',
+						height: this.height + 'px'
+					}).appendTo( $where );
+				}
+			}
+		}
 		
-		
-		
-		
-
-
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		class Button extends Widget {
+			constructor( width, height, label = 'Default' ){
+				super( width, height );
+				this.label = label;
+				this.$elem = $('<button>').text( this.label );
+			}
+			render( $where ){
+				super( $where );
+				this.$elem.click( this.onClick.bind( this ) );
+			}
+			onClick( evt ){
+				console.log( 'Button' + this.lable + 'clicked' );
+			}
+		}
+	2.class陷阱	
+		仅仅是引用，C.prototype.rand = function(){}; //这样类C中的rand方法会被重写
+		class语法无法定义类成员属性(只能定义方法) //属性就只能在C.prototype.count = 0;这样定义
+	3.静态大于动态吗	
+		少使用class，尽量使用委托来住址代码
 		
 		
 		
