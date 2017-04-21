@@ -228,7 +228,7 @@
 				let Bar = Object.create( Foo );
 				Bar.speak = function(){};
 				let b1 = Object.create( Bar );
-				b1.init();
+				b1.init();  //此时的b1具有init、identify、speak方法
 				//形成了3个对象关联 b1 > Bar > Foo
 	2.类与对象
 		控件‘类’ --- 可以使用ES6的class
@@ -258,7 +258,10 @@
 			Button.build = function( $where ){
 				//委托调用
 				this.insert( $where );
-				this.$elem.click( this.onClick.bind( this ) );
+				this.$elem.click( this.onClick.bind( this ) ); //将回调函数的this指向按钮,而不是指向window（方法内部的this）
+				//this.$elem.click( console.log(this)  );  此时this指向Button对象
+				//this.$elem.click( this.onClick  );  此时this指向window对象,因为只是将Button.onClick方法的引用拿到这里
+				//this.$elem.click( this.onClick.bind( this )  );  此时将Button.onClick方法强制指向Button对象
 			};
 			Button.onClick = function( evt ){
 				console.log( "Button" + this.label + "clicked!" );
