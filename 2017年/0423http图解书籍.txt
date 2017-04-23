@@ -1,0 +1,173 @@
+想做一个合格的前端工程师，我认为应该了解http的知识，努力早日成为高级工程师。
+一.了解Web及网络基础
+	1.使用HTTP（超文本传输协议）协议访问Web
+	2.HTTP的诞生
+	3.网络基础TCP/IP	
+		TCP/IP协议族 --- 互联网相关联的协议结合
+		TCP/IP的分层管理 --- 应用层、传输层、网络层、数据链路层
+		1应用层（FTP/DNS/HTTP）--- 决定了向用户提供应用服务时通信的活动。
+			应用服务有：FTP、DNS、HTTP等。
+		2传输层（TCP/UDP） --- 对应用层，提供处于网络连接中的两台计算机之间的数据传输。
+			该层有：TCP（传输控制协议）和UDP（用户数据报协议）
+		3网络层（IP） --- 处理在网络上流动的数据包。
+			该层规定通过怎样的路径到达对方计算机，并把数据传给对方。
+		4链路层（以太网） --- 用来处理连接网络的硬件部分。
+			包括控制操作系统、硬件的设备驱动、NIC(网卡)、光纤。
+		TCP/IP通信传输流
+	4.与HTTP关系密切的协议：IP、TCP和DNS
+		负责传输的IP协议
+			ARP协议 --- 通过IP地址反查到MAC地址，使用MAC地址进行通信。
+		确保可靠的TCP协议
+			三次握手策略 --- 通过SYN和ACK来标记。
+	5.负责域名解析的DNS服务
+	6.各种协议与HTTP协议的关系
+	7.URI和URL		
+		URI --- 统一资源标识符（ftp、http、mailto等等）
+		URL --- 统一资源定位符（http）
+二.简单的HTTP协议
+	1.HTTP协议用于客户端和服务端之间的通信	
+	2.通过请求和响应的交换达成通信	
+	3.HTTP是不保存状态的协议 --- 借助Cookie技术来保存状态	
+	4.请求URI定位资源	
+	5.告知服务器意图的HTTP方法
+		GET --- 获取资源
+		POST --- 传输实体主体
+		PUT --- 传输文件
+		HEAD --- 获取报文首部
+		DELETE --- 删除文件
+		OPTIONS --- 询问支持的方法
+		TRACE --- 追踪路径
+		CONNECT --- 要求用隧道协议连接代理
+	6.使用方法下达命令
+	7.持久连接节省通信量
+		持久连接 （keep-alive） 
+		管线化 并行发送多个请求
+	8.使用Cookie的状态管理
+		cookie技术通过在请求和响应报文中写入cookie信息来控制客户端的状态。
+三.HTTP报文内的HTTP信息
+	1.HTTP报文	
+		HTTP报文：报文首部 + 报文主体两块。
+	2.请求报文及响应报文的结构
+		报文首部：请求行/状态行 + 请求/响应首部字段 + 通用首部字段 + 实体首部字段　+　其他
+		空行（CR + LF）
+		报文主体
+	3.编码提升传输速率
+		报文主体和实体主体的差异
+		压缩传输的内容编码
+			gzip（GUN zip）、compress（UNIX系统的标准压缩）、deflate（zlib）、identity（不进行编码）
+		分割发送的分块传输编码 --- Chunked TransferCoding
+	4.发送多种数据的多部分对象集合
+		web表单中上传时使用 --- multipart/form-data
+	5.获取部分内容的范围请求
+		Content-Range：bytes 5001-10000
+	6.内容协商返回最合适的内容（返回不同语言的网站）
+		服务器驱动协商
+		客户端驱动协商
+		透明协商
+四.返回结果的HTTP状态码
+	1.状态码告知从服务器端返回的请求结果（40种）
+		1XX -- 信息性状态码 -- 接收的请求正在处理
+	2.2XX成功
+		200 -- ok -- 请求正常处理
+		204 -- NO Content -- 请求处理成功，但没有资源可返回
+		206 -- Partial Content -- 对资源某一部分的请求
+	3.3XX重定向
+		301 -- Moved Permanently -- 永久性重定向
+		302 -- Found -- 临时性重定向
+		303 -- See Other -- 由于请求对应的资源存在着另一个URI，应使用GET方法定向获取请求的资源
+		304 -- Not Modified --服务器允许访问资源，但未满足条件的情况
+		307 -- Temporary Redirect -- 临时重定向
+	4.4XX客户端错误
+		400 -- Bad Request -- 请求报文中存在语法错误
+		401 -- Unauthorized -- 请求需要通过HTTP认证（BASIC认证、DIGEST认证）
+		402 -- Forbidden -- 请求资源的访问被服务器拒绝
+		404 -- Not Found -- 服务器无法找到指定的资源
+	5.5XX服务器错误
+		500 -- Internal Server Error -- 执行请求发生错误
+		503 -- Service Unavailable -- 服务器处于超负载或正在进行停机维护
+五.与HTTP协作的Web服务器
+	1.用单台虚拟主机实现多个域名
+	2.通信数据转发程序：代理、网关、隧道	
+		代理 -- 具有转达功能的应用程序，客户端和服务端之间。
+		网关 -- 转发其他服务器通信数据的服务器，接收从客户端发过来的请求，就像自己是拥有资源的源服务器一样处理请求。
+		隧道 -- 相隔甚远的客户端和服务端之间进行中转，并保持双发通信连接的应用程序
+	3.保护资源的缓存
+		缓存是指代理服务器或客户端本地磁盘内保存的资源副本。
+		缓存的有效期限
+		客户端的缓存
+六.HTTP首部
+	1.HTTP报文首部
+		请求行：方法、URI、HTTP版本  //GET / HTTP/1.1
+		请求首部字段、通用首部字段、实体首部字段：HTTP首部字段
+		状态行：HTTP版本、状态码  //HTTP/1.1 304 Not Modified
+	2.HTTP首部字段
+		HTTP首部字段传递重要信息 -- 主体大小、所使用的语言、认证信息
+		HTTP首部字段结构 -- 首部字段名：字段值（Content-Type: text/html）
+		4种HTTP首部字段类型
+			请求首部字段
+			响应首部字段
+			通用首部字段
+			实体首部字段
+		HTTP/1.1首部字段一览
+		非HTTP/1.1首部字段一览		
+		End-to-end首部和Hop-by-hop首部
+	3.HTTP/1.1通用首部字段
+		Cache-Control -- 操作缓存的工作机制
+			Cache-Control：private, max-age=0,no-cache
+			no-cache -- 参数无 -- 强制向源服务器再次验证（代表不缓存过期的资源）
+			no-store -- 无 -- 不缓存请求或响应的任何内容
+			max-age=[秒] -- 必填 -- 响应的最大Age值
+			max-stale=[秒] -- 可省略 -- 接收已过期的响应
+			min-fresh=[秒] -- 必填 -- 期望在指定事件内的响应仍有效
+			no-transform -- 无 -- 代理不可更改媒体类型
+			noly-if-cached -- 无 -- 从缓存获取资源
+		Connection -- 控制不再转发给代理的首部字段/管理持久连接
+			Connection：Upgrade
+			Connection：close /Keep-Alive
+		Date -- 表明创建HTTP报文的日期和时间
+			Date：Tue, 03 Jul 2012 04:40:59 GMT
+		Pragma: no-cache   //用于向后兼容，要求所有的中间服务器不返回缓存的资源 
+		Trailer -- 事先说明在报文主体后记录了哪些首部字段
+			Trailer: Expires
+		Transfer-Encoding -- 规定了传输报文主体是采用的编码方式
+			Transfer-Encoding: chunked
+		Upgrade -- 检测HTTP协议及其协议是否可使用更高的版本进行通信
+		Via -- 为了追踪客户端与服务端之间的请求和响应报文的传输路径
+		Warning -- 告知用户一些与缓存相关的问题的警告
+			Warning: [警告码][警告的主机:端口号]"[警告内容]"([时间日期])
+	4.请求首部字段
+		Accept -- 通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级
+			Accept: text/html, text/plain, text/css
+		Accept-Charset -- 用户代理支持的字符集及其相对优先顺序
+		Accept-Encoding -- ...支持的内容编码及优先级
+		Accept-Language -- 语言集
+		Authorization -- 用户代理的认证信息(证书值)	
+		Expect -- 告诉服务器，期望出现的某种特定行为
+		From -- 使用用户代理的用户的电子邮件地址
+		Host -- 请求的资源所处的互联网主机名和端口号
+		If-Match -- （称为条件请求）只有条件为真时，才会执行请求
+		If-Modified-Since -- 若早于更新时间，则希望能处理该请求
+		If-None-Match -- 
+		If-Range -- 
+		If-Unmodified-Since
+		Max-Forwards
+		Proxy-Authorization
+		Range -- 
+		Referer
+		TE
+		User-Agent
+	5.响应首部字段
+		Accept-Ranges -- 告知客户端服务器是否能处理范围请求
+			Accept-Range: bytes/none
+		Age -- 源服务器多久前创建了响应
+			Age: 600
+		ETag -- 告知客户端实体标识
+		Location -- 响应接收方引导某个与请求URI位置不同的资源
+		Proxy-Authenticate -- 代理服务器所要求的认证信息发给客户端
+		Retry-After -- 告知客户端应该多久之后再次发送请求
+		Server -- 
+		
+		
+		
+		
+		
