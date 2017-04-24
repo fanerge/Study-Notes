@@ -150,14 +150,15 @@
 		If-None-Match -- 
 		If-Range -- 
 		If-Unmodified-Since
-		Max-Forwards
-		Proxy-Authorization
-		Range -- 
-		Referer
-		TE
-		User-Agent
+		Max-Forwards -- 可经过服务器最大数目
+		Proxy-Authorization -- 客户端与代理之间的认证
+		Authorization -- 客户端与服务端之间的认证
+		Range -- 获取部分资源
+		Referer -- 告知服务器请求的原始资源的URI
+		TE -- 告知服务器客户端能够处理响应的传输编码方式及相对优先级
+		User-Agent -- 将用户代理名称等信息传达给服务器
 	5.响应首部字段
-		Accept-Ranges -- 告知客户端服务器是否能处理范围请求
+		Accept-Ranges -- 告知客户端该服务器是否能处理范围请求
 			Accept-Range: bytes/none
 		Age -- 源服务器多久前创建了响应
 			Age: 600
@@ -165,9 +166,66 @@
 		Location -- 响应接收方引导某个与请求URI位置不同的资源
 		Proxy-Authenticate -- 代理服务器所要求的认证信息发给客户端
 		Retry-After -- 告知客户端应该多久之后再次发送请求
-		Server -- 
-		
-		
+		Server -- 当前服务器安装的HTTP服务器应用程序的信息
+		Vary -- 可对缓存进行控制
+		WWW-Authenticate -- 用户HTTP访问认证
+	6.实体首部字段
+		Allow -- 通知客户端支持Request-URI指定资源的所有HTTP方法
+		Content-Encoding -- 告诉服务器对实体的主体部分选用的内容编码方式
+		Content-Language -- 主体使用的自然语言
+		Content-Length -- 主体部分的大小（字节）
+		Content-Location -- 报文主体返回资源对应的URI
+		Content-MD5 -- 检查报文主体在传输过程中是否保持完整，以及确认传输到达
+		Content-Range -- 对应单位请求的
+		Content-Type -- 实体主体内对象的媒体类型
+		Expires -- 将资源失效的日期告知客户端
+		Last-Modified -- 指明最终修改的时间
+	7.为cookie服务的首部字段
+		Set-Cookie -- 开始状态管理所使用的Cookie信息 -- 响应首部字段
+			属性：NAME=VALUE expires=DATE path=PATH domain=域名 Secure HttpOnly
+			expires -- 指定浏览器可方法Cookie的有效期
+			path -- 可用于限制指定Cookie的发送范围的文件目录
+			domain -- 指定的域名可做到与结尾匹配一致
+			secure -- 限制web页面仅在HTTPS安全连接时才可以发送Cookie
+			HttpOnly -- 使javascript脚本无法获得Cookie
+		Cookie -- 服务器接收到的Cookie信息 -- 请求首部字段
+			Cookie: status=enable	
+	8.其他首部字段
+		X-Frame-Options -- 控制网站内容在其他web网站的Frame标签显示问题
+			DENY（拒绝）/SAMEORIGN（同源）
+		X-XSS—Protection -- 针对跨站脚本攻击（XSS）的策略
+			0 将XSS过滤设置成无效状态
+			1 将XSS过滤设置成有效状态
+		DNT -- 拒绝被精准广告追踪的一种方法
+			0 同意被追踪
+			1拒绝被追踪
+		P3P -- 保护用户隐式
+七.确保Web安全的HTTPS
+	1.HTTP的缺点
+		通信使用明文可能会被窃听
+			HTTP和SSL（安全套接层） -- HTTPS	
+		不验证通信方的身份就可能遭遇伪装
+		无法证明报文完整性，可能已遭篡改
+	2.HTTP+加密+认证+完整性保护 = HTTPS	
+		HTTP加上加密处理和认证以及完整性保护后即是HTTPS
+		HTTPS是身披SSL外壳的HTTP
+		相互交换密钥的公开密钥加密技术
+			共享密钥加密的困境
+			使用两把密钥的公开密钥加密
+			HTTPS采用混合加密机制
+			证明公开密钥正确性的证书
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
 		
 		
