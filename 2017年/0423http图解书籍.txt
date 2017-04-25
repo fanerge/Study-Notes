@@ -214,18 +214,87 @@
 			使用两把密钥的公开密钥加密
 			HTTPS采用混合加密机制
 			证明公开密钥正确性的证书
+			可证明组织真实性的EV SSL证书
+			用以确认客户端的客户端证书
+			认证机构信誉第一
+			自由认证机构颁发的证书称为自签名证书
+		中级认证机构的证书可能会变成自认证证书
+		HTTPS的安全通信机制
+			SSL 和 TLS
+			SSL速度慢吗
+八.确切访问用户身份的认证
+	1.何为认证
+		HTTP使用的认证方式
+			BASIC认证（基本认证）
+			DIGEST认证（摘要认证）
+			SSL客户端认证
+			FormBase认证（基于表单认证）
+	2.BASIC认证	
+	3.DIGEST认证	
+	4.SSL客户端认证	
+		SSL客户认证的认证步骤
+		SSL客户端认证采用双因素认证
+		SSL客户端认证必要的费用
+	5.基于表单认证	
+		认证多半为基于表单认证
+		Session 管理及Cookie应用
+九.基于HTTP的功能追加协议
+	1.基于HTTP的协议
+	2.消除HTTP瓶颈的SPDY（google）	
+		HTTP的瓶颈	
+			AJAX解决方案
+			Comet解决方案
+			SPDY的目标
+		SPDY的设计与功能
+			赋予请求优先级
+			压缩HTTP首部
+			推送功能
+			服务器提示功能
+		SPDY消除了Web瓶颈吗	
+	3.使用浏览器进行全双工通信的WebSocket	
+		WebSocket的设计与功能
+		WebSocket协议
+			推送功能
+			减少通信量
+			握手.请求 -- Sec-WebSocket-Protocol、Sec-WebSocket-Version
+			握手.响应 -- Sec-WebSocket-Accept、Sec-WebSocket-Key
+			WebSocket API  //50ms发送一次数据
+				var socket = new WebSocket('ws://game.example.com;12010/updates');
+				socket.onpen = function(){
+					setInterval(function(){
+						if( socket.bufferedAmount === 0 ){
+							socket.send( setUpdateDate() );
+						}
+					}, 50);
+				};
+	4.期盼已久的HTTP/2.0	
+		HTTP/2.0的特点
+		HTTP/2的7项技术及讨论	
+			压缩   ---       SPDY、Friendly
+			多路复用 ---     SPDY
+			TLS义务化 ---    Speed + Mobility
+			协商   ---       Speed + Mobility，Friendly
+			客户端拉取（Client Pull）/服务器推送（Server Push）  ---  Speed + Mobility
+			流量控制   ---   SPDY
+			WebSocket  ---   Speed + Mobility
+	5.Web服务器管理文件的WebDAV
+		扩展HTTP/1.1的WebDAV
+		WebDAV内新增的方法及状态码
+			PROPFIND：获取属性
+			PROPPATCH：修改属性
+			MKCOL：创建集合
+			COPY：复制资源及属性
+			MOVE：移动资源
+			LOCK：资源加锁
+			UNLOCK：资源解锁
+
+
+
+
+
+
+
+
+
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-		
-		
