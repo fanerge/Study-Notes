@@ -1,0 +1,75 @@
+项目需要总结下video标签的使用方法和API
+1.video支持视频格式
+	ogg -- firefox|chrome|opera
+	MPEG4 -- safari|chrome
+	Webm -- IE|firefox|chrome|opera
+2.标签使用
+	<video src='*.mp4' controls>
+		您的浏览器不支持video标签，建议更新浏览器版本
+		<source src='*.mp4' type='video/mp4'/>
+	</video>
+3.标签属性
+	controls -- boolean -- 是否显示播放器控件
+	autoplay -- boolean -- 设置是否打开浏览器自动播放
+	width -- pilex -- 宽度
+	height -- pilex -- 高度
+	loop -- boolean -- 是否循环播放
+	preload -- boolean --是否等加载完再播放
+	src -- url -- 视频的url地址
+	poster -- imgurl -- 默认显示图片
+	autobuffer -- boolean -- 设置为浏览器缓冲方式
+4.API
+	play -- video.play() -- 播放视频
+	pause -- video.pause() -- 暂停播放视频
+	load -- video.load() -- 所有属性恢复默认值，视频恢复重新开始状态
+	canPlayType -- video.canPlayType('video/mp4') -- 判断浏览器是否支持当前类型的视频格式
+		（空字符串--不支持，Maybe--可能支持，Probably--完全可能）
+5.video标签API属性
+	duration -- 返回媒体的播放总时长，单位秒
+	loop -- 是否循环播放
+	muted -- 是否静音
+	paused -- 是否暂停
+	currentTime -- 当前播放时间（单位秒）
+	volume -- 音量值
+	networkState -- 返回当前网络状态
+	playbackRate -- 播放的倍数（加速、减速播放）
+	src -- 当前视频的URL
+	ended -- 当前播放是否结束标志
+	error -- 当前播放的错误状态
+	initialTime -- 初始播放的位置
+	mediaGroup -- 当前音视频所属媒体组（用来连接多个音视频标签）
+	played -- 播放部件已经播放的时间范围（TimeRanges对象）
+	preload -- 页面加载时是否同时加载音视频
+	readyState -- 当前的准备状态
+	seekable -- 当前可跳转部件的时间范围（TimeRanges对象）
+	autoplay -- 媒体加载后自动播放
+	buffered -- 缓冲部件的时间范围（TimeRanges对象）
+	controller -- 当前的媒体控制器（MediaController对象）
+	constrols -- 显示播放器控件
+	crossOrign -- CORS设置
+	defaultMuted -- 缺省是否静音
+	defaultPlaybackRate -- 播控的缺省倍速
+	seeking -- 返回用户是否做了跳转操作
+	startOffsetTime -- 返回当前的时间偏移[Date对象]
+	textTracks -- 返回可用的文本轨迹[TextTrackList对象]
+	videoTracks -- 返回可用的视频轨迹[VideoTrackList对象]
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
