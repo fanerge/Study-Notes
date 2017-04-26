@@ -1,0 +1,59 @@
+理解RESTful架构--阮一峰
+一.名称
+	全名：Representational State Transfer　　－－　　表现层状态转化
+二.资源（Resources）  资源的表现层状态改变
+	URI就成了每一个资源的地址或独一无二的识别符。，所谓"上网"，就是与互联网上一系列的"资源"互动，调用它的URI。
+	资源与URI
+	 1.使用_或-来让URI可读性更好
+		http://www.oschina.net/news/38119/oschina-translate-reward-plan
+	 2.使用/来表示资源的层级关系
+		/orders/2012/10可以用来表示2012年10月的订单记录
+	 3.使用?用来过滤资源
+		/git/git/pulls用来表示git项目的所有推入请求
+		/pulls?state=closed用来表示git项目中已经关闭的推入请求
+	 4.,或;可以用来表示同级资源的关系(比较两次提交记录的差异)
+		/git/git /block-sha1/sha1.h/compare/e3af72cdafab5993d18fae056f87e1d675913d08; bd63e61bdf38e872d5215c07b264dcc16e4febca作为URI。
+三.表现层（Representation）
+	资源是一种信息实体，它可以有多种表现形式。如文本可以有txt、html、json等表现。
+四.状态转化（State Transfer）
+	如果客户端想要操作服务器，必须通过某种手段，让服务器端发生"状态转化"（State Transfer）。而这种转化是建立在表现层之上的，所以就是"表现层状态转化"。
+	HTTP协议里面，四个表示操作方式的动词：GET、POST、PUT、DELETE。
+五.综述
+	（1）每一个URL代表一种资源；
+　　（2）客户端和服务器之间，传递这种资源的某种表现层；
+　　（3）客户端通过四个HTTP动词，对服务器端资源进行操作，实现"表现层状态转化"。
+六.误区
+	最常见的一种设计错误，就是URL包含动词
+		例如获取用户1的信息
+			/posts/show/1
+			改为
+			
+		某个URI是/posts/show/1，其中show是动词，这个URI就设计错了，正确的写法应该是/posts/1，然后用GET方法表示show。
+		例如：从账户1向账户2汇款500元
+			POST /accounts/1/transfer/500/to/2
+			改为
+			POST /transaction HTTP/1.1
+		　　Host: 127.0.0.1
+		　　from=1&to=2&amount=500.00	
+	另一个设计误区，就是在URI中加入版本号：
+		http://www.example.com/app/1.0/foo
+		http://www.example.com/app/1.1/foo
+		改为
+		Accept: vnd.example-com.foo+json; version=1.0
+　　	Accept: vnd.example-com.foo+json; version=1.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
