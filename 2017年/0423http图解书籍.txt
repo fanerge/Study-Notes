@@ -259,7 +259,7 @@
 			握手.请求 -- Sec-WebSocket-Protocol、Sec-WebSocket-Version
 			握手.响应 -- Sec-WebSocket-Accept、Sec-WebSocket-Key
 			WebSocket API  //50ms发送一次数据
-				var socket = new WebSocket('ws://game.example.com;12010/updates');
+				var socket = new WebSocket('ws://game.example.com:12010/updates');
 				socket.onpen = function(){
 					setInterval(function(){
 						if( socket.bufferedAmount === 0 ){
