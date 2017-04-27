@@ -3,7 +3,7 @@
 	1.使用HTTP（超文本传输协议）协议访问Web
 	2.HTTP的诞生
 	3.网络基础TCP/IP	
-		TCP/IP协议族 --- 互联网相关联的协议结合
+		TCP/IP协议族 --- 互联网相关联的协议集合
 		TCP/IP的分层管理 --- 应用层、传输层、网络层、数据链路层
 		1应用层（FTP/DNS/HTTP）--- 决定了向用户提供应用服务时通信的活动。
 			应用服务有：FTP、DNS、HTTP等。
@@ -176,7 +176,7 @@
 		Content-Length -- 主体部分的大小（字节）
 		Content-Location -- 报文主体返回资源对应的URI
 		Content-MD5 -- 检查报文主体在传输过程中是否保持完整，以及确认传输到达
-		Content-Range -- 对应单位请求的
+		Content-Range -- 对应范围请求的
 		Content-Type -- 实体主体内对象的媒体类型
 		Expires -- 将资源失效的日期告知客户端
 		Last-Modified -- 指明最终修改的时间
