@@ -1,0 +1,84 @@
+很早以前就看到了这个教程，但一直没有时间去学习，利用这个5.1把这个教程好好学一遍，也体验一下做全栈工程师的快感。
+一.前端开发的历史和趋势
+	什么是前端
+	前后端不分的时代
+	后端MVC的开发模式
+		Model(模型层)：提供/保存数据
+		Controller(控制层)：数据处理，实现业务逻辑
+		View(视图层)：展示数据，提供用户界面
+	前端工程师的角色 -- 模板工程师
+	Ajax
+	Web2.0
+	前端MVC框架
+		2010年Backbone.js
+		前端Controller  （不应该处理业务逻辑，只需要处理UI逻辑）
+		Router （通过URL切换视图）www.xyz.com/#books   M -- R --V
+	MVVM模式
+		Model: 提供/保存数据（保存数据）
+		View-Model: 简化Controller，唯一的作用是为view层提供处理好的数据，不含有其它逻辑（处理数据）
+		view: 展示数据，提供用户界面（展示数据）
+	SPA
+	Angular(MVVM) -- 核心为：双向绑定
+	Vue(MVVM) -- 响应式编程
+	JSX
+	React组件语法
+	React组件的参数  -- props
+	React组件的状态  --state	
+	React组件实战	
+	React组件的生命周期
+	ReCharts -- 第三方组件库	
+	MobX	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
