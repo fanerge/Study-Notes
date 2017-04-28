@@ -1,0 +1,138 @@
+项目地址：https://github.com/videojs/video.js
+使用地址：http://videojs.com/getting-started/
+项目主要文件介绍：dist 目录
+	移动端主要video.min.css、video.min.js
+	如果是PC，要求兼容到ie9以下，那么需要ie8、video-js.swf这两个文件。
+	主题使用的字体图标，font文件中的字体文件
+	本地化语言，用到lang中的语言文件
+主要配置：
+	播放按钮默认在左上角，可以添加类来进行样式控制vjs-big-play-centered
+	自动播放 -- autoplay	
+	预加载资源 -- preload
+	视频缩略图 -- poster
+	自动循环 -- loop
+	设置宽高 -- width，height
+	以上均可以使用video标签的属性 和 video.js的opttions控制
+功能组件树
+	//移除静音按钮
+	var player = videojs(‘video-id‘, {
+	  controlBar: {
+		muteToggle: false
+	  }
+	});
+	整个播放器的结构组件
+	Player
+		PosterImage
+		TextTrackDisplay
+		LoadingSpinner
+		BigPlayButton
+		ControlBar
+			PlayToggle
+			FullscreenToggle
+			CurrentTimeDisplay
+			TimeDivider
+			DurationDisplay
+			RemainingTimeDisplay
+			ProgressControl
+				SeekBar
+				  LoadProgressBar
+				  PlayProgressBar
+				  SeekHandle
+			VolumeControl
+				VolumeBar
+					VolumeLevel
+					VolumeHandle
+			MuteToggle
+METHODS
+	autoplay
+	buffered
+	bufferedEnd
+	bufferedPercent
+	cancelFullScreen deprecated
+	controls
+	currentSrc
+	currentTime
+	currentType
+	dispose
+	duration
+	ended
+	error
+	exitFullscreen
+	init
+	isFullScreen deprecated
+	isFullscreen
+	language
+	load
+	loop
+	muted
+	pause
+	paused
+	play
+	playbackRate
+	poster
+	preload
+	remainingTime
+	requestFullScreen deprecated
+	requestFullscreen
+	seeking
+	src
+	volume
+	addChild inherited
+	addClass inherited
+	buildCSSClass inherited
+	children inherited
+	contentEl inherited
+	createEl inherited
+	dimensions inherited
+	el inherited
+	enableTouchActivity inherited
+	getChild inherited
+	getChildById inherited
+	hasClass inherited
+	height inherited
+	hide inherited
+	id inherited
+	initChildren inherited
+	name inherited
+	off inherited
+	on inherited
+	one inherited
+	options inherited
+	player inherited
+	ready inherited
+	removeChild inherited
+	removeClass inherited
+	show inherited
+	trigger inherited
+	triggerReady inherited
+	width inherited
+EVENTS
+	durationchange
+	ended
+	firstplay
+	fullscreenchange
+	loadedalldata
+	loadeddata
+	loadedmetadata
+	loadstart
+	pause
+	play
+	progress
+	seeked
+	seeking
+	timeupdate
+	volumechange
+	waiting
+	resize inherited
+
+
+
+
+
+
+
+
+
+
+
+
