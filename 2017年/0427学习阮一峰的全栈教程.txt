@@ -71,6 +71,7 @@
 		MobX：响应式(Reactive)管理，state是可变对象，适合中小型项目
 		Redux：函数式(Functional)管理，state是不可变对象，适合大型项目
 	MobX架构 -- 观察这模式
+		数据放Store中，Store的属性分成两种：被观察属性(@observer),自动计算得到的属性(@computed)
 		Store是被观察者(observable)
 		组件时观察者(observer)
 	Redux架构
@@ -92,30 +93,68 @@
 				<App />
 			</Provider>, document.body
 		);
+三.Node应用开发
+	Node简介
+		Node式服务器的javascript运行环境，提供API与操作系统互动。
+	npm  -- Node的模块管理器	
+	Node开发脚本的好处	
+	REST API -- 浏览器与服务器通信方式的设计风格。
+	REST的核心概念
+	URL设计 -- /store/1/employee/2
+	查询字符串 -- GET /animals?zoo_id=1
+	HTTP动词
+		操作     CREATE\READ\UPDATE\DELETE
+		AQL方法  INSERT\SELECT\UPDATE\DELETE
+		HTTP动词 POST\GET\PUT(PATCH)\DELETE 
+	Express	-- 搭建Web应用
+		require('express');
+		require('body-parser');
+四.前端工程师简介
+	持续集成流程
+		本地开发（developing）
+		静态代码检查（linting）
+		单元测试（testing）
+		合并进入主干（merging）
+		自动构建（building）
+		自动发布（publishing）
+	持续集成的概念
+		Continuous integration（简称 CI）
+	ESLint(静态代码检查工具)
+		Airbnb 公司的规则 
+		npm install eslint --save-dev
+		npm install eslint-plugin-import eslint-config-airbnb-base --save-dev
+		进行静态检查命令 -- npm run lint
+		修改错误 -- npm run lint-fix
+	Mocha(单元测试)
+		npm install -D mocha
+		npm install -D chai
+	Nightmare(功能测试)
+		功能测试指的是，站在外部用户的角度，测试软件的某项功能。
+		使用 Electron 模拟真实浏览器环境
+		提供大量人性化、易用的 API
+	移动平台的自动化测试  -- Appium
+	Appium测试流程	
+	持续集成服务平台	
+		PaaS 平台 -- Travis CI
+
+
 		
 		
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
