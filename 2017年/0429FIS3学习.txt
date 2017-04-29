@@ -1,0 +1,217 @@
+介绍 --- FIS3 是面向前端的工程构建工具。
+安装 --- npm install -g fis3
+	升级 --- npm update -g fis3
+起步
+	构建 --- 由 fis3-command-release 插件提供构建能力
+	命令
+		fis3 release -d <path>    path为任意目录，构建发布到path目录下，可以为相对路径和绝对路径
+		fis3 release -h           获取更多参数（帮助）
+	资源定位 --- 构建后所有地址变为绝对地址		
+		配置构建后所有的静态资源在static目录
+			fis.match('*.{ png, js, css }',{ 
+				release: '/static/$0'
+			});
+	配置文件 --- fis-conf.js
+		fis.match( selector, props ) --- 设置规则的配置接口
+			slector: 为匹配文件路径
+			props: 编译规则属性，包括文件属性和插件属性
+			如；fis.match('*.png', {  useHash: false});
+		fis.media() --- 接口提供多种状态功能，区分开发环境和生产环境
+			fis.media('prod').match('*.js', {
+				optimizer: fis.plugin('uglify-js');
+			});
+			shell --- fis3 release <media>   如：fis3 release prod
+	更多配置接口
+		fis3 inspect --- 查看文件分配到的属性，这些属性决定了文件将如何被编译处理。
+		fis3 inspect <media> --- 查看特定 media 的分配情况
+	文件指纹 --- 唯一标识一个文件
+		浏览器缓存
+		//为js、css、png文件添加MD5戳
+		fis.match('*.{js, css, png}',{
+			useHash: true
+		});
+	压缩资源 --- 配置压缩器
+		fis.match('*.js', {
+		  // fis-optimizer-uglify-js 插件进行压缩，已内置
+		  optimizer: fis.plugin('uglify-js')
+		});
+
+		fis.match('*.css', {
+		  // fis-optimizer-clean-css 插件进行压缩，已内置
+		  optimizer: fis.plugin('clean-css')
+		});
+
+		fis.match('*.png', {
+		  // fis-optimizer-png-compressor 插件进行压缩，已内置
+		  optimizer: fis.plugin('png-compressor')
+		});
+	CssSprite图片合并
+		只会对路径带 ?__sprite 的图片进行合并。分配到 useSprite: true 的 CSS 文件才会被处理。
+		// 启用 fis-spriter-csssprites 插件
+		fis.match('::package', {
+		  spriter: fis.plugin('csssprites')
+		})
+
+		// 对 CSS 进行图片合并
+		fis.match('*.css', {
+		  // 给匹配到的文件分配属性 `useSprite`
+		  useSprite: true
+		});
+	功能组合
+		FIS3 做压缩、文件指纹、图片合并、资源定位合并。
+		开发过程中，不需要压缩、合并图片、也不需要 hash。那么给上面配置追加如下配置
+		fis.media('debug').match('*.{js,css,png}', {
+		  useHash: false,
+		  useSprite: false,
+		  optimizer: null
+		});
+		此时的构建呢命令为 --- fis3 release debug
+调试
+	内置了Web Server，方便调试构建结果。
+	目录
+		Web Server的根目录 --- fis3 server open
+	发布（不加-d参数默认被发到内置Web Server的根目录）
+		fis3 release
+	启动
+		fis3 server start
+		fis3 server -h(帮助)
+	预览
+		FIS3 内置的 Server 是常驻的，启动一次就可以了
+	文件监听
+		当启动文件监听时，修改文件会构建发布。
+		fis3 release -w/--watch
+	浏览器自动刷新
+		文件修改自动构建发布后，如果浏览器能自动刷新
+		fis3 release -l
+		通常：fis3 release -wl
+	发布到远端机器
+		传统SMB、FTP上传
+		只需在测试机上部署上传接收脚本
+		fis.match('*', {
+		  deploy: fis.plugin('http-push', {
+			receiver: 'http://cq.01.p.p.baidu.com:8888/receiver.php',
+			to: '/home/work/htdocs' // 注意这个是指的是测试机器的路径，而非本地机器
+		  })
+		});
+		执行 --- fis3 release
+		一般联调是最后一步
+		fis.media('qa').match('*', {
+		  deploy: fis.plugin('http-push', {
+			receiver: 'http://cq.01.p.p.baidu.com:8888/receiver.php',
+			to: '/home/work/htdocs' // 注意这个是指的是测试机器的路径，而非本地机器
+		  })
+		});	
+		此时执行 --- fis3 release qa 上传测试机器
+		fis3 release 产出到本地测试服务器根目录
+	替代内置的Server
+		若Web Server 的根目录是 /Users/my-name/work/htdocs
+		fis3 release -d /Users/my-name/work/htdocs
+		或
+		fis.match('*', {
+		  deploy: fis.plugin('local-deliver', {
+			to: '/Users/my-name/work/htdocs'
+		  })
+		});
+		fis3 release
+内置语法
+	资源定位：获取任何开发中所使用资源的线上路径；
+		在html中定位资源 --- 包括src 和 href 属性
+			可配置
+			fis.match('*.{js,css,png,gif}', {
+				useHash: true // 开启 md5 戳
+			});
+
+			// 所有的 js
+			fis.match('**.js', {
+				//发布到/static/js/xxx目录下
+				release : '/static/js$0'
+			});
+
+			// 所有的 css
+			fis.match('**.css', {
+				//发布到/static/css/xxx目录下
+				release : '/static/css$0'
+			});
+
+			// 所有image目录下的.png，.gif文件
+			fis.match('/images/(*.{png,gif})', {
+				//发布到/static/pic/xxx目录下
+				release: '/static/pic/$1$2'
+			});
+		在js中定位资源
+			可以使用编译函数 __uri(path) 来定位资源	
+			var img = __uri('images/logo.gif');
+			var img = '/images/logo_74e5229.gif';  //编译后
+		在css中定位资源
+			url(path) 以及 src=path
+	内容嵌入：把一个文件的内容(文本)或者 base64 编码(图片)嵌入到另一个文件中；
+		在html中嵌入资源
+			给资源加 ?__inline 参数来标记资源嵌入需求。	
+			html中嵌入页面文件
+			<link rel="import" href="demo.html?__inline">
+		在js中嵌入资源
+			使用编译函数 __inline() 来提供内容嵌入能力。
+			__inline('demo.js');  var img = __inline('images/logo.gif');
+		在css中嵌入资源
+			?__inline 编译标记都可以把文件内容嵌入进来
+			@import url('demo.css?__inline'); background: url(images/logo.gif?__inline);
+	依赖声明：在一个文本文件内标记对其他资源的依赖关系；
+		在html中声明依赖 --- 生成一个mainfest.json文件表明各文件依赖，方便按需加载
+			<!--
+				@require demo.js
+				@require "demo.css"
+			-->
+			// fis-conf.js
+			fis.match('*.html', {
+				useMap: true
+			});
+
+			fis.match('*.{js,css}', {
+				// 开启 hash
+				useHash: true
+			});
+		在js中声明依赖
+			/**
+			 * @require demo.css
+			 * @require list.js
+			 */
+		在css中声明依赖
+			/** @require reset.css */
+	假设遇到后端模板、异构语言、前端模板等如何让内置语法起效呢？
+	// FIS 中前端模板推荐预编译为 js，所以应该使用 js 的内置语法
+	fis.match('*.tmpl', {
+	  isJsLike: true
+	});
+	fis.match('*.sass', {
+	  isCssLike: true
+	});
+	fis.match('*.xxhtml', {
+	  isHtmlLike: true
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
