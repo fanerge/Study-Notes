@@ -188,30 +188,242 @@
 	fis.match('*.xxhtml', {
 	  isHtmlLike: true
 	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+工作原理
+	FIS3 是基于文件对象进行构建的，每个进入 FIS3 的文件都会实例化成一个 File 对象，整个构建过程都对这个对象进行操作完成构建任务。
+	1.扫描项目目录拿到文件并初始化出一个文件对象列表
+	2.对文件对象中每一个文件进行单文件编译
+	3.获取用户设置的 package 插件，进行打包处理（包括合并图片）
+		prepackager 打包前处理插件扩展点
+		packager 打包插件扩展点，通过此插件收集文件依赖信息、合并信息产出静态资源映射表
+		spriter 图片合并扩展点，如 csssprites
+		postpackager 打包后处理插件扩展点
+初级使用
+	安装需要的插件
+		npm install -g fis-parser-less               less文件预处理
+		npm install -g fis3-postpackager-loader      对页面散列文件进行合并
+	预处理
+		1.安装了预处理插件
+		2.配置启动插件
+			fis.match('*.less', {
+			  // fis-parser-less 插件进行解析
+			  parser: fis.plugin('less'),
+			  // .less 文件后缀构建后被改成 .css 文件
+			  rExt: '.css'
+			});
+	简单合并
+		每个页面值加载有用的资源
+		fis.match('::package', {
+		  postpackager: fis.plugin('loader', {
+			allInOne: true
+		  })
+		});
 
+		fis.match('*.less', {
+		  parser: fis.plugin('less'),
+		  rExt: '.css'
+		});
+	构建调试预览		
+		fis3 release    (默认构建发布到本地测试服务根目录)
+		fis3 server start --type node    启动内置服务器进行预览
+中级使用
+	预处理插件编写
+	打包插件编写
+	发布插件
+高级使用
+	静态资源映射表	
+		当某个文件包含字符 __RESOURCE_MAP__，就会用表结构数据替换此字符。
+	模块化开发
+	基于Smarty的解决方案
+	基于纯PHP的解决方案
+	基于Laveral的解决方案
+接口文档
+	命令行 
+		fis3 init
+			fis3 脚手架工具，用来快速初始化项目。
+			-h, --help            输出使用信息
+			-r, --root <root>     设置项目的根目录
+		fis3 install
+			用来从组件平台中下载组件到当前项目中，并自动下载其依赖。
+			-h, --help            输出使用信息
+			--save                保存组件的依赖在components.json
+			-r, --root <path>     设置项目的根目录
+		fis3 release [media name] 
+			编译发布一个FIS3项目，Options
+			-h, --help            输出使用信息
+			-d, --dest<path>      构建输出的地址
+			-l, --lint            用于JSLint代码检查 
+			-w, --watch           监听项目变化
+			-L, --live            自动重写加载浏览器 
+			-c, --clean           清除编译缓存
+			-u, --unique          启用独立缓存
+		fis3 server
+			fis3 内置了一个小型 web server, 可以通过 fis3 server start 快速开启。
+			要求用户机器上必须安装有 jre 和 php-cgi 程序。
+			fis3 server start      开启服务
+			fis3 server stop       关闭服务
+			fis3 server restart    重启服务
+			fis3 server info       输出服务信息
+			fis3 server open       打开服务的根目录
+			fis3 server clean      在根目录清除文件
+			fis3 server install <name>  安装服务框架
+			Options
+			-h, --help             输出使用信息
+			-p, --port <int>       服务监听的端口
+			--root                 根目录
+			--type <php|java|node> 进程语言 
+		fis3 inspect [media name]
+			用来查看文件 match 结果
+	配置	
+		配置接口	
+			fis.match()  --- 首先会加载项目内的所有文件，然后通过 fis.match() 来为某一个文件分配不同的属性，这些属性叫做文件属性。
+				//对a.js、b.js、c.js进行压缩
+				fis.match('{a,b,c}.js', {
+					optimizer: fis.plugin('uglify-js')
+				});
+			fis.media()  --- 我们在不同状态（情形）下给文件分配不同属性。 
+				//区分开发 和 生产环境为同一位见分配不同属性
+				//开发环境
+				fis.match('**.js', {
 
+				});
+				//生产环境
+				fis.media('prod')
+					.match('**.js', {
+						optimizer: fis.plugin('uglify-js')
+					})
+					.match('**.css', {
+						optimizer: fis.plugin('clean-css')
+					});
+				//构建发布
+				fis3 release <media>
+			!important --- fis.match('', {}, true); //第三个参数表示，不能被覆盖
+			::package  --- 表示当 packager 阶段所有的文件都分配某些属性
+				fis.match('::package', {   
+					packager: fis.plugin('map')
+				});
+			::image    --- 表示对所有的图片进行处理
+				// 所有被标注为图片的文件添加 hash
+				fis.match('::image', {
+				  useHash: true
+				});
+			::text     --- 表示对所有文本进行处理
+				// 所有被标注为文本的文件去除 hash
+				fis.match('::text', {
+				  useHash: false
+				});
+			:js        --- 表示对所有的内联js进行处理
+				// 压缩 index.html 内联的 js
+				fis.match('index.html:js', {
+				  optimizer: fis.plugin('uglify-js')
+				});
+			:css       --- 表示对所有的内联css进行处理	
+				// 压缩 index.html 内联的 css
+				fis.match('index.html:css', {
+				  optimizer: fis.plugin('clean-css')
+				});
+		配置接口 --- 包括配置、压缩、CDN、合并等
+			配置API
+				fis.set() --- 设置一些配置，如project、namespace、modules、settings。
+					fis.set(key, value);
+					fis.set('namespace', 'home');
+				fis.get() --- 获取已经配置的属性
+					fis.get(key)
+					var ns = fis.get('namespace'); //home
+				fis.match() --- 给匹配到的文件分配属性
+					fis.match(selector, props[, important])
+				fis.media() --- 一般分为dev、qa、prod
+					fis.media(mode)
+				fis.plugin() --- 插件调用接口  
+					fis.plugin(name [, props [, position]])
+					fis.match('*.less', {
+					   parser: fis.plugin('another', null, 'append');
+					});
+			配置属性
+				全局属性
+					全局属性通过 fis.set 设置，通过 fis.get 获取。
+				内置的默认配置
+					var DEFAULT_SETTINGS = {
+					  project: {
+						charset: 'utf8',
+						md5Length: 7,
+						md5Connector: '_',
+						files: ['**'],
+						ignore: ['node_modules/**', 'output/**', '.git/**', 'fis-conf.js']
+					  },
 
+					  component: {
+						skipRoadmapCheck: true,
+						protocol: 'github',
+						author: 'fis-components'
+					  },
 
+					  modules: {
+						hook: 'components',
+						packager: 'map'
+					  },
+
+					  options: {}
+					};
+					//可通过覆盖方式更改
+					fis.set('project.charset', 'gbk');
+				基本属性
+					release -- 设置文件的产出路径
+					packTo -- 分配到这个属性的文件将会合并到这个属性配置的文件中
+					packOrder -- 用来控制合并时的顺序，值越小越在前面。配合 packTo 一起使用。
+					query -- 指定文件的资源定位路径之后的query，比如'?t=123124132'
+					id -- 指定文件的资源id ；默认值：namespace + subpath
+					moduleId -- 指定文件资源的模块id；默认值：**namespace + subpath**
+					url -- 指定文件的资源定位路径，以 / 开头。
+					charset -- 指定文本文件的输出编码。
+					isHtmlLike -- 指定对文件进行 html 相关语言能力处理
+					isCssLike -- 指定对文件进行 css 相关的语言能力处理
+					isJsLike -- 指定对文件进行 js 相关的语言能力处理
+					useHash -- 文件是否携带 md5 戳
+					domain -- 给文件 URL 设置 domain 信息
+					rExt -- 设置最终文件产出后的后缀
+					useMap -- 文件信息是否添加到 map.json
+					isMod -- 标示文件是否为组件化文件
+					extras -- 在[静态资源映射表][]中的附加数据，用于扩展[静态资源映射表][]表的功能。
+					requires -- 默认依赖的资源id表
+					useSameNameRequire -- 开启同名依赖
+					useCache --  文件是否使用编译缓存
+				插件属性
+					插件属性决定了匹配的文件进行哪些插件的处理；
+					lint -- 启用 lint 插件进行代码检查
+					parser -- 启用 parser 插件对文件进行处理；
+					preprocessor -- 标准化前处理	
+					standard -- 自定义标准化，可以自定义 uri、embed、require 等三种能力，可自定义三种语言能力的语法
+					postprocessor -- 标准化后处理
+					optimizer -- 启用优化处理插件，并配置其属性
+					打包阶段插件
+						prepackager -- 打包预处理插件
+						packager -- 打包插件
+						spriter -- 打包后处理csssprite的插件
+						postpackager -- 打包后处理插件
+						deploy -- 设置项目发布方式
+常用配置
+	制定目录规范
+	源码目录规范
+		├── page         //放页面模版
+		│   └── index.html  
+		├── static       //一些公用的静态资源
+		│   └── lib      //放置一些公共库，例如 jquery, zepto, lazyload 等
+		├── test         //测试数据和用例 
+		└── widget       //一切组件，包括模板、css、js、图片以及其他前端资源
+			├── header
+			├── nav
+			└── ui
+	编译产出目录规范
+		├── static      //所有的静态资源都放到这个目录下
+		├── template    //所有的模板都放到这个目录下
+		└── test        //测试数据和用例
+	部署远端测试机				
+					
+					
+					
+					
+					
+					
+					
+					
+					
