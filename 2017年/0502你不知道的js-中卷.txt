@@ -1,0 +1,84 @@
+最近js相关的基础性东西，应该就看到这里。逐步学习学习更高级的东西
+第一部分 类型和语法
+一.类型
+	1.1类型
+	1.2内置类型
+		空值（null）、未定义（undefined）、布尔值（boolean）、数字（number）、字符串（string）、对象（object）、符号（symbol）
+		除对象以外其余为基本类型，可以通过 typeof来查看值的类型，返回为string类型
+		undefined、boolean、number、string、symbol、object（numll、array、function）
+	1.3值和类型
+		undefined 和 undeclared
+			在作用域中已声明但还没有赋值的遍历 --- undefined
+			在作用域中没有声明 --- undeclared
+		typeof Undeclared
+			typeof有安全防范机制
+				if( typeof DEBUG !== 'undefined' ){ console.log('开始调试') }
+			依赖注入：将依赖通过参数显示地传递到函数中。
+		应用：使用typeof的安全防范机制来检查undeclared变量，或者是依赖注入。
+二.值
+	2.1数组
+		delete运算符可以删除数组单元格，但数组长度不发生改变。
+		稀疏数组 --- 含有空白或空缺单元的数组
+		类数组 DOM元素列表、arguments
+			es5转化为数组 -- [].slice.call( arguments );
+			es6转化为数组 -- Arry.from( arguments );
+	2.2字符串
+		字符串操作不改变原始值   c = a.toUpperCase(); a === c //false
+		数组有一个字符串没有的可变更成员函数 -- 反转reverse()
+	2.3数字
+		数字的语法
+			toExponential() -- 科学计数法，输出为number类型
+			toFixed() -- 指定小数位数，但输出的是string类型
+			toPrecision() -- 指定有效位数，输出为string类型
+		0o363/0O363表示8进制
+		较小的数值
+			Number.EPSILON -- 误差范围值（及其精度）
+			Number.MAX_VALUE -- 最大的浮点数
+			Number.MIN_VALUE -- 最大的浮点数（接近于0）
+		整数的安全范围
+			Number.MAX_SAFE_INTEGER -- 最大整数
+			Number.MIN_SAFE_INTEGER -- 最小整数
+		整数检测
+			Number.isInteger()
+			Number.isSafeInteger()
+		32位有符号整数
+			a | 0 可以得到32位有符号整数
+	2.4特殊数值
+		undefined -- undefined（没有值）
+		null -- null（空值）
+		null 是特殊关键字		
+		undefined 是一个标识符	
+		void 运算符 -- 	没有返回值，返回结果是undefined
+			应用；将代码的值设置为 undefined，就可以使用void
+		特殊的数字
+			不是数字的数字 -- NaN，无效数值
+				Number.isNaN()
+			无穷数
+				Infinity == Number.POSITIVE_INFINITY
+				-Infinity == Number.NEGATIVE_INFINITY
+			零值
+				-0/+0
+			特殊等式
+				==、===、Object.is()
+	2.5值和引用
+		简单值 -- 通过值复制的方式来赋值/传递。（null、undefined、字符串、数字、布尔、symbol）
+		复合值 -- 通过引用复制的方式来赋值/传递。	
+			var c = [1, 2, 3];
+			var d = c;  //c、d分别指向同一个复合值[1, 2, 3]的两个不同的引用，是对值[1, 2, 3]的引用
+			c.push( 4 ); //所以更改一个都会发生改变
+			//c、d都为[1, 2, 3, 4]
+			一个引用无法改变另一个引用的指向
+			var d = [4, 5, 6];
+			//c为[1, 2, 3];d为[4, 5, 6];
+			
+			
+			
+			
+			
+			
+			
+
+
+
+
+
