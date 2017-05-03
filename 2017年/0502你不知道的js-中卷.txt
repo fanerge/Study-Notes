@@ -70,13 +70,70 @@
 			一个引用无法改变另一个引用的指向
 			var d = [4, 5, 6];
 			//c为[1, 2, 3];d为[4, 5, 6];
-			
-			
-			
-			
-			
-			
-			
+			我们无法自行决定使用值复制还是引用复制，一切由值的类型来决定。	
+			应用：
+			通过值复制的方式来传递复合值（如数组），需要为其创建一个副本，这样传递的就不是原始值。
+				array.slice();  //新建了一个数组，其实为原数组的浅拷贝
+			如果要将标量基本类型值传递到函数内进行更改，就需要将值封装到一个复合值（对象、数组），然后通过引用复制的方式传递。	
+三.原生函数
+	String()/Number()/Boolean()/Array()/Object()/Function()/Regexp()/Date()/Error()/Symbol()
+	3.1内部属性[[Class]]				
+		对于typeof 返回object可以使用Object.prototype.toString()
+		使用Object.prototype.toString.call([1, 2]); [object Array]
+	3.2封装对象包装
+		var a = new String( 'fan' );
+		封装对象释疑
+	3.3拆封
+		通过valueOf() -- 得到封装对象中的基本类型值
+	3.4原生函数作为构造函数
+		Array()
+		Object()/Function()/RegExp()
+		Date()/Error()
+			throw new Error('error');
+		Symbol()
+			用作属性名，但代码和控制台都无法查看和访问它的值
+			静态属性Symbol.create/Symbol.iterator
+			应用：替代私有属性，但可以通过Object.getOwnPropertySymbols()访问
+		原生原型
+			String.prototype --- 原型对象 String.prototype.indexOf()
+四.强制类型转换
+	4.1值类型转换
+		var a = 42;
+		var b = a + '';  隐式转换
+		var c = String( a );  显示转换
+	4.2抽象值操作
+		ToString 对于Number\Array
+			JSON.parse(str[, reviver]) -- js字符串转化为json
+			JSON.stringify(json[, replacer [, space]])  -- json转化为js字符串
+		ToNumber
+			先valueOf()再toString()
+			Object.create(proto, [ propertiesObject ])
+		ToBoolean
+			假值列表：undefined、null、false、+0、-0、NaN、""（空字符串）
+	4.3显示强制类型转换	
+		string -- number 之间的显示转换
+		String() 和 Number() 显示转换
+		a.toString() -- 数字转化为字符串
+		var b = +a; -- 字符串转化为数字
+		日期显示转化为数字 -- var d = new Date(); +d;//转化为数字
+			还有 d.getTime()转化为时间戳
+			es5 -- Date.now()
+		~x  ===  -(X+1)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	
 
 
 
