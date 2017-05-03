@@ -5,10 +5,10 @@
 	1.2内置类型
 		空值（null）、未定义（undefined）、布尔值（boolean）、数字（number）、字符串（string）、对象（object）、符号（symbol）
 		除对象以外其余为基本类型，可以通过 typeof来查看值的类型，返回为string类型
-		undefined、boolean、number、string、symbol、object（numll、array、function）
+		undefined、boolean、number、string、symbol、object（null、array、function）
 	1.3值和类型
 		undefined 和 undeclared
-			在作用域中已声明但还没有赋值的遍历 --- undefined
+			在作用域中已声明但还没有赋值的变量 --- undefined
 			在作用域中没有声明 --- undeclared
 		typeof Undeclared
 			typeof有安全防范机制
@@ -21,7 +21,7 @@
 		稀疏数组 --- 含有空白或空缺单元的数组
 		类数组 DOM元素列表、arguments
 			es5转化为数组 -- [].slice.call( arguments );
-			es6转化为数组 -- Arry.from( arguments );
+			es6转化为数组 -- Array.from( arguments );
 	2.2字符串
 		字符串操作不改变原始值   c = a.toUpperCase(); a === c //false
 		数组有一个字符串没有的可变更成员函数 -- 反转reverse()
@@ -32,7 +32,7 @@
 			toPrecision() -- 指定有效位数，输出为string类型
 		0o363/0O363表示8进制
 		较小的数值
-			Number.EPSILON -- 误差范围值（及其精度）
+			Number.EPSILON -- 误差范围值（机器精度）
 			Number.MAX_VALUE -- 最大的浮点数
 			Number.MIN_VALUE -- 最大的浮点数（接近于0）
 		整数的安全范围
