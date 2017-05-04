@@ -13,7 +13,7 @@
 		typeof Undeclared
 			typeof有安全防范机制
 				if( typeof DEBUG !== 'undefined' ){ console.log('开始调试') }
-			依赖注入：将依赖通过参数显示地传递到函数中。
+			依赖注入：将依赖通过参数显式地传递到函数中。
 		应用：使用typeof的安全防范机制来检查undeclared变量，或者是依赖注入。
 二.值
 	2.1数组
@@ -111,8 +111,8 @@
 		ToBoolean
 			假值列表：undefined、null、false、+0、-0、NaN、""（空字符串）
 	4.3显示强制类型转换	
-		string -- number 之间的显示转换
-		String() 和 Number() 显示转换
+		string -- number 之间的显式转换
+		String() 和 Number() 显式转换
 		a.toString() -- 数字转化为字符串
 		var b = +a; -- 字符串转化为数字
 		日期显示转化为数字 -- var d = new Date(); +d;//转化为数字
