@@ -161,34 +161,58 @@
 		没有 else if
 	5.2运算符优先级
 		&& 优先于 ||
+		|| 优先于 ? : （三目运算符）
 		短路 -- opts && opts.cool
 		更强的绑定
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		关联（结合性）
+		关联的意思是从右往左组合，而不是从右往左执行。
+		&& 和 || 是左关联
+			如：a && b && c    左关联，(a && b) && c
+		? :(三元运算符)是右关联
+			如：a ? b : c ? d : e   右关联，a ? b : ( c ? d : e )
+		右关联的有三元运算符(a?b:c)、一元运算符、赋值运算符(=)
+			一元运算符：delete、void、++、--、+、-
+		进行运算时，需要考虑优先级 和 关联
+		释疑
+			通过优先级、关联规则 和 ()来控制代码优先级
+	5.3自动分号
+		break 、 continue 、 return 和 yield （ES6）等关键字会添加分号;
+	5.4错误
+		提前使用变量 TDZ暂时性死区。变量还没有初始化而不能被引用
+		try{ }catch(){}	
+	5.5函数参数
+	5.6try...finally	
+	5.7switch
+		switch( a ){
+			case 2:
+				...
+				break;
+		}
+		其中a表达式与case值 是通过 ===判断的
+		case中也可以为表达式，如 case 2+1:
+附录A -- 混合环境javascript
+	A.1 Annex B（ECMAScript）
+		Web ECMAScript		
+	A.2宿主对象
+		包括内建对象和函数，如：div、console
+	A.3全局DOM变量
+		html中id属性为全局变量
+		<div id=cc></div>  console.log(cc); //<div id=cc></div>
+	A.4原生原型
+		不要扩展原生原型
+		shim/polyfill
+		shim(有兼容性测试)
+		polyfill(检查功能是否存在)
+	A.5<script>	
+		在前一个script标签中使用后面定义定义的函数会出错 -- 全局变量作用域的提升机制不适用了。
+		<script>foo();</script>
+		<script>
+		function foo() { .. }
+		</script>
+		//报错
+	A.6保留字
+		老版本浏览器中保留字不可以作为属性
+	A.7实现中的限制	
 		
 	
 	
