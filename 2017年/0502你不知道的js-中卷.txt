@@ -5,7 +5,7 @@
 	1.2内置类型
 		空值（null）、未定义（undefined）、布尔值（boolean）、数字（number）、字符串（string）、对象（object）、符号（symbol）
 		除对象以外其余为基本类型，可以通过 typeof来查看值的类型，返回为string类型
-		undefined、boolean、number、string、symbol、object（null、array、function）
+		undefined、boolean、number、string、symbol、function、object（null、array）
 	1.3值和类型
 		undefined 和 undeclared
 			在作用域中已声明但还没有赋值的变量 --- undefined
@@ -248,14 +248,20 @@
 		未来值
 		promise是一种封装和组合（未来值）的易于复用的机制
 		完成事件
-
-
-
-
-
-
-
-
+	3.2具有then方法的鸭子类型
+	3.3promise信任问题
+		调用过早
+		调用过晚
+		回调未调用
+		调用次数过少或过多
+		未能传递参数、环境值
+			promise至多只能有一个决策值（resolve、reject）
+		吞掉错误或异常
+		是可信任的promise吗？
+			Promise.resolve( p ); 如果p为promise类型，则直接返回该promise，否则将p转化为promise
+		建立信任
+	3.4链式流		
+		原因是每个then方法都返回一个promise
 
 
 
