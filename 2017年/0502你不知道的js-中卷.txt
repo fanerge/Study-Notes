@@ -265,7 +265,7 @@
 		原因是每个then方法都返回一个promise
 		术语：决议(resolve)、完成(fulfill)以及拒绝(reject)
 	3.5错误处理		
-		每一个.then(resolve(),reject())中reject函数自会接收上一个promise的错误，不会接收同级resolve函数产生的错误。
+		每一个.then(resolve(),reject())中reject函数只会接收上一个promise的错误，不会接收同级resolve函数产生的错误。
 		所以最好在末尾添加一个catch函数用于监听错误。
 	3.6Promise模式
 		Promise.all([...rest]);   参数为一个数组，通常由Promise实例组成，但可以传入任何值，会自动通过Promise.resolve函数进行转换。
@@ -308,7 +308,7 @@
 			function* mult(x,y){
 				return x*y;
 			}
-			var it = mult(6,7);  //这里知识为该函数创建了一个迭代器
+			var it = mult(6,7);  //这里只是为该函数创建了一个迭代器
 			var a = it.next();   //第一个it.next()为启动生成器，其后的it.next()表示开始运行直到yield 或者 return停止
 			console.log(a)       //输出一个对象有value、done属性
 		多个迭代器
