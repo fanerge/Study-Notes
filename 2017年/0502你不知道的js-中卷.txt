@@ -385,16 +385,74 @@
 	4.6生成器并发
 	4.7形实转换程序
 	4.8ES6 之前的生成器	
+五.程序性能
+	5.1Web Worker
+		实例化一个Worker
+			var w1 = new Worker('http://some.url.1/mycoolworker.js');
+		侦听事件
+			w1.addEventListener('message', function( e ){
+				console.log( e.data );
+			});
+		发送message事件给Worker
+			w1.postMessage('something cool to say');
+		终止Worker
+			w1.terminate();
+		Worker环境
+			在Worker内部是无法访问主程序的任何资源（DOM、全局变量等）
+			Worker可以访问几个重要的全局变量：navigator、location、JSON、applicationcache
+			可以通过importScripts()向Worker加载额外的Javascript脚本
+				importScripts('foo.js', 'bar.js'); //同步加载
+			Web Worker应用
+				处理密集型数学计算
+				大数据集排序
+				数据处理（压缩、音频分析、图像处理）
+				高流量网络通信
+		数据传递
+			结构化克隆算法
+			Transferable 对象
+		共享Worker
+				var w1 = new SharedWorker( "http://some.url.1/mycoolworker.js" );
+			必须使用port来通信
+				w1.port.addEventListener( "message", handleMessages );	
+				w1.port.postMessage( "something cool" );
+			端口必须要初始化
+				w1.port.start();
+		模拟Web Worker
+	5.2SIMD
+		单指令多数据（SIMD）是一种数据并行（data parallelism）方式
+		var v3 = SIMD.int32x4( 10, 101, 1001, 10001 );
+		var v4 = SIMD.int32x4( 10, 20, 30, 40 );	
+		SIMD.int32x4.add( v3, v4 );
+		// [ 20, 121, 1031, 10041 ]	
+	5.3asm.js		
+		如何使用asm.js优化
+		asm.js模块	
+六.性能测试与调试
+	6.1性能测试
+		重复
+		Benchmark.js	
+	6.2环境为王
+		引擎优化
+	6.3jsPerf.com
+		完整性检查
+	6.4写好测试
+	6.5微性能
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			
+			
+			
+			
+			
+			
+			
+			
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
