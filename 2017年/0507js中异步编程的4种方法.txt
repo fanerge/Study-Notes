@@ -7,10 +7,7 @@ Javascript语言的执行环境是"单线程"（single thread）
 		callback();  //最后执行回调
 	}
 	//调用时 f1(f2)
-二.事件监听 -- 事件驱动模式（jquery的写法）
-	f1.on('done', f2); //为f1绑定一个事件，表示当f1发生done事件，就执行f2
-	f1.trigger('done'); //触发f1的done事件	
-三.发布/订阅（Ben Alman的Tiny Pub/Sub写的jQuery插件）
+二.发布/订阅（Ben Alman的Tiny Pub/Sub写的jQuery插件）
 	//f2向"信号中心"jQuery订阅"done"信号
 	jQuery.subscribe('done', f2); 
 	function f1(){
@@ -20,7 +17,10 @@ Javascript语言的执行环境是"单线程"（single thread）
 	}
 	取消订阅
 	jQuery.unsubscribe('done', f2);
-四.Promise对象
+	事件监听 -- 事件驱动模式（jquery的写法）
+	f1.on('done', f2); //为f1绑定一个事件，表示当f1发生done事件，就执行f2
+	f1.trigger('done'); //触发f1的done事件	
+三.Promise对象
 	思想：每一个异步任务返回一个Promise对象，该对象有一个then方法，允许指定回调函数。
 	var promise = new Promise(function( resolve, reject ){
 		//some code
@@ -38,7 +38,7 @@ Javascript语言的执行环境是"单线程"（single thread）
 		//失败后的处理逻辑
 		console.log('filaure')
 	});
-五.Generator函数
+四.Generator函数
 	整个Generator函数就是一个封装的异步任务，或者说是异步任务的容器。
 	value属性是yield语句后面表达式的值，表示当前阶段的值；done属性是一个布尔值
 	function* gen(x){
@@ -48,5 +48,5 @@ Javascript语言的执行环境是"单线程"（single thread）
 	var g = gen(1);
 	g.next() // { value: 3, done: false }
 	g.next() // { value: undefined, done: true }	
-
+五.async-await
 
