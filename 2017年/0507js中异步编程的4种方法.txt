@@ -49,4 +49,14 @@ Javascript语言的执行环境是"单线程"（single thread）
 	g.next() // { value: 3, done: false }
 	g.next() // { value: undefined, done: true }	
 五.async-await
-
+	async函数完全可以看作多个异步操作，包装成的一个Promise对象，而await命令就是内部then命令的语法糖。
+	(async function (){
+		try{
+			let result= await fetch('https://api.3github.com/users/etoah');
+			let json =await result.json();
+			console.log("result:",json);
+		}
+		catch(ex){
+			console.warn("warn:",ex);
+		}
+	})()
