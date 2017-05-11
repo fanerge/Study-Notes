@@ -1,0 +1,85 @@
+浏览器嗅探技术 -- navigator.userAgent
+第一章、种子模块
+	又名核心模块 -- 具有扩展性、常见、稳定。
+	1.命名空间
+		window.$ = jquery;
+	2.对象扩展
+		for ... in 进行拷贝
+	3.数组化
+		[].slice.call( arguments ) -- 转化为数组
+		Array.from( arguments )
+	4.类型的判断
+		typeof 6种基本数据类型：undefined、null、string、boolean、number、symol
+		instanceof 对象类型系统：object、function、array...
+		数组判定方法：
+			Object.prototype.toString.call( array ) === '[object array]'
+			Array.isArray( array );
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
