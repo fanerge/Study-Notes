@@ -313,7 +313,7 @@
 			console.log(a)       //输出一个对象有value、done属性
 		多个迭代器
 	4.2生成器产生值
-		生成者与迭代器
+		生成器与迭代器
 			[Symbol.iterator] -- 对于for...of循环需要（部署迭代器）
 			next方法 -- 标准迭代器接口方法
 		iterable迭代器 ES6符号值Symbol.iterator
