@@ -14,10 +14,25 @@
 		数组判定方法：
 			Object.prototype.toString.call( array ) === '[object array]'
 			Array.isArray( array );
-		
-		
-		
-		
+	5.主流框架引入的机制 -- domReady
+		DOMContentLoaded事件
+	6.无冲突处理
+		noConfict函数
+第二章、模块加载系统
+	1.AMD规范 -- 异步模块定义
+		define -- 模块开发者 define(id, deps, factory)
+			define('xxx', ['aaa', 'bbb'], function( aaa, bbb ){
+				
+			})
+		require -- 模块使用者  require(deps, callback);
+			require(['aaa', 'bbb'], function( aaa, bbb ){
+				
+			})
+	2.加载器所在路径的探知
+	3.require方法
+		作用：当依赖列表都加载完毕，执行用户回调。
+	4.define方法
+		作用：定义模块，以及绑定相关依赖。
 		
 		
 		
