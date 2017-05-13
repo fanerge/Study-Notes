@@ -33,50 +33,119 @@
 		作用：当依赖列表都加载完毕，执行用户回调。
 	4.define方法
 		作用：定义模块，以及绑定相关依赖。
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+第三章、语言模块
+	1.字符串的扩展与修复
+		字符方法：
+			charAt(num)  返回指定位置的字符
+			charCodeAt(num)  返回指定位置字符的码点
+		字符串操作：
+			截取(返回new)：substring(from, to)、slice(from, to)、substr(from, length)
+			连接：conact(...str)、+	
+			重复：repeat(num)
+		字符串去空格
+			trim()
+			trimLeft()
+			trimRight()
+		字符串位置：
+			indexOf(searchString, [from])
+			lastIndexOf(searchString, [from])
+			includes(str)
+			startWith(searchString, [position])
+			endsWith(searchString, [position])
+		字符串大小写转化
+			toLowerCase()
+			toLocaleLowerCase()
+			toUpperCase()
+			toLocaleUpperCase()
+		字符串模式匹配
+			match(regExp) -- 返回复合正则筛选的数组
+			search(regExp) -- 返回第一匹配的索引，没找到-1
+			replace(regExp|str|function) -- 返回替换后的字符串
+			split(分割符, [length]) -- 返回指定长度的数组
+		localeCompare()  比较两个字符串
+		String.fromCharCode(...num)  返回对应码点的字符串
+	2.数组的扩展与修复
+		更改原数组：
+			添加：
+				unshift(...arrayItem)  数组开始位置添加，返回数组长度
+				push(...arrayItem)   数组结束位置添加，返回数组长度
+			删除：
+				shift()  数组开始位置删除，返回删除元素
+				pop()  数组结束位置删除，返回删除元素
+			排序：
+				reverse()  反转
+				sort()  排序
+			覆盖：
+				copyWithin(target, start, [end])
+			连接：
+				concat(...array)
+			转换：
+				join()  返回将数组转换成字符串
+			填充：
+				fill(value, [start], [end])
+		截取：
+			slice(form, [to])  
+			splice(from, num ,[...arrayItem])  返回新数组
+		寻找：
+			indexOf()  返回位置
+			lastIndexOf()  
+			includes()   返回boolean
+			find(callback, thisArg)  返回第一符合条件的数组成员
+			findIndex(callback, thisArg)  返回第一符合条件的数组成员位置
+		迭代：    callback(value, index, array)
+			every(callback, thisArg)  相当于且，返回boolean
+			some(callback, thisArg)  相当于或，返回boolean
+			filter(callback, thisArg)  过滤出符合条件的成员
+			forEach(callback, thisArg)  对数组中每一项运行给定函数
+			map(callback, thisArg)  对数组中每一项运行给定函数，返回每次调用的结果组成的数组
+		归并：    callback(accumulator, value, index, array)
+			reduce(callback, [initialValue])
+	3.数值的扩展与修复
+	4.函数的扩展与修复
+		bind(thisArg, [...arg])  返回一个函数
+		call(thisArg, arg1, arg2...)
+		apply(thisArg, [...args])
+	5.日期的扩展与修复
+		Date.now()  当前的时间戳
+第四章、浏览器嗅探与特征侦测
+	1.判定浏览器
+		navigator.userAgent
+		IE、Firefox、Opera、Chrome、Safari
+	2.事件支持的侦探
+		判断是否支持该事件input、select
+	3.样式的支持侦测
+		判断浏览器支持的前缀属性
+		-webkit-、-o-、-moz-、-ms-
+	4.jquery一些常用特征的含义	
+	5.特征侦测
+		判断其原型是否存在该方法
+		String.prototype.trim
+第五章、类工厂
+	1.javascript对类的支撑
+		Object >> Node >> Element >> HTMLElement
+	2.各种类工厂的实现
+	3.es5属性描述符对OO库的冲击
+		Object.keys( obj )  -- 返回一个数组，item为obj对象自身的可遍历属性
+		Object.getOwnPropertyNames() -- 返回一个数组，item为obj自身的（包括不可遍历）属性
+		Object.getPrototypeOf() -- 返回参数对象的内部属性[[Prototype]],相当于__proto__属性
+		Object.defineProperty() -- 为对象创建一个属性，并指定该属性的配置项
+			重写writable、值value、写入set、读取get、遍历enumerable、配置configurable（value和writable 与 set和get不可同时存在）
+		Object.defineProperties() -- 为对象创建多个属性，并指定该属性的配置项
+		Object.getOwnpropertyDescriptor() -- 获取对象的某个属性的配置信息
+		Object.create() -- 创建一个子类的原型
+		Object.isExtensible()
+		Object.preventExtensions() -- 阻止添加本地属性，但属性一旦被删除，就再也加不回来
+		Object.isSealed()
+		Object.seal() -- 阻止添加、删除本地属性
+		Object.isFrozen()
+		Object.freeze() -- 阻止修改、添加、删除本地属性
+第六章、选择器引擎
+	1.浏览器内置的寻找元素的方法
+	2.getElementsBySelector	
+	3.选择器引擎涉及的知识点
+	4.选择器引擎涉及的通用函数
+	5.Sizzle引擎
+第七章、节点模块
 		
 		
 		
