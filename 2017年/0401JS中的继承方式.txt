@@ -1,13 +1,14 @@
 大多OO语言都支持两种继承方式： 接口继承和实现继承 ，而ECMAScript中无法实现接口继承，ECMAScript只支持实现继承，而且其实现继承主要是依靠原型链来实现。
 定义一个父类。
 function Animal(name){
+	//特权属性
 	this.name = name || 'Animal';
-	//实例方法
+	//特权方法（实例方法）
 	this.sleep = function (){ 
 		console.log(this.name + '正在睡觉！');
 	}
 }
-//原型方法
+//原型方法（实例方法）
 Animal.prototype.eat = function (food){  
 	console.log(this.name + '正在吃' + food);
 };
@@ -50,7 +51,7 @@ Animal.prototype.eat = function (food){
 		可以实现多继承（call多个父类对象）
 	缺点：
 		实例并不是父类的实例，只是子类的实例
-		只能继承父类的实例属性和方法，不能继承原型属性/方法
+		只能继承父类的特权属性和方法，不能继承原型属性/方法
 		无法实现函数复用，每个子类都有父类实例函数的副本，影响性能
 3.实例继承
 	基本思想；为父类实例添加新特性，作为子类实例返回
@@ -63,6 +64,7 @@ Animal.prototype.eat = function (food){
 		var cat = new Cat();
 		console.log(cat.name); //Tom
 		console.log(cat.sleep()); //Tom正在睡觉！
+		console.log(cat.eat('fish')); //cat正在吃fish
 		console.log(cat instanceof Animal); // true
 		console.log(cat instanceof Cat); // false
 	特点：
@@ -82,6 +84,7 @@ Animal.prototype.eat = function (food){
 		var cat = new Cat();
 		console.log(cat.name); //Tom
 		console.log(cat.sleep()); //Tom正在睡觉！
+		console.log(cat.eat('fish')); //cat正在吃fish
 		console.log(cat instanceof Animal); // false
 		console.log(cat instanceof Cat); // true
 	特点：
@@ -103,7 +106,7 @@ Animal.prototype.eat = function (food){
 		console.log(cat instanceof Animal); // true
 		console.log(cat instanceof Cat); // true
 	特点：
-		弥补了方式2的缺陷，可以继承实例属性/方法，也可以继承原型属性/方法
+		弥补了方式2的缺陷，可以继承特权属性/方法，也可以继承原型属性/方法
 		既是子类的实例，也是父类的实例
 		不存在引用属性共享问题
 		可传参
