@@ -1,0 +1,65 @@
+设计模式
+1.创建者模式
+	适用场景：主要针对复杂业务的解耦，算是工厂的一种拆解、拼接。我可以将你的需求分解多个对象创建，更关心的是创建对象的过程。	
+	例如：卖车公司订单：品牌、颜色、动力、备注信息，针对购买人选择的车型返回对车型的简单描述[描述可以修改]
+	1.创建汽车
+		let Car = function( param ){
+			this.color = param && param.color || 'yellow';
+			this.brand = param && param.brand || 'Tesla';
+			this.power = param && param.power || 'electric';
+		};
+		Car.prototype = {
+			getColor: function(){
+				return this.color;
+			},
+			getBrand: function(){
+				return this.brand;
+			},
+			getPower: function(){
+				return this.power;
+			},
+		};
+	2.创建一个反馈
+		FeedBack = function( brand ){
+			let that = this;
+			(function( brand, that ){
+				switch( brand ){
+					case 'Tesla':
+						that.information = '特斯拉是好车';
+						break;
+					case 'Rolls':
+						that.information = '劳斯来时是好车';
+						break;
+				}
+			})( brand, that );
+		};
+		FeedBack.prototype.changeBrand = function( information ){
+			this.information = information;
+		};
+	3.创建一个顾客
+		let Client = function( name, message = '无留言' ){
+			this.name = name;
+			this.message = message;
+		};
+		//用户修改备注
+		Client.prototype.changeMessage = function( message ){
+			this.message = message;
+		};
+	4.然后重点在这里！我们在这里将我们分解的拼接起来。
+		let Order = function( name ){
+			let object = new Car();
+			object.client = new Client( name );
+			object.feedBack = new FeedBack( object.brand );
+			return object;
+		};
+	5.使用
+		let orderCar = new Order('余先生');
+		console.log('The' + orderCar.client.name + '先生、下单一辆' + orderCar.color + '的' + orderCar.brand +' 留言内容 : ' +orderCar.client.message );
+		orderCar.client.changeMessage('请马上电话联系我')
+		console.log('The' + orderCar.client.name + '先生、下单一辆' + orderCar.color + '的' + orderCar.brand +' 留言内容 : ' +orderCar.client.message );
+	
+	
+	
+	
+	
+	

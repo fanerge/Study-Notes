@@ -1,0 +1,94 @@
+1.封装一些类似的方法（表单验证）
+	//定义
+	var CheckObject = function(){ };
+	CheckObject.prototype = {
+		checkPhoneNum = function(){
+			...
+			return this;  //返回this，实现链式调用
+		},
+		checkEmail = function(){
+			...
+			return this; 
+		}
+	};
+	//使用
+	var checkobject = new CheckObject();
+	checkobject.checkPhoneNum().checkEmail();  //验证即属于电话号码又属于邮箱
+设计模式
+1.工厂模式
+	适用场景：需要根据不同参数产生不同实例，这些实例有一些共性的场景	
+	例如：要实现网易播放、qq播放器等等一类事物
+	1.先定义一个父类
+		let BasicMusic = function(){
+			this.vender = '版权信息';  //子类可重写
+			this.playingMusic = 'see you agin';  
+		};
+		BasicMusic.prototype = {       //子类公共的方法
+			prev: function(){
+				this.information = {currentMusic:'我是上一曲',status:'200|404',message:'上一曲'}
+			},
+			next: function(){
+				this.information = {currentMusic:'我是下一曲',status:'200|404',message:'下一曲'}
+			},
+			play: function(){
+				this.information = {currentMusic:'我是播放',status:'200|404',message:'播放'}
+			},
+			pause: function(){
+				this.information = {currentMusic:'我是暂停',status:'200|404',message:'暂停'}
+			}
+		};
+	2.定义子类
+		let WangyiMusic = function(){
+			this.vender = '网易出版';  //子类可重写
+			this.playingMusic = '网易音乐';  
+		};
+		WangyiMusic.prototype = new BasicMusic();   //继承所有父类的实例方法和属性
+		
+		let QQMusic = function(){
+			this.vender = 'QQ出版';  //子类可重写
+			this.playingMusic = 'QQ音乐';  
+		};
+		QQMusic.prototype = new BasicMusic();   //继承所有父类的实例方法和属性	
+	
+	3.音乐工厂
+		let MusicFactory = function( type ){
+			var temp = null;
+			switch( type ){
+				case 'qq':
+					temp = new QQMusic();
+					break;
+				case 'wangyi':
+					temp = new WangyiMusic();
+					break;
+				default: 
+					break;
+			}
+			return temp;
+		};
+	4.使用
+		var music = MusicFactory('qq');
+		music.next();    //执行下一首
+		console.log( music.vender );
+		console.log( music.playingMusic );
+		console.log( music.information );
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
