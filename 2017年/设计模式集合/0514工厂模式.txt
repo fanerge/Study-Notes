@@ -39,13 +39,13 @@
 		};
 	2.定义子类
 		let WangyiMusic = function(){
-			this.vender = '网易出版';  //子类可重写
+			this.vender = '网易出版';  //子类重写
 			this.playingMusic = '网易音乐';  
 		};
 		WangyiMusic.prototype = new BasicMusic();   //继承所有父类的实例方法和属性
 		
 		let QQMusic = function(){
-			this.vender = 'QQ出版';  //子类可重写
+			this.vender = 'QQ出版';  //子类重写
 			this.playingMusic = 'QQ音乐';  
 		};
 		QQMusic.prototype = new BasicMusic();   //继承所有父类的实例方法和属性	
