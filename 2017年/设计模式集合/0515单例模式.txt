@@ -1,0 +1,55 @@
+单例模式（singleton）
+1.定义：单例模式的定义是产生一个类的唯一实例。
+2.使用场景：模态框、登录modal、注册modal（只可能产生一个实例）	
+	let createMask = (function(){
+		let mask;  //内部变量保存单例是否存在
+		return function(){
+			return mask || (mask = document.body.appendChild( document.createElement('div') ));
+		};
+	})();
+	//点击弹出模态框
+	document.getElementById('button').onclick = function(){
+		createMask();  //创建模态框
+	};
+3.通用的单例模式
+	let singleton = function( fn ){
+		let result;
+		return function(){
+			return result || ( result = fn.apply(this, arguments) );
+		};
+	};
+	let createMask = singleton(function(){
+		return document.body.appendChild( document.createElement('div') );
+	});
+	//点击弹出模态框
+	document.getElementById('button').onclick = function(){
+		createMask();  //创建模态框
+	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

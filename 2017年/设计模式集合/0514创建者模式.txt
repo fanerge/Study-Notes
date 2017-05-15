@@ -28,7 +28,7 @@
 						that.information = '特斯拉是好车';
 						break;
 					case 'Rolls':
-						that.information = '劳斯来时是好车';
+						that.information = '劳斯莱斯是好车';
 						break;
 				}
 			})( brand, that );
