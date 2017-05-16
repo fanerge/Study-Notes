@@ -186,7 +186,7 @@
 					}
 				}
 			}
-		显式多态 --- Vehicle.drive.call( this ); 再Car 中 进行 
+		s --- Vehicle.drive.call( this ); 再Car 中 进行 
 五.原型
 	1.[[prototype]]内置属性		
 		Object.create( prototypeChian, { ... } );
