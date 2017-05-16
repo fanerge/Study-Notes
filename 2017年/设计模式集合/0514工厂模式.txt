@@ -50,7 +50,7 @@
 		};
 		QQMusic.prototype = new BasicMusic();   //继承所有父类的实例方法和属性	
 	
-	3.音乐工厂
+	3.音乐工厂（重点）
 		let MusicFactory = function( type ){
 			var temp = null;
 			switch( type ){
