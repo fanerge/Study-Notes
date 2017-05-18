@@ -367,7 +367,7 @@
 		仅仅是引用，C.prototype.rand = function(){}; //这样类C中的rand方法会被重写
 		class语法无法定义类成员属性(只能定义方法) //属性就只能在C.prototype.count = 0;这样定义
 	3.静态大于动态吗	
-		少使用class，尽量使用委托来住址代码
+		少使用class，尽量使用委托来组织代码
 		
 		
 		
