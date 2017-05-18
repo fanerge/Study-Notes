@@ -1,0 +1,96 @@
+代理模式
+1.定义：是把对一个对象的访问, 交给另一个代理对象来操作.使这个代理对象能够控制对它的访问。
+2.虚拟代理：虚拟代理是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行
+	应用场景：图片预加载、合并HTTP请求
+	//图片加载函数
+	let myImage = (function(){
+		var  img = document.createElement('img');
+		document.body.appendChild( img );
+		return {
+			setSrc: function( src ){
+				img.src = src;
+			}
+		};
+	})();
+	//代理对象
+	let proxyImage = (function(){
+		var img = new Image();
+		//使用代理对象去加载大图
+		img.onload = function(){
+			//当代理对象加载完大图之后，将图片地址赋值给原对象
+			myImage.setSrc( this.src );	
+		};
+		return {
+			setSrc: function( src ){
+				//默认先让原对象显示loading.gif的图片
+				myImage.setSrc('./img/loading.gif');
+				//将代理对象的src设置为大图地址	
+				img.src = src;
+			}
+		};
+	})();
+	proxyImage.setSrc('big.png');	
+3.缓存代理
+	//乘法函数
+	let mult = function(){
+		let a = 1;
+		for( let i = 0, len = arguments.length; i < len; i++ ){
+			a = a * arguments[i];
+		}
+		return a;
+	};
+
+	//代理缓存函数
+	let createProxyFactory = function( fn ){
+		var cache = {};  //缓存对象
+		return function(){
+			let args = Array.prototype.join.call(arguments, '-');
+			if( args in cache ){
+				return cache[args];	
+			}
+			return cache[args] = fn.apply(this, arguments);
+		};
+	};
+
+	let proxyMult = createProxyFactory( mult );
+	console.log( proxyMult(3, 4, 5, 4 ,4 ,5) );
+	console.log( proxyMult(3, 4, 5, 4 ,4 ,5) );  //这里读的缓存cache的值
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
