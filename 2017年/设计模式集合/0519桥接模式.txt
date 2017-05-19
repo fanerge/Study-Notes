@@ -1,0 +1,49 @@
+外观模式、门面模式（Facede）
+1.定义：实现一个简单的同一接口来处理对各子系统接口的处理和调用。
+2.应用：把一些糟糕的api统一（主要是浏览器的差异，处理跨浏览器，提供一个统一的接口）、
+		就是在反复成组出现的代码，如果函数b出现在在函数a之后的这种情况经常出现，则把这两个函数组合起来成为门面函数。
+3.例子：
+	兼容性处理addEvent函数
+		let addEvent = function( el, ty, fn){
+			let cases = [
+				function( el, ty, fn ){ el.addEventListener( ty, fn, false ); },
+				function( el, ty, fn ){ el.attachEvent( 'on' + ty, fn ); },
+				function( el, ty, fn ){ el['on' + ty] = function(){ fn }; }
+			];
+			if( el.addEventListener ){
+				addEvent = cases[0];
+			}elseif( el.addEvent ){
+				addEvent = cases[1];
+			}else{
+				addEvent = cases[2];
+			}
+			addEvent(el, ty, fn);
+		};
+	便利函数
+		function a( x ){
+			return '我先洗脸';
+		}
+		function b( y ){
+			return '我再吃饭';
+		}
+		//洗脸总是再吃饭之前，称为门面函数
+		function ab( x, y ){
+			a( x );
+			b( y );
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
