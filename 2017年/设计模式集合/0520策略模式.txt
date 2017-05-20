@@ -1,0 +1,35 @@
+策略模式（Strategy）
+1.定义：定义了一系列的算法，并将每个算法封装起来，而且使它们还可以相互替换。
+		目的是将算法的实现和使用分离开来。
+2.实例：表单验证
+	//策略类（算法的实现）
+	validataList = {
+		notNull: function( val ){
+			return val !== '';
+		},
+		maXlength: function( val, maxLen ){
+			return val.length > maxLen;
+		},
+		dirtyWords: function( val ){
+			//关键词对比
+		}
+	};
+	//算发的使用
+	nameInput.addValidata({
+		notNull: true,
+		dirtyWords: true,
+		maXlength: 30
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+
