@@ -1,0 +1,26 @@
+访问者模式（Visitor）
+1.定义：访问模式先把一些可复用的行为抽象到一个函数（对象）里，这个函数我们就称为访问者函数，如果另外一些对象要调用这个函数，只需要把那些对象当做参数传递给这个函数。
+		在js里我们经常通过call或者apply的方式传递this对象给一个访问者函数。
+2.let Visitor = {};
+	Visitor.push = function(){
+		return [].push.apply( this, arguments );
+	};
+	//给obj对象添加一个push方法
+	var obj = {};  
+	obj.push = Visitor.push; 
+	obj.push('first');
+	console.log(obj[0]);	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
