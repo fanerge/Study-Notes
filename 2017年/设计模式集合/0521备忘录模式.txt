@@ -1,0 +1,30 @@
+备忘录模式
+1.定义：在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。
+	这样以后就可将对象恢复到原先保存的状态。
+2.应用：分页控件（数据缓存）	
+	let Page = function(){
+		let page = 1,
+			cache = {},  //用于缓存之前访问过的页面数据
+			data;
+		return function( page ){
+			if( cache[ page ] ){
+				data = cache[ page ];
+			}else{
+				$.ajax({
+					url: 'cgi.xx.com/xxx',
+					success: function( data ){
+						cache[ page ] = data;
+						data = cache[ page ];	
+					}
+				});
+			}
+			render( data );
+		};
+	};
+	
+	
+	
+	
+	
+	
+	
