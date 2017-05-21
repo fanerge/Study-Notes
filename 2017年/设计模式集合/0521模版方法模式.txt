@@ -1,0 +1,49 @@
+模版方法模式（TemplateMethod）
+1.定义：先把算法的不变部分抽象到父类，再将另外一些可变的步骤延迟到子类实现。
+2.区别：工厂模式的意图是决定创建到底那个类的实例，而模版方法模式着重于父类对子类的控制。
+3.实例：（游戏大厅）
+	let GameCenter = function(){};
+	//不变的部分抽象到父类
+	//称为模版方法（定义基本方法的执行顺序）
+	GameCenter.prototype.init = function(){
+		this.login();
+		this.start();
+		this.end();
+	};
+	//称为基本方法，只提供个钩子，由子类重写
+	GameCenter.prototype.login = function(){
+		throw new Error('子类必须重写');
+	};
+	GameCenter.prototype.start = function(){
+		throw new Error('子类必须重写');
+	};
+	GameCenter.prototype.end = function(){
+		throw new Error('子类必须重写');
+	};
+	let DouDiZhu = function(){};
+	DouDiZhu.prototype = GameCenter.prototype;
+	//子类重写父类的方法
+	DouDiZhu.prototype.login = function(){
+		console.log('登录成功');
+	};
+	DouDiZhu.prototype.start = function(){
+		console.log('开始游戏');
+	};
+	DouDiZhu.prototype.end = function(){
+		console.log('游戏结束');
+	};
+	let douDiZhu = new DouDiZhu();
+	douDiZhu.init();	
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,101 @@
+中介者模式（Mediator）
+1.定义：用一个中介对象来封装一系列的对象交互。
+	中介者使各对象不需要显式地相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。
+2.实例：（聊天室、飞机场灯塔）
+2.1飞机和控制塔示例
+	let Airplane = function( name ){
+		this.name = name;
+	};
+	Airplane.prototype.send = function( msg, to ){
+		console.log( this.name + '发送消息了' );
+		tower.send( msg, to );   //使用中介者的方法
+	};
+	Airplane.prototype.receive = function( msg ){
+		console.log( this.name + '{接收到}' + msg );
+	};
+
+	let Tower = function(){
+		let all = {};
+		return {
+			registor: function( airplane ){
+				all[airplane.name] = airplane;
+			},
+			send: function( msg, to ){
+				all[to.name].receive( msg );
+			}
+		};
+	};
+
+	let airplane1 = new Airplane('fan');
+	let airplane2 = new Airplane('yu');
+	let tower = new Tower();
+	tower.registor(airplane1);
+	tower.registor(airplane2);
+	airplane1.send('我马上降落，还有200米', airplane2);
+	
+2.2聊天室案列
+	let Participant = function( name ){
+		this.name = name;
+		this.chatroom = null;
+	};
+
+	Participant.prototype = {
+		send: function( msg, to ){
+			this.chatroom.send( msg, this, to );   //使用聊天室（中介者）的方法，发送消息
+		},
+		receive: function( msg, from ){
+			log.add( from.name + 'to' + this.name + ':' + msg );  //使用聊天日志的方法
+		}
+	};
+
+	//定义中介者（聊天室）
+	let Chatroom = function(){
+		let participants = {};  //用于存放聊天者
+		return {
+			register: function( participant ){
+				participants[participant.name] = participant;
+				participant.chatroom = this;
+			},
+			send: function( msg, from, to ){
+				if( to ){
+					to.receive( msg, from );
+				}else{
+					for( key in participants ){
+						if( participants[key] !== from ){
+							participants[key].receive( msg, from );
+						}
+					}
+				}
+			}
+		};
+	};
+
+	//聊天日志
+	let log = (function(){
+		let log = '';
+		return {
+			add: function( msg ){
+				log += msg + '\n';	
+			},
+			show: function(){
+				alert(log);
+				log = '';
+			}
+		};
+	})();
+
+	var yoko = new Participant("Yoko");
+	var john = new Participant("John");
+	var chatroom = new Chatroom();
+	chatroom.register(yoko);
+	chatroom.register(john);
+	yoko.send("All you need is love.");
+	yoko.send("I love you John.");
+	john.send("Hey, no need to broadcast", yoko);
+	log.show();
+
+
+
+
+
+

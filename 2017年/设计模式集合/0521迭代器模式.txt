@@ -1,0 +1,69 @@
+迭代器模式（Iterator）
+1.定义：提供一种方法顺序访问一个聚合对象中的各种元素，而又不暴露该对象的内部表示。
+2.应用：$.each() -- jquery
+3.实例：
+3.1内部迭代器
+	//已经定义好了迭代规则
+	let each = function( array, callback){
+		for( let i = 0, len = array.length; i < len; i++ ){
+			callback.call( array[i], i, array[i] );
+		}
+	};
+	//使用
+	each( [4, 2, 3], function( i, v ){ console.log(i ,v); });
+3.2外部迭代器
+	//必须显式地请求迭代下一个元素
+	let Iterator = function( obj ){
+		let current = 0,
+			next = function(){
+				current++;
+			},
+			isDone = function(){
+				return current >= obj.length;
+			},
+			getCurrentItem = function(){
+				return obj[current]
+			};
+		return {
+			next,
+			isDone,
+			getCurrentItem
+		};
+	};
+	//使用
+	let ary = Iterator([2, 3, 4]);
+	while( !ary.isDone() ){
+		let item = ary.getCurrentItem();
+		console.log(item);
+		ary.next();
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
