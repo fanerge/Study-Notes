@@ -2,7 +2,7 @@
 1.定义：它定义了对象间的一种一对多的关系，让多个观察者对象同时监听某一个主题对象，当这个主题对象发生改变时，所有依赖于它的对象都将得到通知。
 2.生活中例子
 	面试官对我说，“请留下你的联系方式， 有消息我们会通知你”。 在这里“我”是订阅者， 面试官是发布者。
-	至少要有：listen(监听)、trigger(发布)、remove(移除)、one(单次监听)等方法
+	至少要有：list(属性)、listen(监听)、trigger(发布)、remove(移除)、one(单次监听)等方法
 3.作用：模块之间的解耦、模块间的通信
 4.步骤：
 	1.分清谁是发布者（卖家）、订阅者（买家）。
@@ -15,7 +15,7 @@
 	//添加订阅者
 	shoeObj.listen = function( key, fn ){  //添加key，使订阅者只订阅需要的消息
 		if( !this.list[key] ){
-			//如果没有订阅过次消息的，给该类消息穿件一个缓存列表
+			//如果没有订阅过此消息的，给该类消息创建一个缓存列表
 			this.list[key] = [];
 		}
 		this.list[key].push(fn);  //订阅消息添加到缓存列表
@@ -23,7 +23,7 @@
 
 	//发布消息
 	shoeObj.trigger = function(){
-		let key = Array.prototype.shift.call(arguments); //取出次奥系类型名称
+		let key = Array.prototype.shift.call(arguments); //取出此类型名称
 		let fns = this.list[key];  //取出该消息对应的回调函数的集合
 
 		//如果没有订阅过该消息，则返回
@@ -42,7 +42,7 @@
 
 	// 小花订阅如下消息
 	shoeObj.listen('block',function(size){
-		console.log("笑话想要的尺码是："+size); 
+		console.log("小花想要的尺码是："+size); 
 	});
 
 	//发布消息
@@ -118,46 +118,46 @@
 6.全局封装
 	var Event = (function(){
 		var list = {},
-			  listen,
-			  trigger,
-			  remove;
-			  listen = function(key,fn){
-				if(!list[key]) {
-					list[key] = [];
-				}
-				list[key].push(fn);
-			};
-			trigger = function(){
-				var key = Array.prototype.shift.call(arguments),
-					 fns = list[key];
-				if(!fns || fns.length === 0) {
-					return false;
-				}
-				for(var i = 0, fn; fn = fns[i++];) {
-					fn.apply(this,arguments);
-				}
-			};
-			remove = function(key,fn){
-				var fns = list[key];
-				if(!fns) {
-					return false;
-				}
-				if(!fn) {
-					fns && (fns.length = 0);
-				}else {
-					for(var i = fns.length - 1; i >= 0; i--){
-						var _fn = fns[i];
-						if(_fn === fn) {
-							fns.splice(i,1);
-						}
+			listen,
+			trigger,
+			remove;
+		listen = function(key,fn){
+			if(!list[key]) {
+				list[key] = [];
+			}
+			list[key].push(fn);
+		};
+		trigger = function(){
+			var key = Array.prototype.shift.call(arguments),
+				 fns = list[key];
+			if(!fns || fns.length === 0) {
+				return false;
+			}
+			for(var i = 0, fn; fn = fns[i++];) {
+				fn.apply(this,arguments);
+			}
+		};
+		remove = function(key,fn){
+			var fns = list[key];
+			if(!fns) {
+				return false;
+			}
+			if(!fn) {
+				fns && (fns.length = 0);
+			}else {
+				for(var i = fns.length - 1; i >= 0; i--){
+					var _fn = fns[i];
+					if(_fn === fn) {
+						fns.splice(i,1);
 					}
 				}
-			};
-			return {
-				listen: listen,
-				trigger: trigger,
-				remove: remove
 			}
+		};
+		return {
+			listen: listen,
+			trigger: trigger,
+			remove: remove
+		}
 	})();
 
 
