@@ -1,0 +1,53 @@
+公司准备使用React了，非常开心，赶紧抓紧时间学习。
+1.配置环境（有点麻烦）
+
+2.知识点
+2.1AppRegistry.registerComponent --- 注册为整个应用的根容器	
+2.2Props（属性）-- 在生明周期中不可改变
+	//声明一个组件
+	class Greeting extends Component {
+	  render() {
+		return (
+		  <Text>Hello {this.props.name}!</Text>
+		);
+	  }
+	}
+	//使用组件
+	<Greeting name='Jaina' />
+2.3State（状态）-- 在生命周期中可以改变
+	//设置默认值
+	constructor(props){
+		super(props);
+		this.state = { show: true };
+	}
+	//改变状态
+	this.setState({ show: !this.state.show });
+2.4样式
+	使用驼峰命名法 -- backgroundColor
+	StyleSheet.create -- 集中定义样式
+	如：
+		<Text style={styles.red}>just red</Text>
+		const styles = StyleSheet.create({
+		  red: {
+			color: 'red',
+		  },
+		});
+
+
+自带组件：
+<Text></Text>   专门显示文本
+<Image source={pic} />
+<View></View>    通常当做其他组件的容器，来控制布局和样式。
+
+
+
+
+
+
+
+
+
+
+
+
+
