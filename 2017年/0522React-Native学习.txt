@@ -52,13 +52,94 @@
 		dataSource -- 列表的数据源
 		renderRow -- 逐个解析数据源中的数据，然后返回一个设定好格式的组件来渲染。
 		rowHasChanged -- 数据操作
-
-
-
-
-
-
-
+2.10网络
+	get或post请求、提交数据
+	获取静态资源
+	使用Fetch
+		fetch('url', {             //服务器地址
+			method: 'post',        //请求方式
+			headers: {             //请求头部
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ //请求主体 
+				firstParam: 'Value1',
+				secondParam: 'Value2'
+			})
+		});
+	//处理服务器的响应数据
+	//Promise异步方案
+	getMoviesFromApiAsync(){
+		return fetch('url')
+			.then((res) => res.json())
+			.then((resJson) => { 
+				return resJson.movies; 
+			})
+			.catch((err) => console.error(err));
+	}	
+	//ES7 async/await方案
+	async getMoviesFromApi(){
+		try{
+			let res = await fetch('url');
+			let resJson = await res.json();
+			return resJson.movies;
+		}catch( err ){
+			console.error(err);
+		}
+	}
+	WebSocket支持
+	let ws = new WebSocket('url');
+	//打开一个连接
+	ws.open = () => {    
+		ws.send('something');  //发送一个数据
+	};
+	//接收到数据
+	ws.onmessage = ( e ) => { 
+		console.log( e.data );
+	};
+	//监听错误
+	ws.onerror = ( e ) => { ... };
+	//连接被关闭
+	ws.onclose = ( e ) => { ... };
+3核心概念
+3.1嵌入到现有的原生应用
+3.2颜色
+	#fof         --  #rgb  
+	#fofc        --  #rgba
+	#ff00ff      --  #rrggbb
+	#ff00ff00    --  #rrggbbaa
+	rgb(r,g,b)、rgba(r,g,b,a)
+	hsl(360,100%,100%)、hsla(360,100%,100%,1.0)
+	transparent、red、0xff00ff00(0xrrggbbaa)
+3.3图片
+	<Image source={require('./img/my-icon.png')} />
+	img文件和组件在同以及目录
+	若有my-icon.ios.png和my-icon.android.png文件，则packager自动选择平台打包。
+	若有check@2x.png和check@3x.png会根据不同屏幕精度来提供图片。
+	加载静态非图片资源 -- require(path) 常用的有.mp3, .wav, .mp4, .mov, .htm , .pdf
+	网络图片 -- ios限制https协议，必须指定尺寸 
+		<Image source={{uri: 'https://ysq00.com/logo.png'}}
+				styles={{width: 400, height: 500}}
+		/>
+	本地文件系统的图片 -- 相册（CameraRoll）
+	通过嵌套是实现背景图片 
+		<Image source={...}>
+			<Text> Inside </Text>
+		</Image>
+3.4处理触摸事件
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
