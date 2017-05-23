@@ -32,8 +32,37 @@
 			color: 'red',
 		  },
 		});
+2.5高度和宽度
+	style = {{ width: 100, height: 100 }}  //不同屏幕上显示的尺寸一样
+	弹性（Flex）宽高 -- flex: num,	
+2.6使用Flexbox布局		
+	容器：
+		flexDirection
+		justifyContent
+		alignItems
+2.7处理文本输入
+	TextInput 组件
+		onChangeText -- 文本改变调用
+		onSubmitEditing -- 文本提交调用（软键盘中的提交）
+2.8轮播组件
+	ScrollView -- 滚动容器
+		horizontal
+2.9列表组件
+	ListView
+		dataSource -- 列表的数据源
+		renderRow -- 逐个解析数据源中的数据，然后返回一个设定好格式的组件来渲染。
+		rowHasChanged -- 数据操作
 
 
+
+
+
+
+
+
+
+
+		
 自带组件：
 <Text></Text>   专门显示文本
 <Image source={pic} />
