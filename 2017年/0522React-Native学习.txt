@@ -165,15 +165,113 @@
 		  outputRange: [0, 100],
 		});	
 	输入事件
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		onScroll = {Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}])}
+	响应当前的动画值
+		spring.stopAnimation(callback) -- 会停止动画并且把最终的值作为参数传递给回调函数
+		spring.addListener(callback) -- 会在动画的执行过程中持续异步调用回调函数
+	使用本地引擎
+		Animated.timing(this.state.animatedValue, {
+			toValue: 1,
+			duration: 500,
+			useNativeDriver: true   //加上这行
+		});
+	LayoutAnimation
+3.6无障碍功能（accessibility）
+	读屏软件：ios -- VoiceOver 、android -- TalkBack	
+	无障碍功能属性：accessible={true}
+	无障碍标签accessibilityLabel (iOS, Android)
+		accessibilityLabel={'Tap me!'}
+	无障碍元素特性accessibilityTraits (iOS)
+	无障碍元素的点击事件onAccessibilityTap (iOS)
+	MagicTap双指双击事件onMagicTap (iOS)
+	无障碍组件类型accessibilityComponentType (Android)
+	无障碍功能优先级importantForAccessibility (Android)
+	发送无障碍功能的相关事件 (Android)
+3.7定时器
+	setTimeout\clearTimeout
+	setInterval\clearInterval
+	setImmediate\clearImmediate -- 当前JavaScript执行快结束的时候执行
+	requestAnimationFrame\cancelAnimationFrame -- 每帧刷新一次
+	InteractionManager
+		InteractionManager.runAfterInteractions(() => {  //在稍后执行代码，不会延迟当前进行的动画。
+		   // ...需要长时间同步执行的任务...
+		});
+	TimerMixin
+		应用闪退 -- 由于组件unmount后，计时器没有被清除。
+		ES5处理方法
+			npm i react-timer-mixin --save
+			this.setTimeout(fn, timer);
+		ES6处理方法
+			componentWillUnmount() {
+				this.timer && clearTimeout(this.timer);
+			}
+3.8直接操作
+	setNativeProps -- 直接操作DOM节点的方法
+	复合组件与setNativeProps
+	将setNativeProps传递给子组件
+	shouldComponentUpdate 和 setState -- 避免重新渲染那些实际没有变化的子组件所带来的额外开销
+3.9调试
+	访问App内的开发者菜单
+		Android模拟器对应的则是Command? + M（windows上可能是F1或者F2）
+		iOS模拟器中运行，还可以按下Command? + D 快捷键
+	刷新Javascript
+		在开发菜单中点击"Reload"选项
+		Android模拟器上对应的则是按两下R
+		iOS模拟器中按下Command? + R
+	自动刷新
+		开发菜单中的"Enable Live Reload"可以开启自动刷新
+	应用内的错误与警告提示
+		红屏错误 -- console.error()
+		黄屏警告 -- console.warn()
+			console.disableYellowBox = true;  //关闭黄屏警告
+			YellowBox.ignoreWarnings(['Warning: ']); //忽略部分黄屏警告
+	访问控制台日志
+		react-native log-ios
+		react-native log-android
+		android -- adb logcat *:S ReactNative:V ReactNativeJS:V
+		ios模拟器 -- Debug → Open System Log...
+	chrome开发者工具
+		开发者菜单中选择"Debug JS Remotely"选项
+		Chrome的菜单中选择Tools → Developer Tools可以打开开发者工具
+	React Developer Tools
+		npm install -g react-devtools （基于electron）
+		react-devtools
+	使用Chrome开发者工具来在设备上调试
+		android -- 将设备通过USB连接到电脑上后，可以使用adb命令行工具来设定从设备到电脑的端口转发：
+			adb reverse tcp:8081 tcp:8081
+		iOS真机 -- 需要打开 RCTWebSocketExecutor.m文件，然后将其中的"localhost"改为你的电脑的IP地址，最后启用开发者菜单中的"Debug JS Remotely"选项。
+	使用自定义的JavaScript调试器来调试
+	在Android上使用Stetho来调试
+3.10自动化测试
+	Running Tests and Contributing	
+	JavaScript Tests
+		Jest
+			cd react-native
+			npm test
+		Flow
+			cd react-native
+			npm run flow
+	Android		
+		Unit Tests
+			cd react-native
+			./scripts/run-android-local-unit-tests.sh
+		Integration Tests
+			cd react-native
+			./scripts/run-android-emulator.sh	
+			cd react-native
+			./scripts/run-android-local-integration-tests.sh
+	ios
+		Integration Tests
+		Screenshot/Snapshot Tests
+		End-to-end tests
+3.11Javascript环境
+	JavaScript语法转换器 -- Babel
+	接口兼容（Polyfills）
+3.12导航器对比
+	React Navigation
+		npm install --save react-navigation
+	NavigatorIOS
+		基于 UINavigationController封装的
 	
 	
 	

@@ -2,10 +2,11 @@
 	react-native init <project-name>
 2.进入项目
 	cd <project-name>
-2.运行项目
+3.运行项目
 	react-native run-ios
 	react-native run-android
-
+4.访问控制台日志
+	react-native log-android
 
 
 
