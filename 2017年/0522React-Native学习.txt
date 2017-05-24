@@ -127,6 +127,44 @@
 			<Text> Inside </Text>
 		</Image>
 3.4处理触摸事件
+	可点击的组件、属性 -- onPress
+		使用：以Touchable开头的一系列组件
+		TouchableHighlight -- 此组件的背景会在用户手指按下时变暗。
+		TouchableNativeFeedBack -- 用户手指按下时形成类似墨水涟漪的视觉效果（android）。
+		TouchableOpacity -- 用户手指按下时降低按钮的透明度。
+		TouchableWithoutFeedback -- 无任何视觉反馈。
+	长按的组件、属性 -- onLongPress
+		ScrollView（pagingEnabled）
+		ViewPagerAndroid(android)
+		ListView、UITableView(ios)
+	双指缩放、属性 -- maximunZoomScale、minimunZoomScale
+	处理其他的手势	
+		参阅PanResponder API或是手势识别系统的文档。
+3.5动画
+	用于全局的布局动画LayoutAnimation，和用于创建更精细的交互控制的动画Animated。	
+	Animated
+		使用start、stop方法来控制动画按顺序执行。
+		内部支持动画的组件：View、Text、Image、ScrollView。
+		Animated.createAnimatedComponent()来封装你自己的组件。
+	配置动画
+		Animated.timing(
+		  this.state.xPosition,  //改变的属性
+		  {
+			toValue: 100,
+			easing: Easing.back,
+			duration: 2000,
+		  }                              
+		).start();
+	组合动画
+		多个动画可以通过parallel（同时执行）、sequence（顺序执行）、stagger和delay来组合使用。
+	联动多个动画值
+	插值（Interpolation）
+		//它可以接受一个输入区间，然后将其映射到另一个的输出区间。
+		value.interpolate({
+		  inputRange: [0, 1],
+		  outputRange: [0, 100],
+		});	
+	输入事件
 	
 	
 	
@@ -140,9 +178,14 @@
 	
 	
 	
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 		
 自带组件：
 <Text></Text>   专门显示文本
