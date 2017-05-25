@@ -294,26 +294,143 @@
 		pageSize  
 		scrollRenderAheadDistance -- 指定一个超过视野范围之外所需要渲染的行数。
 		removeClippedSubviews -- 设置为true的时候，超出屏幕的子视图（同时overflow值为hidden）会从它们原生的父视图中移除。
+3.14升级
+	基于Git的自动合并更新
+		1.安装Git
+		2.安装react-native-gitupgrade工具模块
+			npm install -g react-native-git-upgrade
+		3.运行更新命令
+			react-native-git-upgrade
+			react-native-git-upgrade X.Y.Z
+		4.解决冲突
+	老式升级方案
+		1.更新react-native的node依赖包
+			npm info react-native
+		2.升级项目模板文件
+			eact-native upgrade	
+3.15特定平台代码
+	/common/components/   --  两平台都可以使用的组建   
+	/android/components/  --  android使用的组建   
+	/ios/components/      --  ios使用的组建
+	特定平台扩展名
+		BigButton.ios.js
+		BigButton.android.js
+		//对不同平台操作
+		Platform.select({
+			ios: { ... }
+		})
+	平台模块
+		Platform.OS  返回当前平台类型（ios、android）
+		对于android还可以检测版本
+			Platform.Version
+3.16手势响应系统
+	ResponderEventPlugin.js
+	TouchableHighlight与Touchable系列组件
+	响应这的生命周期
+		手刚触摸屏幕，询问是否愿意成为响应。
+			View.props.onStartShouldSetResponder: (evt) => true
+		在每一个触摸点开始移动（没有停下也没有离开屏幕）时再询问一次
+			View.props.onMoveShouldSetResponder: (evt) => true
+		View现在要开始响应触摸事件了，高亮。
+			View.props.onResponderGrant: (evt) => {}
+		响应者现在“另有其人”而且暂时不会“放权”，请另作安排。
+			View.props.onResponderReject: (evt) => {}
+		用户正在屏幕上移动手指时（没有停下也没有离开屏幕）。
+			View.props.onResponderMove: (evt) => {}
+		触摸操作结束时触发，比如"touchUp"（手指抬起离开屏幕）。
+			View.props.onResponderRelease: (evt) => {}
+		有其他组件请求接替响应者，当前的View是否“放权”？
+			View.props.onResponderTerminationRequest: (evt) => true
+		响应者权力已经交出。
+			View.props.onResponderTerminate: (evt) => {}
+	evt合成事件
+		nativeEvent
+			changedTouches -- 在上一次事件之后，所有发生变化的触摸事件的数组集合（即上一次事件后，所有移动过的触摸点）
+			identifier --  触摸点的ID
+			locationX -- 触摸点相对于父元素的横坐标	
+			locationY -- 触摸点相对于父元素的纵坐标
+			pageX -- 触摸点相对于根元素的横坐标
+			pageY -- 触摸点相对于根元素的纵坐标
+			target -- 触摸点所在的元素ID
+			timestamp -- 触摸事件的时间戳，可用于移动速度的计算
+			touches -- 当前屏幕上的所有触摸点的集合
+	捕获ShouldSet事件处理
+		冒泡
+			onStartShouldSetResponder
+			onMoveShouldSetResponder
+		设置捕获期触发
+			View.props.onStartShouldSetResponderCapture: (evt) => true,
+			View.props.onMoveShouldSetResponderCapture: (evt) => true,	
+	高级手势 -- PanResponder	
+4社区资源
+	4.1视频资源
+	4.2第三方组件库
+		https://js.coach/react-native
+	4.3中文论坛
+		http://bbs.reactnative.cn/
+5使用指南（Android）
+	5.1原生模块
+		Toast -- Android中的一种会在屏幕下方弹出、保持一段时间的消息通知
+		参数类型 -- @ReactMethod注明的方法
+			Boolean -> Bool
+			Integer -> Number
+			Double -> Number
+			Float -> Number
+			String -> String
+			Callback -> function
+			ReadableMap -> Object
+			ReadableArray -> Array	
+		注册模块
+			我们需要在应用的Package类的createNativeModules方法中添加这个模块。
+		更多特性
+			回调函数
+			Promises	
+			多线程
+			发送事件到JavaScript
+			从startActivityForResult中获取结果	
+			监听生命周期事件
+	5.2原生UI组件
+	5.3Headless JS（后台任务）	
+		JS端的API
+	5.4在设备上运行
+		前提条件：USB调试
+			adb devices -- 查看设备
+			react-native run-android -- 设备上安装App
+			react-native run-android --variant=release    设备上安装发布版
+		从设备上访问开发服务器
+			(Android 5.0及以上)使用adb reverse命令
+			adb reverse tcp:8081 tcp:8081
+		(Android 5.0以下)通过Wi-Fi连接你的本地开发服务器
+	5.5打包APK
+		生成一个签名密钥
+			用keytool命令生成一个私有密钥
+			keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+		设置gradle变量	
+		添加签名到项目的gradle配置文件	
+		生成发行APK包
+			cd android && ./gradlew assembleRelease
+		测试应用的发行版本
+			cd android && ./gradlew installRelease
+		启用Proguard代码混淆来缩小APK文件的大小（可选）
+			def enableProguardInReleaseBuilds = true
+	5.6调试Android UI性能
+		标准的Android性能分析工具systrace
+		使用Systrace进行性能分析
+		收集一次数据
+			<AndroidSDK所在目录>/platform-tools/systrace/systrace.py --time=10 -o trace.html sched gfx view -a <你的应用包名>
+		查看性能数据
+		启用垂直同步高亮
+		找到你的进程
+		UI 线程
+		JS 线程
+		原生模块线程	
+		额外的：渲染线程
+		寻找导致卡顿的罪魁祸首
+		JS的问题
+	5.7从源代码编译React Native
+		
+		
 	
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-	
-自带组件：
-<Text></Text>   专门显示文本
-<Image source={pic} />
-<View></View>    通常当做其他组件的容器，来控制布局和样式。
 
 
 

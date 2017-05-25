@@ -1,0 +1,62 @@
+学习React-Native的自带组件库
+1.ActivityIndicator
+	效果：显示一个圆形的loading提示符号。
+	Props：
+		animating（bool）-- 是否要显示指示器，默认为true，表示显示。
+		color（string）-- 滚轮的前景颜色（默认为灰色）。
+		ios - hidesWhenStopped（bool）-- 在没有动画的时候，是否要隐藏指示器（默认为true）。
+		size enum('small', 'large') -- 指示器的大小，small高为20，large高为36。
+2.Button
+	效果：一个简单的跨平台的按钮组件，可以进行一些简单的定制。
+	可以使用TouchableOpacity或是TouchableNativeFeedback组件来制作自己所需要的按钮
+	Props：
+		accessibilityLabel（string）-- 用于给残障人士显示的文本（比如读屏器软件可能会读取这一内容）。
+		color（color）-- 文本的颜色(iOS)，或是按钮的背景色(Android)
+		disabled（bool）-- 设置为true时此按钮将不可点击
+		onPress（function）-- 用户点击此按钮时所调用的处理函数
+		title（string）-- 按钮内显示的文本
+3.DatePickerIOS
+	效果：使用DatePickerIOS来在iOS平台上渲染一个日期/时间选择器。
+	Props：
+		date（Date）-- 当前被选中的日期。
+		maximumDate（Date）-- 可选的最大日期。
+		minimumDate（Date）-- 可选的最小日期。
+		minuteInterval enum(1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30) -- 可选的最小的分钟单位。
+		mode enum('date', 'time', 'datetime') -- 选择器模式
+		onDateChange（function）-- 当用户修改日期或时间时调用此回调函数，参数表示new的日期和时间。
+		timeZoneOffsetInMinutes（number）-- 时区差，单位是分钟。
+4.DrawerLayoutAndroid
+	效果：抽屉导航。
+	Props：	
+		drawerLockMode enum('unlocked', 'locked-closed', 'locked-open') -- 设置抽屉的锁定模式。
+			无论抽屉处于那种状态，都仍然可以调用openDrawer/closeDrawer这两个方法打开和关闭。
+		drawerPosition enum(DrawerConsts.DrawerPosition.Left, DrawerConsts.DrawerPosition.Right) 
+			指定抽屉可以从屏幕的哪一边滑入。
+		drawerWidth （number）-- 指定抽屉的宽度，也就是从屏幕边缘拖进的视图的宽度。
+		keyboardDismissMode enum('none', "on-drag") -- 指定在拖拽的过程中是否要隐藏软键盘。
+		onDrawerClose（function）-- 每当导航视图（抽屉）被关闭之后调用此回调函数。
+		onDrawerOpen（function）-- 每当导航视图（抽屉）被打开之后调用此回调函数。
+		onDrawerSlide（function）-- 每当导航视图（抽屉）产生交互的时候调用此回调函数。
+		onDrawerStateChanged（function）-- 每当抽屉的状态变化时调用此回调函数。
+			idle（空闲），表示现在导航条上没有任何正在进行的交互。
+			dragging（拖拽中），表示用户正在与导航条进行交互。
+			settling（停靠中），表示用户刚刚结束与导航条的交互，导航条正在结束打开或者关闭的动画。
+		renderNavigationView（function）-- 此方法用于渲染一个可以从屏幕一边拖入的导航视图。 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
