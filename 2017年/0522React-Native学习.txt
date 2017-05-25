@@ -272,19 +272,44 @@
 		npm install --save react-navigation
 	NavigatorIOS
 		基于 UINavigationController封装的
+3.13性能
+	请先调出你应用的开发菜单，打开Show FPS Monitor
+	性能问题的常见原因
+		console.log语句
+		发布时屏蔽所有的log
+			if (!__DEV__) {
+			  global.console = {
+				info: () => {},
+				log: () => {},
+				warn: () => {},
+				debug: () => {},
+				error: () => {},
+			  };
+			}
+	插件移除log
+		npm install babel-plugin-transform-remove-console --save
+	开发模式 (dev=true)
+	ListView的属性
+		initialListSize
+		pageSize  
+		scrollRenderAheadDistance -- 指定一个超过视野范围之外所需要渲染的行数。
+		removeClippedSubviews -- 设置为true的时候，超出屏幕的子视图（同时overflow值为hidden）会从它们原生的父视图中移除。
 	
 	
 	
 	
+
+
+
+
+
+
+
+
+
+
+
 	
-	
-	
-	
-	
-	
-	
-	
-		
 自带组件：
 <Text></Text>   专门显示文本
 <Image source={pic} />
