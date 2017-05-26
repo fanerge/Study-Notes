@@ -100,24 +100,242 @@
 		scrollToOffset(params: object)	
 			滚动到指定的偏移。
 		recordInteraction()	
+6.Image
+	效果：一个用于显示多种不同类型图片的React组件。
+	在Android上支持GIF和WebP格式图片
+	Props：
+		onLayout（function）
+			当元素挂载或者布局改变的时候调用，参数为：{nativeEvent: {layout: {x, y, width, height}}}
+		onLoad（function）	
+			加载成功完成时调用此回调函数。
+		onLoadEnd（function）	
+			加载结束后，不论成功还是失败，调用此回调函数。
+		onLoadStart（function）
+			加载开始时调用。
+		resizeMode 	enum('cover', 'contain', 'stretch', 'repeat', 'center') 
+			决定当组件尺寸和图片尺寸不成比例的时候如何调整图片的大小。
+		source {uri: string},number	
+			uri是一个表示图片的资源标识的字符串，它可以是一个http地址或是一个本地文件路径（使用require(相对路径)来引用）。
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+		style style	
+			Flex布局
+			Shadow阴影
+			Transforms动画变换
+			backfaceVisibility ReactPropTypes.oneOf(['visible', 'hidden'])
+			resizeMode Object.keys(ImageResizeMode)
+			backgroundColor color
+			borderBottomLeftRadius ReactPropTypes.number
+			borderBottomRightRadius ReactPropTypes.number
+			borderTopLeftRadius ReactPropTypes.number
+			borderTopRightRadius ReactPropTypes.number
+			borderColor color
+			borderRadius number
+			borderWidth number
+			overflow enum('visible', 'hidden')
+			tintColor color
+				为所有非透明的像素指定一个颜色
+			opacity number
+			android overlayColor ReactPropTypes.string	
+				当图片有圆角的时候，指定一个颜色用于填充圆角处的空白。
+			testID string 
+				一个唯一的资源标识符，用来在自动测试脚本中标识这个元素。
+			android resizeMethod  enum('auto', 'resize', 'scale')
+				当图片实际尺寸和容器样式尺寸不一致时，决定以怎样的策略来调整图片的尺寸。默认值为auto。
+			ios accessibilityLabel string
+				当用户与图片交互时，读屏器（无障碍功能）会朗读的文字。
+			ios accessible bool
+				当此属性为真的时候，表示这个图片是一个启用了无障碍功能的元素。
+			ios blurRadius number
+				blurRadius(模糊半径)：为图片添加一个指定半径的模糊滤镜。
+			ios capInsets {top: number, left: number, bottom: number, right: number}
+			ios defaultSource  {uri: string, width: number, height: number, scale: number}, number 
+			ios onError (function)
+				当加载错误的时候调用此回调函数，参数为{nativeEvent: {error}}
+			ios onPartialLoad (function)
+				如果图片本身支持逐步加载，则逐步加载的过程中会调用此方法。“逐步加载”的具体定义与具体的标准和实现有关。
+			ios onProgress (function)
+				在加载过程中不断调用，参数为{nativeEvent: {loaded, total}}
+	方法：
+		static getSize(uri: string, success: (width: number, height: number) => void, failure: (error: any) => void)
+			在显示图片前获取图片的宽高(以像素为单位)。如果图片地址不正确或下载失败,此方法也会失败。
+		static prefetch(url: string)	
+			预加载一个远程图片(将其下载到本地磁盘缓存)。
+7.KeyboardAvoidingView
+	效果：手机上弹出的键盘常常会挡住当前的视图。本组件可以自动根据键盘的位置，调整自身的position或底部的padding，以避免被遮挡。
+	Props：	
+		behavior PropTypes.oneOf(['height', 'position', 'padding'])
+		contentContainerStyle	
+			如果设定behavior值为'position'，则会生成一个View作为内容容器。此属性用于指定此内容容器的样式。
+		keyboardVerticalOffset  PropTypes.number.isRequired	
+			有时候应用离屏幕顶部还有一些距离（比如状态栏等等），利用此属性来补偿修正这段距离。
+	方法：
+		relativeKeyboardHeight(keyboardFrame)
+		onKeyboardChange(event)	
+		onLayout(event)	
+8.ListView
+	效果：一个核心组件，用于高效地显示一个可以垂直滚动的变化的数据列表。
+	Props：
+		ScrollView props
+			这意味着ListView可以使用所有ScrollView的属性。
+		dataSource ListViewDataSource
+			ListView.DataSource实例（列表依赖的数据源）
+		initialListSize number
+			指定在组件刚挂载的时候渲染多少行数据。
+		onChangeVisibleRows（function）
+			当可见的行的集合变化的时候调用此回调函数。
+			(visibleRows, changedRows) => void
+		onEndReached（function）
+			当所有的数据都已经渲染过，并且列表被滚动到距离最底部不足onEndReachedThreshold个像素的距离时调用。
+		onEndReachedThreshold number
+			调用onEndReached之前的临界值，单位是像素。
+		pageSize number
+			每次事件循环（每帧）渲染的行数。
+		removeClippedSubviews bool 
+			用于提升大列表的滚动性能。需要给行容器添加样式overflow:'hidden'。
+		renderHeader function
+		renderFooter function
+			如果它们重绘的性能开销很大，把他们包装到一个StaticContainer或者其它恰当的结构中。页脚会永远在列表的最底部，而页头会在最顶部。
+		renderRow function
+			(rowData, sectionID, rowID, highlightRow) => renderable
+		renderScrollComponent function
+			(props) => renderable
+			指定一个函数，在其中返回一个可以滚动的组件。
+		renderSectionHeader function
+			(sectionData, sectionID) => renderable
+			如果提供了此函数，会为每个小节(section)渲染一个粘性的标题。
+			 stickySectionHeadersEnabled来决定是否启用其粘性特性。
+		renderSeparator function 	
+			(sectionID, rowID, adjacentRowHighlighted) => renderable	
+			如果提供了此属性，一个可渲染的组件会被渲染在每一行下面，除了小节标题的前面的最后一行。
+		scrollRenderAheadDistance number	
+			当一个行接近屏幕范围多少像素之内的时候，就开始渲染这一行。	
+			stickyHeaderIndices [number]
+			一个子视图下标的数组，用于决定哪些成员会在滚动之后固定在屏幕顶端。	
+		stickySectionHeadersEnabled?: bool	
+			设置小节标题(section header)是否具有粘性。
+	方法：
+		getMetrics() 
+			导出一些用于性能分析的数据。	
+		scrollTo(...args)	
+			滚动到指定的x, y偏移处，可以指定是否加上过渡动画。
+		scrollToEnd(options?)	
+			滚动到视图底部（水平方向的视图则滚动到最右边）。
+9.ListView.DataSource	
+	效果：ListViewDataSource为ListView组件提供高性能的数据处理和访问。		
+		要更新datasource中的数据，请（每次都重新）调用cloneWithRows方法（如果用到了section，则对应cloneWithRowsAndSections方法）。		
+	方法：
+		constructor(params)
+			你可以在构造函数中针对section标题和行数据提供自定义的提取方法和hasChanged比对方法。
+			若不提供，则会使用默认的defaultGetRowData和defaultGetSectionHeaderData方法来提取行数据和section标题。
+		cloneWithRows(dataBlob, rowIdentities)	
+			根据指定的dataBlob和 rowIdentities为ListViewDataSource复制填充数据
+		cloneWithRowsAndSections(dataBlob, sectionIdentities, rowIdentities)	
+			此方法作用基本等同cloneWithRows，区别在于可以额外指定sectionIdentities 。如果你不需要section，则直接使用cloneWithRows即可。
+		getRowCount()
+		getRowAndSectionCount()	
+		rowShouldUpdate(sectionIndex, rowIndex)	
+			返回值表明某行数据是否已变更，需要重新渲染。
+		getRowData(sectionIndex, rowIndex)	
+			返回渲染行所需的数据（指定如何从原始dataBlob中提取数据）。
+		getRowIDForFlatIndex(index) 	
+			给定索引值，求其对应rowID。如果查找不到则返回null。
+		getSectionIDForFlatIndex(index)	
+			给定索引值，求其对应sectionID。如果查找不到则返回null。
+		getSectionLengths() 	
+			返回一个数组，包含每个section的行数量。
+		sectionHeaderShouldUpdate(sectionIndex)	
+			返回值用于说明section标题是否需要重新渲染。
+		getSectionHeaderData(sectionIndex)	
+			获取section标题数据。	
+10.Modal
+	效果：Modal组件可以用来覆盖包含React Native根视图的原生视图（如UIViewController，Activity）。	
+	Props：
+		animationType PropTypes.oneOf(['none', 'slide', 'fade'])
+		onRequestClose Platform.OS === 'android' ?
+			PropTypes.func.isRequired : PropTypes.func
+		onShow function
+		transparent bool
+		visible bool
+		ios onOrientationChange PropTypes.func
+		ios supportedOrientations 
+			PropTypes.arrayOf(PropTypes.oneOf(['portrait', 'portrait-upside-down', 'landscape', 'landscape-left', 'landscape-right'])) 
+11.NavigatorIOS
+	效果：UINavigationController的包装器，可实现导航。
+		initialRoute -- 默认路由
+	处理导航
+	导航栏的配置	
+	Props：
+		barTintColor string
+			导航条的背景颜色。
+		initialRoute
+		itemWrapperStyle
+			导航器中的组件的默认属性。一个常见的用途是设置所有页面的背景颜色。
+		navigationBarHidden bool 
+			一个布尔值，决定导航栏是否隐藏。
+		shadowHidden bool	
+			一个布尔值，决定是否要隐藏1像素的阴影
+		tintColor string	
+			导航栏上按钮的颜色。
+		titleTextColor string	
+			导航器标题的文字颜色。
+		translucent bool	
+			一个布尔值，决定是否导航条是半透明的。
+		interactivePopGestureEnabled bool 	
+			决定是否启用滑动返回手势。	
+	方法：
+		push()
+			向前的new route
+		popN(n: number)	
+			返回到第几个route	
+		pop()
+			返回前一个页面
+		replaceAtIndex()	
+			替换指定索引的route
+		replace()
+			替换当前页面的route
+		replacePrevious()
+			替换之前的route
+		popToTop()
+			返回顶部路由
+		popToRoute()
+			回到特定路由
+		replacePreviousAndPop()	
+			替换以前的route
+		resetTo()	
+12.Picker
+	效果：本组件可以在iOS和Android上渲染原生的选择器（Picker）。
+	Props：		
+		onValueChange function
+			itemValue: 被选中项的value属性
+			tion: 被选中项在picker中的索引位置
+			某一项被选中时执行此回调。调用时带有如下参数。
+		selectedValue any
+			默认选中的值。可以是字符串或整数。
+		style pickerStyleType
+		testID string	
+			用于在端对端测试中定位此视图。
+		android enabled bool
+			如果设为false，则会禁用此选择器。
+		android mode enum('dialog', 'dropdown')	
+			以指定在用户点击选择器时，以怎样的形式呈现选项：
+			dialog（对话框形式）: 显示一个模态对话框。默认选项。
+			dropdown（下拉框形式）: 以选择器所在位置为锚点展开一个下拉框。
+		android prompt string
+			设置选择器的提示字符串。在Android的对话框模式中用作对话框的标题。
+		ios itemStyle  itemStylePropType
+			指定应用在每项标签上的样式。
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 			
 			
 			
