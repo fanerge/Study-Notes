@@ -42,21 +42,85 @@
 			dragging（拖拽中），表示用户正在与导航条进行交互。
 			settling（停靠中），表示用户刚刚结束与导航条的交互，导航条正在结束打开或者关闭的动画。
 		renderNavigationView（function）-- 此方法用于渲染一个可以从屏幕一边拖入的导航视图。 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-
-
-
-
-
-
-
-
+5.FlatList
+	效果：高性能的简单列表组件。
+		<FlatList
+		  data={[{key: 'a'}, {key: 'b'}]}
+		  renderItem={({item}) => <Text>{item.key}</Text>}
+		/>
+	Props：	
+		ItemSeparatorComponent?: ?ReactClass<any>
+			行与行之间的分隔线组件。不会出现在第一行之前和最后一行之后。
+		ListHeaderComponent?: ?ReactClass<any>
+			头部组件。	
+		ListFooterComponent?: ?ReactClass<any>
+			尾部组件。
+		columnWrapperStyle?: StyleObj
+			如果设置了多列布局（即将numColumns值设为大于1的整数），则可以额外指定此样式作用在每行容器上。
+		data: ?Array<ItemT>
+			data属性目前只支持普通数组。
+		extraData?: any 	
+			如果有除data以外的数据用在列表中（不论是用在renderItem还是Header或者Footer中），请在此属性中指定。同时此数据在修改时也需要先修改其引用地址（比如先复制到一个新的Object或者数组中），然后再修改其值，否则界面很可能不会刷新。
+		getItem?:
+		getItemCount?: 
+		getItemLayout?: (data: ?Array<ItemT>, index: number) => {length: number, offset: number, index: number}
+			getItemLayout是一个可选的优化，用于避免动态测量内容尺寸的开销，不过前提是你可以提前知道内容的高度。如果你的行高是固定的，getItemLayout用起来就既高效又简单，类似下面这样：
+			getItemLayout={(data, index) => ( {length: 行高, offset: 行高 * index, index} )}
+			注意如果你指定了SeparatorComponent，请把分隔线的尺寸也考虑到offset的计算之中。
+		horizontal?: ?boolean
+			设置为true则变为水平布局模式。
+		initialNumToRender: number	
+			指定一开始渲染的元素数量，最好刚刚够填满一个屏幕，这样保证了用最短的时间给用户呈现可见的内容。
+		keyExtractor: (item: ItemT, index: number) => string	
+			此函数用于为给定的item生成一个不重复的key。
+		legacyImplementation?:  ?boolean	
+			设置为true则使用旧的ListView的实现。
+		numColumns: number	
+			多列布局只能在非水平模式下使用，即必须是horizontal={false}。此时组件内元素会从左到右从上到下按Z字形排列，类似启用了flexWrap的布局
+		onEndReached?: ?(info: {distanceFromEnd: number}) => void	
+			当列表被滚动到距离内容最底部不足onEndReachedThreshold的距离时调用。	
+		onEndReachedThreshold?: ?number	
+			决定当距离内容最底部还有多远时触发onEndReached回调。注意此参数是一个比值而非像素单位。比如，0.5表示距离内容最底部的距离为当前列表可见长度的一半时触发。
+		onRefresh?: ?() => void	
+			如果设置了此选项，则会在列表头部添加一个标准的RefreshControl控件，以便实现“下拉刷新”的功能。同时你需要正确设置refreshing属性。
+		onViewableItemsChanged?:  ?(info: {viewableItems: Array<ViewToken>, changed: Array<ViewToken>}) => void	
+			在可见行元素变化时调用。可见范围和变化频率等参数的配置请设置viewabilityconfig属性
+		refreshing?: ?boolean	
+			在等待加载新数据时将此属性设为true，列表就会显示出一个正在加载的符号。
+		renderItem: (info: {item: ItemT, index: number}) => ?React.Element<any>	
+			根据行数据data渲染每一行的组件。	
+		viewabilityConfig?: ViewabilityConfig	
+	方法：
+		scrollToEnd(params?: object)
+			滚动到底部。如果不设置getItemLayout属性的话，可能会比较卡。
+		scrollToIndex(params: object)	
+			滚动到指定索引。
+		scrollToItem(params: object)	
+			滚动到指定项目。
+		scrollToOffset(params: object)	
+			滚动到指定的偏移。
+		recordInteraction()	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
