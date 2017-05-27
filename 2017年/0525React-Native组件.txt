@@ -324,18 +324,56 @@
 			设置选择器的提示字符串。在Android的对话框模式中用作对话框的标题。
 		ios itemStyle  itemStylePropType
 			指定应用在每项标签上的样式。
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+13.PickerIOS
+	效果：
+	Props：
+		itemStyle itemStylePropType
+		onValueChange function
+		selectedValue any 
+14.ProgressBarAndroid
+	效果：这个组件可以用来表示应用正在加载或者有些事情正在进行中。
+	Props：
+		color string 
+			进度条的颜色。
+		indeterminate indeterminateType
+			决定进度条是否要显示一个不确定的进度。注意这个在styleAttr是Horizontal的时候必须是false。
+		progress number
+			当前的进度值（在0到1之间）。
+		styleAttr STYLE_ATTRIBUTES
+			进度条的样式。可取值有：
+				Horizontal
+				Small
+				Large
+				Inverse
+				SmallInverse
+				LargeInverse
+		testID string	
+			用来在端到端测试中定位这个视图。
+15.ProgressViewIOS
+	效果：使用ProgressViewIOS来在iOS上渲染一个UIProgressView。
+	Props：
+		progress number
+			当前的进度值（0到1之间）。
+		progressImage Image.propTypes.source	
+			一个可以拉伸的图片，用于显示进度条。
+		progressTintColor string	
+			进度条本身染上的颜色。
+		progressViewStyle enum('default', 'bar') 	
+			进度条的样式。
+		trackImage Image.propTypes.source	
+			一个可拉伸的图片，用于显示进度条后面的轨道。
+		trackTintColor string 	
+			进度条轨道染上的颜色。
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			
