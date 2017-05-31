@@ -472,30 +472,62 @@
 			滚动到指定的x, y偏移处。第三个参数为是否启用平滑滚动动画。
 		scrollToEnd(options?)	
 			滚动到视图底部（水平方向的视图则滚动到最右边）。
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+18.View
+	效果：作为创建UI时最基础的组件。		
+		View的设计初衷是和StyleSheet搭配使用。StyleSheet.create({});		
+	Props:
+		onLayout function	
+			当组件挂载或者布局变化的时候调用 
+			{nativeEvent: { layout: {x, y, width, height}}}
+		onMoveShouldSetResponder function 	
+		onMoveShouldSetResponderCapture function	
+		onResponderGrant function	
+			对于大部分的触摸处理，你只需要用TouchableHighlight或TouchableOpacity包装你的组件。	
+		onResponderMove function	
+		onResponderReject function	
+		onResponderRelease function	
+		onResponderTerminate function	
+		onResponderTerminationRequest function	
+		onStartShouldSetResponder function	
+		onStartShouldSetResponderCapture function	
+		pointerEvents enum('box-none', 'none', 'box-only', 'auto')	
+			用于控制当前视图是否可以作为触控事件的目标。
+				auto：视图可以作为触控事件的目标。
+				none：视图不能作为触控事件的目标。
+				box-none：视图自身不能作为触控事件的目标，但其子视图可以。
+		removeClippedSubviews bool 	
+			如果控件有很多不在屏幕内的子视图，会非常有用。
+	style:
+		flex
+		shadowProp
+		transforms
+		backfaceVisibility enum('visible', 'hidden')
+		bakgroundColor string
+		borderColor string
+			borderTopColor string
+		borderRadius number
+			borderTopLeftRadius number
+		borderStyle enum('solid', 'dotted', 'dashed')
+		borderWidth number
+			borderTopWidth number
+		opacity number
+		overflow enum('visible', 'hidden')
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 		
