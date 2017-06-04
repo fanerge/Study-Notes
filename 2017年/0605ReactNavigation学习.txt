@@ -1,0 +1,29 @@
+今天学习react-navigation控件
+控件的作用：
+	1.StackNavigation -- 类型于普通的Navigation，屏幕上方的导航栏
+	2.TabNavigation -- 相当于iOS里面的TabBarController，屏幕下方标签栏
+	3.DrawerNavigation -- 抽屉效果，左侧滑出这种效果
+StackNavigation 导航栏
+	api StackNavigator(RouteConfigs, stackNavigatorConfig)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

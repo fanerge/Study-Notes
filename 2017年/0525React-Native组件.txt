@@ -472,6 +472,61 @@
 			滚动到指定的x, y偏移处。第三个参数为是否启用平滑滚动动画。
 		scrollToEnd(options?)	
 			滚动到视图底部（水平方向的视图则滚动到最右边）。
+18.Navigator			
+	效果：使用导航器可以让你在应用的不同场景（页面）间进行切换。
+	导航方法：
+		getCurrentRoutes() -- 获取当前栈里的路由，也就是push进来，没有pop掉的那些。
+		jumpBack() -- 跳回之前的路由，当然前提是保留现在的，还可以再跳回来，会给你保留原样。
+		jumpForward() -- 上一个方法不是调到之前的路由了么，用这个跳回来就好了。
+		jumpTo(route) -- 上一个方法不是调到之前的路由了么，用这个跳回来就好了。
+		push(route) -- 跳转到新的场景，并且将场景入栈，你可以稍后跳转过去
+		pop() -- 跳转回去并且卸载掉当前场景
+		replace(route) -- 用一个新的路由替换掉当前场景 
+		replaceAtIndex(route, index) -- 替换掉指定序列的路由场景
+		replacePrevious(route) -- 替换掉之前的场景
+		resetTo(route) -- 跳转到新的场景，并且重置整个路由栈
+		immediatelyResetRouteStack(routeStack) -- 用新的路由数组来重置路由栈
+		popToRoute(route) -- pop到路由指定的场景，在整个路由栈中，处于指定场景之后的场景将会被卸载。
+		popToTop() -- pop到栈中的第一个场景，卸载掉所有的其他场景。
+	Props:
+		configureScene function
+			可选的函数，用来配置场景动画和手势
+		initialRoute object 
+			定义启动时加载的路由。路由是导航栏用来识别渲染场景的一个对象。
+		initialRouteStack [object]
+			提供一个路由集合用来初始化。如果没有设置初始路由的话则必须设置该属性。
+		navigationBar node
+			可选参数，提供一个在场景切换的时候保持的导航栏。
+		navigator object
+			可选参数，提供从父导航器获得的导航器对象。
+		onDidFocus function
+			每当导航切换完成或初始化之后，调用此回调，参数为新场景的路由。
+		onWillFocus function
+			会在导航切换之前调用，参数为目标路由。
+		renderScene function
+			必要参数。用来渲染指定路由的场景。调用的参数是路由和导航器。
+		sceneStyle View#style
+			将会应用在每个场景的容器上的样式。
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+	
+			
+			
+			
 18.View
 	效果：作为创建UI时最基础的组件。		
 		View的设计初衷是和StyleSheet搭配使用。StyleSheet.create({});		
