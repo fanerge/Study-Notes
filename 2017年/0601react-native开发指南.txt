@@ -1,0 +1,77 @@
+1.React Native工作原理
+1.1React Native是如何工作的
+	开发者描述的视图 >> Virtual DOM >> 实际的DOM
+	执行diff，修改Virtual DOM
+	RN代码 >> 桥接 >> (ios/android)
+1.2渲染周期
+	页面渲染 >> 挂载React组件 >> 渲染React组件
+	state/prop改变 >> 计算虚拟DOM的差异 >> 重新渲染React组件
+1.3在React Native中创建组件
+	编写视图
+		1.导入RN原生组件
+			import DatePickerIOS from 'react-native';
+			复用代码 -- 抽象分离。
+			picker.ios.js
+			picker.android.js
+		2.使用JSX
+		3.原生组件的样式
+			StyleSheet.create({...});
+1.4宿主平台接口
+3.构建你的第一个应用
+	搭建环境
+		node
+		watchman
+		flow -- 类型检查库
+	创建android模拟器
+		Intel x86 Atom System Image 
+		Intel x86 Emulator Accelerator
+	启动ACDs（Android Virtual Devices）
+		android avd
+		emulator -list-avds  运行所有可用的模拟器
+		emulator @galaxy     运行指定名字的模拟器
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

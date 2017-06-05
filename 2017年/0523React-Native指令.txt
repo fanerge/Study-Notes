@@ -1,5 +1,7 @@
 1.创建项目
 	react-native init <project-name>
+	指定版本
+	react-native init MyApp --version 0.43.2
 2.进入项目
 	cd <project-name>
 3.运行项目
@@ -8,10 +10,12 @@
 4.访问控制台日志
 	react-native log-android
 
-
-
-
-
+5.连接android模拟器(Nox)
+http://www.cnblogs.com/hongguang-kim/p/5917633.html
+	1.adb devices    查看连接的设备
+	2.进入Nox\bin>nox_adb devices
+	3.android-sdk\platform-tools>adb.exe connect 127.0.0.1:62001
+	4.react-native run-android
 
 
 
