@@ -690,23 +690,30 @@
 			返回值表明当前输入框是否获得了焦点。
 		clear()	
 			清空输入框的内容。		
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			18.View
+28.TouchableHighlight
+	效果：本组件用于封装视图，使其可以正确响应触摸操作。		
+	Props：
+		activeOpacity number
+			指定封装的视图在被触摸操作激活时以多少不透明度显示（通常在0到1之间）。	
+		onHideUnderlay function	
+			当底层的颜色被隐藏的时候调用。	
+		onShowUnderlay function	
+			当底层的颜色被显示的时候调用。	
+		underlayColor string	
+			有触摸操作时显示出来的底层的颜色。	
+29.TouchableNativeFeedback		
+	效果：本组件用于封装视图，使其可以正确响应触摸操作（仅限Android平台）。
+	Props：
+		background backgroundPropType
+			决定在触摸反馈的时候显示什么类型的背景。
+30.TouchableNativeFeedback
+	效果：本组件用于封装视图，使其可以正确响应触摸操作。
+	Props：
+		activeOpacity number
+			指定封装的视图在被触摸操作激活时以多少不透明度显示（通常在0到1之间）。
+31.TouchableWithoutFeedback
+	效果：无反馈组件，不要用这个组件。
+32.View
 	效果：作为创建UI时最基础的组件。		
 		View的设计初衷是和StyleSheet搭配使用。StyleSheet.create({});		
 	Props:
@@ -746,10 +753,43 @@
 			borderTopWidth number
 		opacity number
 		overflow enum('visible', 'hidden')
-		
-		
-		
-		
+33.ViewPagerAndroid
+	效果：一个允许在子视图之间左右翻页的容器。	
+	Props：
+		initialPage number
+			初始选中的页的下标。你可以用setPage 函数来翻页，并且用onPageSelected来监听页的变化
+		keyboardDismissMode enum('none', "on-drag") 
+			决定在滑动的时候是否要让软键盘消失。
+		onPageScroll function
+			当在页间切换时（不论是由于动画还是由于用户在页间滑动/拖拽）执行。
+		onPageScrollStateChanged function
+			页面滑动状态变化时调用此回调函数。
+		onPageSelected function
+			这个回调会在页面切换完成后（当用户在页面间滑动）调用。
+		scrollEnabled bool 
+			设为false时可禁止滚动。默认值为true
+34.VirtualizedList
+	效果：类似于
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 		
 		
 		
