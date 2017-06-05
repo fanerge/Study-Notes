@@ -1,0 +1,280 @@
+1.ActionSheetIOS
+	方法：
+		static showActionSheetWithOptions(options: Object, callback: Function)
+			第一个参数
+				options（字符串数组） - 一组按钮的标题（必选）
+				cancelButtonIndex（整型） - 选项中取消按钮所在的位置（索引）
+				destructiveButtonIndex（整型） - 选项中删除按钮所在的位置（索引）
+				title（字符串） - 弹出框顶部的标题
+				message（字符串） - 弹出框顶部标题下方的信息
+		static showShareActionSheetWithOptions(options: Object, failureCallback: Function, successCallback: Function)
+			第一个参数
+				message（字符串） - 要分享的信息（必填）
+				url（字符串） - 要分享的URL地址
+				subject（字符串） - 要分享的信息主题
+				excludedActivityTypes（数组） - 指定在actionsheet中不显示的活动
+2.AdSupportIOS
+	方法：
+		static getAdvertisingId(onSuccess, onFailure)
+		static getAdvertisingTrackingEnabled(onSuccess, onFailure)
+3.Alert
+	启动一个提示对话框，包含对应的标题和信息。
+	方法：
+		static alert(title: string, message?: string, button?: Buttons, type?: AlertType) 
+4.AlertIOS
+	启动一个提示对话框，包含对应的标题和信息。	
+	static alert(title: string, message?: string, buttons?: Array<{
+		  text?: string;
+		  onPress?: ?Function;
+		  style?: AlertButtonStyle;
+		}>, type?: AlertType) 
+	static prompt(title: string, value?: string, buttons?: Array<{
+		  text?: string;
+		  onPress?: ?Function;
+		  style?: AlertButtonStyle;
+		}>, callback?: Function)
+5.Animated
+	方法：
+		static decay(value: AnimatedValue | AnimatedValueXY, config: DecayAnimationConfig)
+			推动一个值以一个初始的速度和一个衰减系数逐渐变为0。
+		static timing(value: AnimatedValue | AnimatedValueXY, config: TimingAnimationConfig)
+			推动一个值按照一个过渡曲线而随时间变化。
+		static spring(value: AnimatedValue | AnimatedValueXY, config: SpringAnimationConfig) 
+			产生一个基于Rebound和Origami实现的Spring动画。
+		static add(a: Animated, b: Animated)
+			将两个动画值相加计算，创建一个新的动画值。
+		static multiply(a: Animated, b: Animated) 	
+			将两个动画值相乘计算，创建一个新的动画值。
+		static delay(time: number) 
+			在指定的延迟之后开始动画。
+		static sequence(animations: Array<CompositeAnimation>) 
+			按顺序执行一个动画数组里的动画，等待一个完成后再执行下一个。
+		static parallel(animations: Array<CompositeAnimation>, config?: ParallelConfig)	
+			同时开始一个动画数组里的全部动画。
+		static stagger(time: number, animations: Array<CompositeAnimation>)
+			一个动画数组，里面的动画有可能会同时执行（重叠），不过会以指定的延迟来开始。用来制作拖尾效果非常合适。
+		static event(argMapping: Array<Mapping>, config?: EventConfig)
+			接受一个映射的数组，对应的解开每个值，然后调用所有对应的输出的setValue方法。
+		static createAnimatedComponent(Component: any)
+			使得任何一个React组件支持动画。用它来创建Animated.View等等。	
+	属性：
+		Value: AnimatedValue
+			表示一个数值的类，用于驱动动画。通常用new Animated.Value(0);来初始化。
+		ValueXY: AnimatedValueXY 
+			表示一个2D值的类，用来驱动2D动画，例如拖动操作等。
+	class AnimatedValue
+		用于驱动动画的标准值。
+	class AnimatedValueXY
+		用来驱动2D动画的2D值，譬如滑动操作等。
+6.AppRegistry
+	AppRegistry是JS运行所有React Native应用的入口。
+	方法：
+		static registerConfig(config: Array<AppConfig>)
+		static registerComponent(appKey: string, getComponentFunc: ComponentProvider)
+			应用的根组件应当通过AppRegistry.registerComponent方法注册自己
+		static registerRunnable(appKey: string, func: Function)
+		static getAppKeys()	
+		static runApplication(appKey: string, appParameters: any) 	
+		static unmountApplicationComponentAtRootTag(rootTag: number) 
+			要“结束”一个应用并销毁视图的话
+7.AppState 
+	AppState能告诉你应用当前是在前台还是在后台，并且能在状态变化的时候通知你。
+		active(前台)、background(后台)、inactive(过渡)
+	方法：
+		static addEventListener(type: string, handler: Function) 
+			添加一个监听函数，用于监听应用状态的变化。type参数应填change 。
+		static removeEventListener(type: string, handler: Function) 
+			移除一个监听函数。type参数应填change。
+	属性：
+		AppState.currentState 
+			获得当前应用的状态
+8.AsyncStorage
+	AsyncStorage是一个简单的、异步的、持久化的Key-Value存储系统，它对于App来说是全局性的。
+	推荐使用react-native-storage模块
+	方法：
+		static getItem(key: string, callback?: ?(error: ?Error, result: ?string) => void)
+			读取key字段并将结果作为第二个参数传递给callback。返回一个Promise对象。
+		static setItem(key: string, value: string, callback?: ?(error: ?Error) => void) 
+			将key字段的值设置成value，并在完成后调用callback函数。
+		static removeItem(key: string, callback?: ?(error: ?Error) => void)
+			删除一个字段。
+		static mergeItem(key: string, value: string, callback?: ?(error: ?Error) => void)
+			假设已有的值和新的值都是字符串化的JSON，则将两个值合并。
+		static clear(callback?: ?(error: ?Error) => void)
+			删除全部的AsyncStorage数据，不论来自什么库或调用者。
+		static getAllKeys(callback?: ?(error: ?Error, keys: ?Array<string>) => void)
+			获取所有本应用可以访问到的数据，不论来自什么库或调用者。
+		static flushGetRequests()
+			清除所有进行中的查询操作。
+		static multiGet(keys: Array<string>, callback?: ?(errors: ?Array<Error>, result: ?Array<Array<string>>) => void) 
+			获取keys所包含的所有字段的值，调用callback回调函数时返回一个key-value数组形式的数组。	
+		static multiSet(keyValuePairs: Array<Array<string>>, callback?: ?(errors: ?Array<Error>) => void)
+			multiSet和multiMerge都接受一个与multiGet输出值一致的key-value数组的数组。返回一个Promise对象。
+		static multiRemove(keys: Array<string>, callback?: ?(errors: ?Array<Error>) => void) 
+			删除所有键在keys数组中的数据。
+		static multiMerge(keyValuePairs: Array<Array<string>>, callback?: ?(errors: ?Array<Error>) => void) 
+			将多个输入的值和已有的值合并，要求都是字符串化的JSON。
+9.BackAndroid
+	监听硬件的back键操作。
+	方法：
+		static exitApp() 
+		static addEventListener(eventName: BackPressEventName, handler: Function)
+		static removeEventListener(eventName: BackPressEventName, handler: Function)
+10.CameraRoll
+	CameraRoll模块提供了访问本地相册的功能。
+	推荐使用react-native-image-picker模块
+	方法：
+		static saveImageWithTag(tag) 
+			保存一个图片到相册。
+		static saveToCameraRoll(tag, type?)
+			把图片或视频保存到相册中。
+		static getPhotos(params: object)
+			返回一个带有图片标识符对象的Promise。
+11.Clipboard
+	Clipboard组件可以在iOS和Android的剪贴板中读写内容。
+	方法：
+		static getString()
+			获取剪贴板的文本内容，返回一个Promise你可以用下面的方式来调用。
+		static setString(content: string)
+			设置剪贴板的文本内容。
+12.DatePickerAndroid
+	本组件会打开一个标准的Android日期选择器的对话框。
+	方法：
+		static open(options: Object) 
+			打开一个标准的Android日期选择器的对话框。
+			第一个参数	
+				date (Date对象或毫秒时间戳) - 默认显示的日期
+				minDate (Date对象或毫秒时间戳) - 可选的最小日期
+				maxDate (Date对象或毫秒时间戳) - 可选的最大日期
+				mode ((enum('calendar', 'spinner', 'default')) - 设置选择器的模式：
+		static dateSetAction()
+			已选中一个日期。
+		static dismissedAction()
+			取消对话框。
+13.Dimensions
+	本模块用于获取设备屏幕的宽高。
+	方法：
+		static set(dims: {[key:string]: any})
+			这个函数只应该被原生代码调用。
+		static get(dim: string)
+			初始的尺寸信息应该在runApplication之后被执行，所以它可以在任何其他的require被执行之前就可用。
+			var {height, width} = Dimensions.get('window');
+14.Easing
+	各种动画运动的速度曲线
+	方法：
+		static step0(n) 
+		static step1(n) 
+		static linear(t) 
+		static ease(t) 
+		static quad(t) 
+		static cubic(t) 
+		static poly(n) 
+		static sin(t) 
+		static circle(t) 
+		static exp(t) 
+		static elastic(bounciness) 
+		static back(s) 
+		static bounce(t) 
+		static bezier(x1, y1, x2, y2) 
+		static in(easing) 
+		static out(easing) 
+		static inOut(easing) 
+15.Geolocation
+	定位API遵循web标准。
+	方法：
+		static getCurrentPosition(geo_success: Function, geo_error?: Function, geo_options?: GeoOptions)
+			成功时会调用geo_success回调，参数中包含最新的位置信息。
+		static watchPosition(success: Function, error?: Function, options?: GeoOptions) 
+			持续监听位置，每当位置变化之后都调用success回调。
+		static clearWatch(watchID: number) 
+		static stopObserving()
+16.ImageEditor
+	方法：
+		static cropImage(uri, cropData, success, failure)
+			根据指定的URI参数剪裁对应的图片。
+17.ImagePickerIOS
+	方法：
+		static canRecordVideos(callback) 
+		static canUseCamera(callback) 
+		static openCameraDialog(config, successCallback, cancelCallback) 
+		static openSelectDialog(config, successCallback, cancelCallback) 
+18.ImageStore
+	方法：
+		static hasImageForTag(uri, callback)
+			检查ImageStore中是否包含了指定URI的图片数据。
+		static removeImageForTag(uri)
+			从ImageStore中删除指定图片。
+			存储在ImageStore中的图标必须手动删除，否则在应用退出之前将会一直占用内存。
+		static addImageFromBase64(base64ImageData, success, failure)
+			在ImageStore中以base64编码格式存储一幅图片，并返回一个URI以便访问或显示此图片。
+		static getBase64ForTag(uri, success, failure) 
+			将ImageStore中的指定URI图片以base64编码格式的数据返回。
+19.InteractionManager
+	Interactionmanager可以将一些耗时较长的工作安排到所有互动或动画完成之后再进行。这样可以保证JavaScript动画的流畅运行。
+	方法：
+		static runAfterInteractions(callback: Function) 
+			安排一个函数在所有的交互和动画完成之后运行。
+		static createInteractionHandle() 
+			通知管理器有某个动画或者交互开始了。
+		static clearInteractionHandle(handle: Handle)
+			通知管理器有某个动画或者交互已经结束了。
+		static setDeadline(deadline: number) 	
+			如果设定了一个正整数值，则会使用setTimeout来挂起所有尚未执行的任务。
+	属性：
+		Events: CallExpression
+		addListener: CallExpression
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
