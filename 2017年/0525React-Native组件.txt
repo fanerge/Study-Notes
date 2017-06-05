@@ -552,37 +552,159 @@
 			指定是否显示网络活动提示符。
 		ios showHideTransition enum('fade', 'slide')
 			通过hidden属性来显示或隐藏状态栏时所使用的动画效果。默认值为'fade'。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+22.Navigator			
+	效果：使用导航器可以让你在应用的不同场景（页面）间进行切换。
+	导航方法：
+		getCurrentRoutes() -- 获取当前栈里的路由，也就是push进来，没有pop掉的那些。
+		jumpBack() -- 跳回之前的路由，当然前提是保留现在的，还可以再跳回来，会给你保留原样。
+		jumpForward() -- 上一个方法不是调到之前的路由了么，用这个跳回来就好了。
+		jumpTo(route) -- 上一个方法不是调到之前的路由了么，用这个跳回来就好了。
+		push(route) -- 跳转到新的场景，并且将场景入栈，你可以稍后跳转过去
+		pop() -- 跳转回去并且卸载掉当前场景
+		replace(route) -- 用一个新的路由替换掉当前场景 
+		replaceAtIndex(route, index) -- 替换掉指定序列的路由场景
+		replacePrevious(route) -- 替换掉之前的场景
+		resetTo(route) -- 跳转到新的场景，并且重置整个路由栈
+		immediatelyResetRouteStack(routeStack) -- 用新的路由数组来重置路由栈
+		popToRoute(route) -- pop到路由指定的场景，在整个路由栈中，处于指定场景之后的场景将会被卸载。
+		popToTop() -- pop到栈中的第一个场景，卸载掉所有的其他场景。
+	Props:
+		configureScene function
+			可选的函数，用来配置场景动画和手势
+		initialRoute object 
+			定义启动时加载的路由。路由是导航栏用来识别渲染场景的一个对象。
+		initialRouteStack [object]
+			提供一个路由集合用来初始化。如果没有设置初始路由的话则必须设置该属性。
+		navigationBar node
+			可选参数，提供一个在场景切换的时候保持的导航栏。
+		navigator object
+			可选参数，提供从父导航器获得的导航器对象。
+		onDidFocus function
+			每当导航切换完成或初始化之后，调用此回调，参数为新场景的路由。
+		onWillFocus function
+			会在导航切换之前调用，参数为目标路由。
+		renderScene function
+			必要参数。用来渲染指定路由的场景。调用的参数是路由和导航器。
+		sceneStyle View#style
+			将会应用在每个场景的容器上的样式。
+23.Switch
+	效果：跨平台通用的可以在两个状态中切换的组件。（受控组件）
+	Props：	
+		disabled bool
+		onValueChange function	
+		testID string	
+		value bool	
+		onTintColor ColorPropType	
+			开启状态时的背景颜色。
+		thumbTintColor ColorPropType 	
+			开关上圆形按钮的背景颜色。
+		tintColor ColorPropType	
+			关闭状态时的边框颜色(iOS)或背景颜色(Android)。	
+24.TabBarIOS
+	效果：底部tab导航。			
+	Props：
+		barTintColor string
+			标签栏的背景颜色。
+		tintColor string	
+			当前被选中的标签图标的颜色。	
+		unselectedItemTintColor string	
+			当前没有被选中的标签图标的颜色。
+		translucent bool	
+			一个布尔值，决定标签栏是否需要半透明化。	
+25.TabBarIos.Item
+	Props:
+		badge string, number
+			在图标右上角显示一个红色的气泡。	
+		icon Image.propTypes.source	
+			给当前标签指定一个自定义的图标。	
+		onPress function	
+			当此标签被选中时调用。你应该修改组件的状态来使得selected={true}。
+		selected bool
+			这个属性决定了子视图是否可见。
+		selectedIcon Image.propTypes.source
+			当标签被选中的时候显示的自定义图标。
+		systemIcon enum('bookmarks', 'contacts', 'downloads', 'favorites', 'featured', 'history', 'more', 'most-recent', 'most-viewed', 'recents', 'search', 'top-rated') 
+		title string
+			在图标下面显示的标题文字。
+26.Text
+	效果：文字组件
+	Props：
+		adjustsFontSizeToFit bool
+			指定字体是否随着给定样式的限制而自动缩放。
+		allowFontScaling bool
+			控制字体是否要根据系统的“字体大小”辅助选项来进行缩放。
+		ios minimumFontScale bool
+			当adjustsFontSizeToFit开启时，指定最小的缩放比（即不能低于这个值）。可设定的值为0.01 - 1.0
+		numberOfLines number
+			用来当文本过长的时候裁剪文本。
+		onLayout function
+			当挂载或者布局变化以后调用，参数为如下的内容：{nativeEvent: {layout: {x, y, width, height}}}
+		onLongPress function
+		onPress function	
+		selectable function
+			决定用户是否可以长按选择文本，以便复制和粘贴。
+	Styles:
+		color\fontFamily\fontSize\fontStyle\fontWeight\lineHeight\textAlign\textDecoration\textShadowColor
+		textShadowOffset {width: number, height: number}
+		textShadowRadius number
+27.TextInput
+	效果：TextInput是一个允许用户在应用中通过键盘输入文本的基本组件。
+	Props：
+		autoCapitalize enum('none', 'sentences', 'words', 'characters') 
+			控制TextInput是否要自动将特定字符切换为大写
+		autoCorrect bool
+			如果为false，会关闭拼写自动修正。
+		autoFocus bool 
+		blurOnSubmit bool
+		caretHidden bool
+		defaultValue string 
+			提供一个文本框中的初始值
+		editable bool 
+		keyboardType enum("default", 'numeric', 'email-address', "ascii-capable", 'numbers-and-punctuation', 'url', 'number-pad', 'phone-pad', 'name-phone-pad', 'decimal-pad', 'twitter', 'web-search') 
+			决定弹出的何种软键盘的，譬如numeric（纯数字键盘）。
+		maxLength number
+		multiline bool 
+		onBlur function
+		onChange function
+		onChangeText function
+			当文本框内容变化时调用此回调函数。改变后的文字内容会作为参数传递。
+		onEndEditing function
+			当文本输入结束后调用此回调函数。
+		onFocus function
+		onLayout function
+		onScroll function
+			{ nativeEvent: { contentOffset: { x, y } } }
+		onSelectionChange function
+		onSubmitEditing function
+		placeholder string
+		placeholderTextColor color	
+		secureTextEntry bool	
+			文本框会遮住之前输入的文字，这样类似密码之类的敏感文字可以更加安全。
+		selectTextOnFocus bool	
+			如果为true，当获得焦点的时候，所有的文字都会被选中。	
+		selection {start: number, end: number} 	
+		selection {start: number, end: number} 	
+		value string	
+	方法：
+		isFocused()
+			返回值表明当前输入框是否获得了焦点。
+		clear()	
+			清空输入框的内容。		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			18.View
 	效果：作为创建UI时最基础的组件。		
