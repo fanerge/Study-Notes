@@ -472,7 +472,119 @@
 			滚动到指定的x, y偏移处。第三个参数为是否启用平滑滚动动画。
 		scrollToEnd(options?)	
 			滚动到视图底部（水平方向的视图则滚动到最右边）。
-18.View
+18.SectionList
+	效果：支持水平布局模式。行组件显示或隐藏时可配置回调事件。支持单独的头部组件。支持单独的尾部组件。支持自定义行间分隔线。支持下拉刷新。支持上拉加载。
+		如果你的列表不需要分组(section)，那么可以使用结构更简单的<FlatList>。	
+	Props：
+		ItemSeparatorComponent?:  ?ReactClass<any>
+			行与行之间的分隔线组件。不会出现在第一行之前和最后一行之后。
+		ListFooterComponent?: ?ReactClass<any> #
+			尾部组件	
+		ListHeaderComponent?: ?ReactClass<any> 
+			头部组件	
+		SectionSeparatorComponent?:  ?ReactClass<any>	
+		keyExtractor: (item: Item, index: number) => string	
+		onEndReached?: ?(info: {distanceFromEnd: number}) => void	
+		onRefresh?: ?() => void	
+		onViewableItemsChanged?:  ?(info: {viewableItems: Array<ViewToken>, changed: Array<ViewToken>}) => void	
+		refreshing?: ?boolean	
+		renderItem: (info: {item: Item, index: number}) => ?React.Element<any>	
+		renderSectionHeader?: ?(info: {section: SectionT}) => ?React.Element<any>	
+		sections: Array<SectionT>	
+		shouldItemUpdate: (
+		  prevProps: {item: Item, index: number},
+		  nextProps: {item: Item, index: number}
+		) => boolean	
+19.SegmentedControlIOS
+	效果：这是一个分段显示多个选项的组件。	
+	Props：
+		enabled bool 
+			如果为false，用户不能与此控件交互。默认为true。
+		momentary bool	
+			如果为true，选中的段不会一直保持特效。但onValueChange回调还是会正常工作。
+		onChange function	
+			当用户点击某一段的时候调用。参数是一个事件对象。
+		onValueChange function	
+			当用户点击某一段的时候调用。参数是被选中段的值。
+		selectedIndex number	
+			组件显示时，一开始被选中的段落的下标。
+		tintColor string	
+			被选中的段的颜色。	
+		values [string]	
+			按顺序每一个段落的标题文字。
+20.Slider
+	效果：用于选择一个范围值的组件。	
+	Props：		
+		disabled bool
+		ios minimumTrackImage Image.propTypes.source		
+		ios maximumTrackImage Image.propTypes.source	
+			指定一个滑块右侧轨道背景图。
+		maximumTrackTintColor string	
+			滑块右侧轨道的颜色。默认为一个蓝色的渐变色。
+		ios minimumValue number
+		ios maximumValue number	
+			滑块的最大值（当滑块滑到最右端时表示的值）。默认为1。
+		onSlidingComplete function	
+			用户结束滑动的时候调用此回调。
+		onValueChange function	
+			在用户拖动滑块的过程中不断调用此回调。
+		step number 	
+		style View#style  	
+		thumbImage Image.propTypes.source	
+			给滑块设置一张图片。只支持静态图片。
+		android thumbTintColor ColorPropType 	
+		trackImage Image.propTypes.source	
+			给轨道设置一张背景图。
+		value number
+			滑块的初始值。
+21.StatusBar
+	效果：用于控制应用状态栏的组件。
+		与Navigator搭配的用法
+	常量：currentHeight 状态栏的当前高度。
+	Props：
+		animated bool
+		hidden bool
+		android backgroundColor color 
+		android translucent bool
+		barStyle  enum('default', 'light-content', 'dark-content')
+			设置状态栏文本的颜色。
+		ios networkActivityIndicatorVisible bool
+			指定是否显示网络活动提示符。
+		ios showHideTransition enum('fade', 'slide')
+			通过hidden属性来显示或隐藏状态栏时所使用的动画效果。默认值为'fade'。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
+			18.View
 	效果：作为创建UI时最基础的组件。		
 		View的设计初衷是和StyleSheet搭配使用。StyleSheet.create({});		
 	Props:
