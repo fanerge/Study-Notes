@@ -223,48 +223,234 @@
 	属性：
 		Events: CallExpression
 		addListener: CallExpression
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+20.Keyboard
+	Keyboard组件可以用来控制键盘相关的事件。
+	方法：
+		static addListener(nativeEvent, jsFunction)
+			addListener用于注册一个JavaScript函数来监听处理原生键盘通知事件。此方法会返回监听函数的引用。
+		static removeAllListeners(eventType)
+			移除某个类型事件的所有监听函数。
+		static removeSubscription(subscription)
+			subscription 要移除的监听函数。
+		static dismiss()
+			把弹出的键盘收回去。
+21.LayoutAnimation
+	当布局变化时，自动将视图运动到它们新的位置上。
+	方法：
+		static configureNext(config: Config, onAnimationDidEnd?: Function)
+			计划下一次布局要发生的动画。
+		static create(duration: number, type, creationProp)
+			用来创建configureNext所需的config参数的辅助函数。
+	属性：
+		Types: CallExpression #
+		Properties: CallExpression 
+		configChecker: CallExpression 
+		Presets: ObjectExpression 
+		easeInEaseOut: CallExpression 
+		linear: CallExpression 
+		spring: CallExpression
+22.Linking
+	Linking提供了一个通用的接口来与传入和传出的App链接进行交互。
+	方法：
+		static addEventListener(type: string, handler: Function)
+			添加一个监听Linking变化的事件。
+		static removeEventListener(type: string, handler: Function)
+			删除一个事件处理函数。
+		static openURL(url: string)
+			尝试使用设备上已经安装的应用打开指定的url。
+		static canOpenURL(url: string, callback: Function)
+			判断设备上是否有已经安装的应用可以处理指定的URL。
+		static getInitialURL()
+			如果应用是被一个链接调起的，则会返回相应的链接地址。
+23.NativeMethodsMixin
+	NativeMethodsMixin提供了一些用于直接访问底层原生组件的方法。	
+	方法：
+		static measure(callback: MeasureOnSuccessCallback)
+			计算指定视图在屏幕上显示的位置和尺寸，通过一个异步回调返回计算的结果。
+		static measureLayout(relativeToNativeNode: number, onSuccess: MeasureLayoutOnSuccessCallback, onFail: () => void)
+			与measure()函数类似，不过计算的是相对指定祖先节点relativeToNativeNode的位置和尺寸。这意味着返回的x, y是相对于指定祖先视图的。	
+		static setNativeProps(nativeProps: Object)	
+			这个函数直接发送属性到原生代码。
+		static focus()
+			请求聚焦指定的输入框或者视图。
+		static blur()
+			移除指定的输入框或者视图的焦点。
+24.NetInfo
+	NetInfo模块可以获知设备联网或离线的状态信息。
+	方法：
+		static addEventListener(eventName, handler)
+			在网络状况/类型发生变化时调用此监听函数。
+		static removeEventListener(eventName, handler) 
+			移除网络状况/类型变化的监听函数。
+		static fetch()
+			返回一个promise，用于获取当前的网络状况/类型。
+		static isConnectionExpensive()
+			用于判断当前活动的连接是否计费。
+	属性：
+		isConnected: ObjectExpression
+			以异步方式获取一个布尔值，用于判断当前设备是否联网。
+25.PanResponder
+	PanResponder类可以将多点触摸操作协调成一个手势。
+	方法：
+		static create(config: object)
+26.PermissionsAndroid
+	PermissionsAndroid可以访问Android M(也就是6.0)开始提供的权限模型。
+	有一些权限在AndroidManifest.xmlAndroidManifest.xml配置，有一些必须获得用户的允许。
+	方法：
+		constructor ()
+		check(permission)
+			返回一个promise，最终值为用户是否授权过的布尔值。
+		request(permission, rationale?) 
+			弹出提示框向用户请求某项权限。
+		requestMultiple(permissions)
+27.PixelRatio
+	PixelRatio类提供了访问设备的像素密度的方法
+	方法：
+		static get()
+			返回设备的像素密度。
+		static getFontScale()
+			返回字体大小缩放比例。
+		static getPixelSizeForLayoutSize(layoutSize: number) 
+			将一个布局尺寸(dp)转换为像素尺寸(px)。
+		static startDetecting()
+			本函数在移动设备上没有作用。	
+28.PushNotificationIOS
+	本模块帮助你处理应用的推送通知，包括权限控制以及应用图标上的角标数（未读消息数）。
+	方法：
+		static presentLocalNotification(details: Object)
+			立即产生一个本地通知。
+		static scheduleLocalNotification(details: Object)
+			计划一个本地通知，在将来进行提示。
+		static cancelAllLocalNotifications()
+			取消所有已计划的本地通知
+		static setApplicationIconBadgeNumber(number: number)
+			设置要在手机主屏幕应用图标上显示的角标数（未读消息数）。
+		static getApplicationIconBadgeNumber(callback: Function)
+			获取目前在手机主屏幕应用图标上显示的角标数（未读消息数）。
+		static addEventListener(type: string, handler: Function)
+			添加一个监听器，监听远程或本地推送的通知事件，不论应用在前台还是在后台运行.
+		static requestPermissions(permissions?: {
+			alert?: boolean,
+			badge?: boolean,
+			sound?: boolean
+		  })
+			向iOS系统请求通知权限，给用户展示一个对话框。
+		static abandonPermissions()
+			注销所有从苹果推送通知服务收到的远程消息。
+		static checkPermissions(callback: Function) 
+			检查哪些推送通知权限被开启。
+		static removeEventListener(type: string, handler: Function)
+			移除注册事件监听器。
+		static getInitialNotification()
+			如果用户通过点击推送通知来冷启动应用（即：之前应用不在运行状态），此函数会返回一个初始的通知。
+		constructor(nativeNotif: Object)
+			你应该永远不需要自己实例化PushNotificationIOS对象。
+		finish(fetchResult)
+		getMessage()		
+			getAlert方法的别名。
+		getSound()
+			从aps对象中获取声音字符串。
+		getAlert()
+			从aps对象中获取推送通知的主消息内容。
+		getBadgeCount()
+			从aps对象中获取推送通知的角标数（未读消息数）。
+		getData()
+			获取推送的数据对象。
+29.Share
+	方法：
+		static share(content, options)
+			打开一个对话框来共享文本内容。
+		static sharedAction()
+			内容已成功共享。
+		static dismissedAction()
+			该对话框已被拒绝。
+30.StyleSheet
+	StyleSheet提供了一种类似CSS样式表的抽象。
+	方法：
+		static create(obj: {[key: string]: any})
+	属性：
+		hairlineWidth: CallExpression
+			这一常量定义了当前平台上的最细的宽度。
+		absoluteFill: CallExpression
+		absoluteFillObject: ObjectExpression	
+		flatten: CallExpression
+31.Systrace
+	方法：
+		static setEnabled(enabled)
+		static beginEvent(profileName?, args?)
+		static endEvent()
+		static beginAsyncEvent(profileName?)
+		static endAsyncEvent(profileName?, cookie?)
+		static counterEvent(profileName?, value?)
+		static attachToRelayProfiler(relayProfiler)
+		static swizzleJSON()
+		static measureMethods(object, objectName, methodNames)
+		static measure(objName, fnName, func)
+32.TimePickerAndroid
+	本组件会打开一个标准的Android时间选择器的对话框。	
+	方法：
+		static open(options: Object)
+			打开一个标准的Android时间选择器的对话框。
+		static timeSetAction() 
+			已选中一个时间。
+		static dismissedAction()
+			取消对话框。
+33.ToastAndroid
+	方法：
+		static show(message: string, duration: number) 
+		static showWithGravity(message, duration, gravity)
+	属性：
+		SHORT: MemberExpression 
+		LONG: MemberExpression 
+		TOP: MemberExpression 
+		BOTTOM: MemberExpression 
+		CENTER: MemberExpression
+34.Vibration
+	本模块导出函数Vibration.vibrate()用于控制设备震动。
+	方法：
+		static vibrate(pattern, repeat)
+			启动震动。
+		static cancel() 
+			停止震动。
+35.布局样式属性
+	position enum('absolute', 'relative')
+	top number
+	right number
+	bottom number
+	left number
+	flexDirection enum('row', 'row-reverse', 'column', 'column-reverse')
+	justifyContent enum('flex-start', 'flex-end', 'center', 'space-between', 'space-around')
+	alignItems enum('flex-start', 'flex-end', 'center', 'stretch') 
+	alignSelf enum('auto', 'flex-start', 'flex-end', 'center', 'stretch')
+	flex number	
+	flexBasis number
+	flexGrow number	
+	flexShrink number	
+	flexWrap enum('wrap', 'nowrap')	
+	borderBottomWidth number	
+	borderWidth number	
+	height number 	
+	width number	
+	minHeight number	
+	minWidth number
+	maxHeight number	
+	maxWidth number
+	padding number
+	paddingBottom number
+	paddingHorizontal number
+	paddingVertical number 	
+	margin number	
+	marginBottom number	
+	marginHorizontal number	
+	marginVertical number	
+	overflow enum('visible', 'hidden', 'scroll') 
+	zIndex number
+36.阴影样式属性
+	属性：
+		ios shadowColor color -- 设置阴影色
+		ios shadowOffset {width: number, height: number} -- 设置阴影偏移
+		ios shadowOpacity number -- 设置阴影不透明度 (乘以颜色的alpha分量)
+		ios shadowRadius number -- 设置阴影模糊半径
 
 
 
@@ -275,6 +461,10 @@
 
 
 
-
-
-
+	
+		
+		
+		
+		
+		
+		
