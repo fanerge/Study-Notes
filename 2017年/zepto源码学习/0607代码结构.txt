@@ -1,0 +1,29 @@
+阅读版本为zepto1.2.0
+1.整体结构
+var Zepto = (function(){	
+	...
+})();
+window.Zepto = Zepto;
+window.$ === 'undefined' && (window.$ = Zepto); //这里是短路的思路
+
+2.核心结构
+var zepto = {}, $;
+$.fn = {
+	constructor: zepto.Z,
+	method: function(){
+		return this
+	}
+};
+zepto.Z.prototype = Z.prototype = $.fn;
+
+
+
+
+
+
+
+
+
+
+
+
