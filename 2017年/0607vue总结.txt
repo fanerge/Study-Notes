@@ -1,0 +1,262 @@
+html:
+<div id="example">
+  <p>Original message: "{{ message }}"</p>
+  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+</div>
+
+
+js:
+var vm = new Vue({
+  el: '#example',       //挂载元素
+  data: {               //数据
+    message: 'Hello'
+  },
+  computed: {           //计算属性（区别于方法是具有缓存功能）
+	get:                //默认只有get可以添加set
+	set:
+  },
+  method: {             //方法
+  },
+  filter: {				//过滤器					
+  },
+  watch: {				//监听，当你想要在数据变化响应时，执行异步操作或开销较大的操作，这是很有用的。
+  },
+  components: {         //局部注册组件
+  },
+  directives: {         //局部指令
+  },
+  mixins: {             //混合 
+  }
+})
+api总结
+一.全局配置
+Vue.config 是一个对象，包含 Vue 的全局配置。可以在启动应用之前修改下列属性：	
+	Vue.config.silent = true
+		取消 Vue 所有的日志与警告。
+	Vue.config.optionMergeStrategies_my_option = function (parent, child, vm) {
+	  return child + 1
+	}
+		自定义合并策略的选项。
+	Vue.config.devtools = true
+		配置是否允许 vue-devtools 检查代码。
+	Vue.config.errorHandler = function (err, vm) {
+	  // handle error
+	}
+		指定组件的渲染和观察期间未捕获错误的处理函数。这个处理函数被调用时，可获取错误信息和 Vue 实例。
+	Vue.config.ignoredElements = [
+	  'my-custom-web-component', 'another-web-component'
+	]
+		须使 Vue 忽略在 Vue 之外的自定义元素 (e.g., 使用了 Web Components APIs)。否则，它会假设你忘记注册全局组件或者拼错了组件名称，从而抛出一个关于 Unknown custom element 的警告。
+	Vue.config.keyCodes = {
+	  v: 86,
+	}
+		给 v-on 自定义键位别名。
+二.全局API
+	Vue.extend( options )
+		使用基础 Vue 构造器，创建一个“子类”。参数是一个包含组件选项的对象。data 选项是特例，需要注意 - 在 Vue.extend() 中它必须是函数
+	Vue.nextTick( [callback, context] )
+		在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+	Vue.set( object, key, value )
+		设置对象的属性。如果对象是响应式的，确保属性被创建后也是响应式的，同时触发视图更新。
+	Vue.delete( object, key )
+		删除对象的属性。
+	Vue.directive( id, [definition] )
+		注册或获取全局指令。
+	Vue.filter( id, [definition] )
+		注册或获取全局过滤器。
+	Vue.component( id, [definition] )
+		注册或获取全局组件。
+		其中data属性必须是函数。
+	Vue.use( plugin )
+		安装 Vue.js 插件。
+	Vue.mixin( mixin )
+		全局注册一个混合，影响注册之后所有创建的每个 Vue 实例。
+	Vue.compile( template )
+		在render函数中编译模板字符串。只在独立构建时有效
+三.选项/数据
+	data --- Vue 实例的数据对象。
+		还可以vm.a 等价于访问 vm.$data.a（实例化之后）
+	props --- props 可以是数组或对象，用于接收来自父组件的数据。
+		对象允许配置高级选项，如类型检测、自定义校验和设置默认值。
+		Vue.component('props-demo-advanced', {
+		  props: {
+			// 只检测类型
+			height: Number,
+			// 检测类型 + 其他验证
+			age: {
+			  type: Number,
+			  default: 0,
+			  required: true,
+			  validator: function (value) {
+				return value >= 0
+			  }
+			}
+		  }
+		})
+	propsData --- 创建实例时传递 props。主要作用是方便测试。
+	computed --- 计算属性将被混入到 Vue 实例中。（缓存）
+		所有 getter 和 setter 的 this 上下文自动地绑定为 Vue 实例。	
+	methods --- methods 将被混入到 Vue 实例中。
+		可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。	
+	watch --- 一个对象，键是需要观察的表达式，值是对应回调函数。
+四.选项/DOM
+	el --- 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标。
+	template --- 一个字符串模板作为 Vue 实例的标识使用。
+	render --- 字符串模板的代替方案，允许你发挥 JavaScript 最大的编程能力。
+五.选项/生命周期钩子
+	beforeCreate
+		在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。
+	created
+		实例已经创建完成之后被调用。
+		在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。
+		然而，挂载阶段还没开始，$el 属性目前不可见。
+	beforeMount
+		在挂载开始之前被调用：相关的 render 函数首次被调用。
+	mounted
+		el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。
+	beforeUpdate
+		数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
+	updated
+		由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。
+	activated
+		keep-alive 组件激活时调用。
+	deactivated
+		keep-alive 组件停用时调用。
+	beforeDestroy
+		实例销毁之前调用。在这一步，实例仍然完全可用。
+	destroyed
+		Vue 实例销毁后调用。
+六.选项/资源
+	directives
+		包含 Vue 实例可用指令的哈希表。
+	filters
+		包含 Vue 实例可用过滤器的哈希表。
+	components
+		包含 Vue 实例可用组件的哈希表。
+七.选项/杂项
+	parent 
+		指定已创建的实例之父实例，在两者之间建立父子关系。
+		子实例可以用 this.$parent 访问父实例，子实例被推入父实例的 $children 数组中。
+		更推荐用 props 和 events 实现父子组件通信
+	mixins
+		mixins 选项接受一个混合对象的数组。
+	name
+		允许组件模板递归地调用自身。注意，组件在全局用 Vue.component() 注册时，全局 ID 自动作为组件的 name。
+	extends
+		允许声明扩展另一个组件(可以是一个简单的选项对象或构造函数),而无需使用 Vue.extend。这主要是为了便于扩展单文件组件。
+	delimiters
+		改变纯文本插入分隔符。
+	functional
+		使组件无状态（没有 data ）和无实例（没有 this 上下文）。他们用一个简单的 render 函数返回虚拟节点使他们更容易渲染。
+八.实例属性
+	vm.$data
+		Vue 实例观察的数据对象。Vue 实例代理了对其 data 对象属性的访问。
+	vm.$el	
+		Vue 实例使用的根 DOM 元素。	
+	vm.$options	
+		用于当前 Vue 实例的初始化选项。需要在选项中包含自定义属性时会有用处：
+	vm.$parent	
+		父实例，如果当前实例有的话。
+	vm.$root
+		当前组件树的根 Vue 实例。如果当前实例没有父实例，此实例将会是其自已。
+	vm.$children	
+		当前实例的直接子组件。
+	vm.$slots	
+		用来访问被 slot 分发的内容。每个具名 slot 有其相应的属性（例如：slot="foo" 中的内容将会在 vm.$slots.foo 中被找到）。
+		default 属性包括了所有没有被包含在具名 slot 中的节点。	
+	vm.$scopedSlots	
+		用来访问 scoped slots。	
+	vm.$refs
+		一个对象，其中包含了所有拥有 ref 注册的子组件。
+	vm.$isServer
+		当前 Vue 实例是否运行于服务器。
+九.实例方法/数据
+	vm.$watch( expOrFn, callback, [options] )
+		观察 Vue 实例变化的一个表达式或计算属性函数。
+		var unwatch = vm.$watch('a', cb)
+		// 之后取消观察
+		unwatch()
+	vm.$set( object, key, value )
+		这是全局 Vue.set 的别名。
+	vm.$delete( object, key )	
+		这是全局 Vue.delete 的别名。
+十.实例方法/事件
+	vm.$on( event, callback )
+		监听当前实例上的自定义事件。事件可以由vm.$emit触发。回调函数会接收所有传入事件触发函数的额外参数。
+	vm.$once( event, callback )
+		监听一个自定义事件，但是只触发一次，在第一次触发之后移除监听器。	
+	vm.$off( [event, callback] )
+		移除事件监听器。
+	vm.$emit( event, […args] )
+		触发当前实例上的事件。附加参数都会传给监听器回调。
+十一.实例方法/生命周期
+	vm.$mount( [elementOrSelector] )
+		如果 Vue 实例在实例化时没有收到 el 选项，则它处于“未挂载”状态，没有关联的 DOM 元素。
+		可以使用 vm.$mount() 手动地挂载一个未挂载的实例。
+	vm.$forceUpdate()
+		迫使Vue实例重新渲染。注意它仅仅影响实例本身和插入插槽内容的子组件，而不是所有子组件。
+	vm.$nextTick( [callback] )
+		将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。
+	vm.$destroy()
+		完全销毁一个实例。清理它与其它实例的连接，解绑它的全部指令及事件监听器。
+十二.指令
+	v-text="msg"  ===  {{msg}}	
+		更新元素的 textContent。如果要更新部分的 textContent ，需要使用 {{ Mustache }} 插值。
+	v-html
+		更新元素的 innerHTML 。
+	v-show
+		根据表达式之真假值，切换元素的 display CSS 属性。
+	v-if
+		根据表达式的值的真假条件渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建。
+	v-else
+		为 v-if 或者 v-else-if 添加 “else 块”。
+	v-else-if
+		表示 v-if 的 “else if 块”。可以链式调用。
+	v-for
+		基于源数据多次渲染元素或模板块。
+	v-on  ===  @
+		可以有修饰符：.stop\.prevent\.capture
+		绑定事件监听器。
+	v-bind  ===  ：
+		动态地绑定一个或多个特性，或一个组件 prop 到表达式。
+	v-model
+		在表单控件或者组件上创建双向绑定。	
+	v-pre
+		跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译。
+	v-cloak
+		这个指令保持在元素上直到关联实例结束编译。和 CSS 规则如 [v-cloak] { display: none } 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。
+	v-once
+		只渲染元素和组件一次。随后的重新渲染,元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能。		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
