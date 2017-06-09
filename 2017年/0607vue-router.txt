@@ -206,16 +206,138 @@ HTML5 History模式
 		const Foo = r => require.ensure([], () => r(require('./Foo.vue')), 'group-foo')
 		const Bar = r => require.ensure([], () => r(require('./Bar.vue')), 'group-foo')
 		const Baz = r => require.ensure([], () => r(require('./Baz.vue')), 'group-foo')
-
-
-
-
-
-
-
-
-
-
+API文档
+<router-link>
+	作用：<router-link> 组件支持用户在具有路由功能的应用中（点击）导航。
+	Props：
+		to --- 表示目标路由的链接，所以这个值可以是一个字符串或者是描述目标位置的对象。router.push()
+		replace --- 设置 replace 属性的话，于是导航后不会留下 history 记录。router.replace()
+		append --- 设置 append 属性后，则在当前（相对）路径前添加基路径。
+		tag --- 有时候想要 <router-link> 渲染成某种标签，例如 <li>。
+		active-class --- 设置链接激活时使用的 CSS 类名。
+		exact --- "是否激活" 默认类名的依据是 inclusive match （全包含匹配）。
+		events --- 声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组。
+	将"激活时的CSS类名"应用在外层元素	
+		<router-link tag="li" to="/foo">  
+			<a>/foo</a>
+		</router-link>
+<router-view>		
+	作用：<router-view> 组件是一个 functional 组件，渲染路径匹配到的视图组件。还可以内嵌自己的 <router-view>	
+	Props：
+		name --- 如果 <router-view>设置了名称，则会渲染对应的路由配置中 components 下的相应组件。
+	行为表现
+		其他属性（非 router-view 使用的属性）都直接传给渲染的组件， 很多时候，每个路由的数据都是包含在路由参数中。
+		<transition>
+		  <keep-alive>
+			<router-view></router-view>
+		  </keep-alive>
+		</transition>
+路由信息对象
+	效果：一个 route object（路由信息对象） 表示当前激活的路由的状态信息，包含了当前 URL 解析得到的信息，还有 URL 匹配到的 route records（路由记录）。	
+	在组件中使用this.$route 和 $route watcher回调课访问	
+	router.match(location) 的返回值	
+	导航钩子的参数
+		router.beforeEach((to, from, next) => {
+			// to 和 from 都是 路由信息对象
+		})
+		scrollBehavior (to, from, savedPosition) {
+			// to 和 from 都是 路由信息对象
+		}
+	路由信息对象的属性
+		$route.path --- 字符串，对应当前路由的路径，总是解析为绝对路径，如 "/foo/bar"。
+		$route.params --- 一个 key/value 对象，包含了 动态片段 和 全匹配片段，如果没有路由参数，就是一个空对象。
+		$route.query --- 一个 key/value 对象，表示 URL 查询参数。例如，对于路径 /foo?user=1，则有 $route.query.user == 1，如果没有查询参数，则是个空对象。
+		$route.hash --- 当前路由的 hash 值 (带 #) ，如果没有 hash 值，则为空字符串。
+		$route.fullPath --- 完成解析后的 URL，包含查询参数和 hash 的完整路径。
+		$route.matched --- 一个数组，包含当前路由的所有嵌套路径片段的 路由记录 。
+		$route.name --- 当前路由的名称，如果有的话。
+Router 构造配置
+	routes	
+		declare type RouteConfig = {
+		  path: string;
+		  component?: Component;
+		  name?: string; // for named routes (命名路由)
+		  components?: { [name: string]: Component }; // for named views (命名视图组件)
+		  redirect?: string | Location | Function;
+		  alias?: string | Array<string>;
+		  children?: Array<RouteConfig>; // for nested routes
+		  beforeEnter?: (to: Route, from: Route, next: Function) => void;
+		  meta?: any;
+		}
+	mode
+		可选值: "hash" | "history" | "abstract"(Node.js环境)
+	base	
+		应用的基路径。默认值: "/"
+	linkActiveClass	
+		全局配置 <router-link> 的默认『激活 class 类名』，默认值: "router-link-active"
+	scrollBehavior	
+Router 实例	
+	Props：
+		router.app --- 配置了 router 的 Vue 根实例。
+		router.mode --- 路由使用的 模式。
+		router.currentRoute --- 当前路由对应的 路由信息对象。
+	方法：
+		router.beforeEach(guard)
+		router.afterEach(hook)
+			增加全局的导航钩子。
+		router.push(location)
+		router.replace(location)
+		router.go(n)
+		router.back()
+		router.forward()
+			动态的导航到一个新 url。
+		router.getMatchedComponents(location?)
+			返回目标位置或是当前路由匹配的组件数组（是数组的定义/构造类，不是实例）。通常在服务端渲染的数据预加载时时候。
+		router.resolve(location, current?, append?)
+			解析目标位置。
+		router.addRoutes(routes)
+			动态添加更多的路由规则。
+		router.onReady(callback)
+			添加一个会在第一次路由跳转完成时被调用的回调函数。
+对组件注入
+	注入的属性
+		通过在 Vue 根实例的 router 配置传入 router 实例，下面这些属性成员会被注入到每个子组件。
+	$router --- router 实例。	
+		$route --- 当前激活的 路由信息对象，不过你可以 watch（监测变化） 它。
+	允许的额外配置
+		beforeRouteEnter
+		beforeRouteLeave
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 
 
