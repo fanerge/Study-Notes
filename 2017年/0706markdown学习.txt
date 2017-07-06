@@ -1,0 +1,56 @@
+Markdown语法规则
+1.标题（共六级标题，#后添加一个空格）
+	# 一级标题
+	## 二级标题
+	###
+	####
+	#####
+	######
+2.列表
+	无序列表 _ 或 *
+	有序列表 1. 或 2.
+3.引用（引用别处的句子）
+	>
+4.图片和链接
+	图片：![](){ImgCap}{/ImgCap}
+		![Mou icon](http://mouapp.com/Mou_128.png)
+	图床工具：Droplr Cloudapp ezShare for Mac 围脖图床修复计划
+	链接：[]()	
+		[Baidu](http://baidu.com)
+5.斜体和粗体
+	粗体：**
+	斜体：*
+6.表格
+	| Tables        | Are           | Cool  |
+	| ------------- |:-------------:| -----:|
+	| col 3 is      | right-aligned | $1600 |
+	| col 2 is      | centered      |   $12 |
+	| zebra stripes | are neat      |    $1 |
+7.代码框
+	`` 反引号，tab可以缩进
+8.分割线
+	***
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
