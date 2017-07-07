@@ -1,0 +1,50 @@
+let vm = new vue({
+	data: {
+		classNo: 0
+	},
+	// 该数据的变化依赖于原始数据的变化
+	computed: {
+		classStudet () {
+			return this.classNo + 10 // 表明classStudet属性是通过data中classNo改变而变化的
+		},
+		classStudet: {
+			get: function () {
+				return this.classNo + 1
+			},
+			set: function (v) {
+				this.classNo = v - 1
+			}
+		}
+	},
+	// 监听到对应的数据变动，进行相应的操作
+	watch: {
+		classNo (newVal, oldVal) {
+			// 当data中的classNo发生改变进行的相应操作
+		},
+		classNo: {
+			handler: function (val, oldVal) { /* ... */ },
+			deep: true, // 对于Object进行深度监听
+			immediate: true // 将立即以表达式的当前值触发回调
+		}
+	}
+})
+// 全局定义过滤器
+Vue.filter('reverseString',function(value,myString){
+    // function里第一个参数value默认为使用这个过滤器的data值，后面可以加任意多的参数
+    return myString+value.split('').reverse().join('');
+});
+//使用过滤器
+<p>reverse msg is: <br>{{msg|reverseString( 'Hello:' )}}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
