@@ -1,0 +1,99 @@
+参考地址：https://juejin.im/post/596e142d5188254b532ce2da
+1.异步方案的比较
+先定义个Fetch 方法用于获取 github user 的信息的方法
+function fetchUser () {
+	return new Promise((resolve, reject) => {
+		fetch('https://api.github.com/users/superman66')
+		.then((data) => {
+			resolve(data)
+		})
+		.catch((err) => {
+			reject(err)
+		})
+	})
+}
+
+**Promise 方式
+function getUserByPromise() {
+    fetchUser()
+	.then((data) => {
+		console.log(data);
+	}, (error) => {
+		console.log(error);
+	})
+}
+getUserByPromise();
+
+**Generator 方式
+function* fetchUserByGenerator() {
+    const user = yield fetchUser();
+    return user;
+}
+
+const g = fetchUserByGenerator();
+const result = g.next().value;
+result.then((v) => {
+    console.log(v);
+}, (error) => {
+    console.log(error);
+})
+
+**async 方式
+async function getUserByAsync(){
+     let user = await fetchUser();
+     return user;
+ }
+getUserByAsync()
+.then(v => console.log(v));
+2.重点研究async语法
+	1.async 函数返回一个 Promise 对象
+	2.async 函数内部 return 返回的值，会成为 then 方法回调函数的参数。
+	3.async 函数内部抛出异常，则会导致返回的 Promise 对象状态变为 reject 状态。抛出的错误而会被 catch 方法回调函数接收到。
+	4.async 函数返回的 Promise 对象，必须等到内部所有的 await 命令的 Promise 对象执行完，才会发生状态改变
+	5.正常情况下，await 命令后面跟着的是 Promise ，如果不是的话，也会被转换成一个 立即 resolve 的 Promise
+3.Async 函数的错误处理
+	1.当 async 函数中只要一个 await 出现 reject 状态，则后面的 await 都不会被执行。
+	解决办法：可以添加 try/catch。
+4.项目中使用
+	依然是通过 babel 来使用。
+	只需要设置 presets 为 stage-3 即可。
+	npm install babel-preset-es2015 babel-preset-stage-3 babel-runtime babel-plugin-transform-runtime
+	修改.babelrc:
+	"presets": ["es2015", "stage-3"],
+	"plugins": ["transform-runtime"]
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
